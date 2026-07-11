@@ -779,7 +779,7 @@ function cardHTML(p,i){
     +'<div class="card-stripe" style="background:'+posColor(p.pos)+'"></div>'
     +dropBadge
     +'<div class="card-head">'
-      +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<img src="'+p.img+'" style="position:absolute;inset:0" onerror="this.remove()"><span class="c-av-flag">'+p.flag+'</span></div>'
+      +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<img src="'+p.img+'" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"><span class="c-av-flag">'+p.flag+'</span></div>'
       +'<div class="c-info">'
         +'<div class="c-name">'+p.name+'</div>'
         +'<div class="c-club">'+p.club+'</div>'
@@ -861,7 +861,7 @@ function openPanel(id){
   }
   document.getElementById('panel').innerHTML=
     '<div class="panel-top">'
-      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<img src="'+p.img+'" style="position:absolute;inset:0" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
+      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<img src="'+p.img+'" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
       +'<div class="panel-hinfo">'
         +'<div class="panel-name">'+p.name+'</div>'
         +'<div class="panel-sub">'+p.nat+' · '+p.club+'</div>'
