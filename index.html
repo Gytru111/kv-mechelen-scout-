@@ -742,7 +742,7 @@ function cardHTML(p,i){
   var vTag=p.valNum===0?'<span class="val-tag val-free">🆓 Gratuit</span>':'<span class="val-tag">'+p.val+'</span>';
   var randMark=p.paRand?'<span class="rand-dot" title="PA aléatoire selon sauvegarde"></span>':'';
   return '<div class="card" style="border-left-color:'+posColor(p.pos)+';animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
-    +'<div class="card-stripe" style="background:'+pc+'"></div>'
+    +'<div class="card-stripe" style="background:'+posColor(p.pos)+'"></div>'
     +'<div class="card-head">'
       +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<span class="c-av-flag">'+p.flag+'</span></div>'
       +'<div class="c-info">'
