@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FM26 Scout — Rapport de recrutement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:       #080C12;
+  --s1:       #0D1320;
+  --s2:       #111C2E;
+  --s3:       #172238;
+  --s4:       #1E2D44;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.13);
+  --t1:       #EDF2FF;
+  --t2:       #7B93B4;
+  --t3:       #3D5470;
+  --green:    #00D46A;
+  --green2:   #00FF80;
+  --green3:   rgba(0,212,106,.1);
+  --gold:     #F5C518;
+  --gold2:    rgba(245,197,24,.12);
+  --red:      #FF4C6A;
+  --red2:     rgba(255,76,106,.1);
+  --blu:      #4D9EFF;
+  --blu2:     rgba(77,158,255,.1);
+  --pur:      #A78BFA;
+  --r:        10px;
+  --r2:       14px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NOISE TEXTURE */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size:128px}
+
+/* GLOW BG */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 40% at 15% 0%, rgba(0,212,106,.06) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 30% at 85% 100%, rgba(77,158,255,.05) 0%, transparent 50%)}
+
+/* ── LAYOUT ── */
+.app{display:flex;height:100vh;position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{width:260px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:.3s}
+.sidebar-head{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--green),var(--blu));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#000;font-family:'Syne',sans-serif;flex-shrink:0}
+.logo-text{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:-.02em}
+.logo-text span{color:var(--green)}
+.logo-sub{font-size:.58rem;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-top:1px}
+.scout-season{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .75rem;display:flex;align-items:center;justify-content:space-between}
+.scout-season-lbl{font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}
+.scout-season-val{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:var(--green)}
+
+.sidebar-filters{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:1rem}
+.sidebar-filters::-webkit-scrollbar{width:3px}
+.sidebar-filters::-webkit-scrollbar-thumb{background:var(--s4);border-radius:3px}
+
+.filter-group{}
+.fg-label{font-size:.6rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.fg-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.fsel{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.48rem .75rem;color:var(--t1);font-size:.8rem;font-family:'Inter',sans-serif;outline:none;cursor:pointer;transition:.2s}
+.fsel:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,212,106,.1)}
+
+.range-row{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--t2)}
+.range-row span{width:28px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--green);flex-shrink:0}
+.frange{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--s4);border-radius:3px;outline:none;cursor:pointer}
+.frange::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 0 8px rgba(0,212,106,.4)}
+.frange::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--green);cursor:pointer;border:none}
+
+.pos-pills{display:flex;flex-wrap:wrap;gap:.3rem}
+.ppill{padding:.2rem .55rem;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.68rem;font-weight:600;cursor:pointer;transition:.15s;font-family:'Inter',sans-serif}
+.ppill:hover{border-color:var(--border2);color:var(--t2)}
+.ppill.on{border-color:var(--green);background:var(--green3);color:var(--green)}
+
+.sidebar-footer{padding:.85rem 1.25rem;border-top:1px solid var(--border);flex-shrink:0}
+.btn-reset{width:100%;padding:.45rem;background:var(--s3);border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:.75rem;font-family:'Inter',sans-serif;cursor:pointer;transition:.15s}
+.btn-reset:hover{border-color:var(--border2);color:var(--t1)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOPBAR */
+.topbar{background:rgba(8,12,18,.85);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-shrink:0;backdrop-filter:blur(12px)}
+.search-wrap{position:relative;flex:1;max-width:360px}
+.search-wrap svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);opacity:.35;pointer-events:none}
+.sinp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.48rem .75rem .48rem 2.2rem;color:var(--t1);font-size:.85rem;font-family:'Inter',sans-serif;outline:none;transition:.2s}
+.sinp:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,212,106,.08)}
+.sinp::placeholder{color:var(--t3)}
+.topbar-right{display:flex;align-items:center;gap:.6rem;margin-left:auto}
+.sort-sel{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.42rem .75rem;color:var(--t1);font-size:.78rem;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.view-btns{display:flex;gap:.25rem}
+.vbtn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;transition:.15s}
+.vbtn.on,.vbtn:hover{background:var(--s3);border-color:var(--border2);color:var(--t1)}
+.count-badge{background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:.3rem .65rem;font-size:.72rem;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.count-badge b{color:var(--green)}
+
+/* CARDS AREA */
+.cards-area{flex:1;overflow-y:auto;padding:1.25rem 1.5rem 3rem}
+.cards-area::-webkit-scrollbar{width:4px}
+.cards-area::-webkit-scrollbar-thumb{background:var(--s4);border-radius:4px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.75rem}
+.grid.list{grid-template-columns:1fr}
+
+/* PLAYER CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.card:hover{border-color:rgba(0,212,106,.25);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(0,212,106,.08)}
+.card-stripe{position:absolute;top:0;left:0;right:0;height:2px}
+
+/* CARD HEADER */
+.card-head{padding:.85rem 1rem .6rem;display:flex;gap:.7rem;align-items:flex-start}
+.c-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:2px solid;position:relative}
+.c-av-flag{position:absolute;bottom:-2px;right:-3px;font-size:.65rem;background:var(--s1);border-radius:50%;padding:0 1px;line-height:1.2}
+.c-info{flex:1;min-width:0}
+.c-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.c-club{font-size:.7rem;color:var(--t2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-pos-line{display:flex;gap:.3rem;margin-top:.4rem;flex-wrap:wrap}
+.pos-tag{padding:.14rem .48rem;border-radius:4px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.pos-GK{background:rgba(77,158,255,.15);color:#4D9EFF;border:1px solid rgba(77,158,255,.2)}
+.pos-DEF{background:rgba(0,212,106,.12);color:#00D46A;border:1px solid rgba(0,212,106,.2)}
+.pos-MID{background:rgba(245,197,24,.12);color:#F5C518;border:1px solid rgba(245,197,24,.2)}
+.pos-ATT{background:rgba(255,76,106,.12);color:#FF4C6A;border:1px solid rgba(255,76,106,.2)}
+.val-tag{padding:.14rem .48rem;border-radius:4px;font-size:.6rem;font-weight:600;background:var(--s3);color:var(--t2);border:1px solid var(--border)}
+.val-free{background:rgba(0,212,106,.1);color:var(--green);border-color:rgba(0,212,106,.2)}
+
+/* SCOUT RATING */
+.c-rating-row{padding:.1rem 1rem .55rem;display:flex;align-items:center;gap:.6rem}
+.c-rating-lbl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;width:56px;flex-shrink:0}
+.c-rating-bar{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.c-rating-fill{height:3px;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.c-rating-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;min-width:22px;text-align:right}
+
+/* MINI RADAR placeholder */
+.c-radar-wrap{padding:0 1rem .6rem;display:flex;align-items:center;gap:.75rem}
+.mini-radar{flex-shrink:0}
+.c-stats-mini{display:grid;grid-template-columns:1fr 1fr;gap:.18rem .5rem;flex:1}
+.smi{display:flex;align-items:center;justify-content:space-between;font-size:.62rem}
+.smi-l{color:var(--t3)}
+.smi-v{font-family:'JetBrains Mono',monospace;font-weight:600}
+
+/* CARD FOOTER */
+.card-foot{padding:.5rem 1rem .65rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.c-age{font-size:.7rem;color:var(--t2)}
+.c-age b{color:var(--t1);font-family:'Syne',sans-serif}
+.c-pa-block{text-align:right}
+.c-pa-v{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.c-pa-l{font-size:.58rem;color:var(--t3);margin-top:0}
+.c-foot-mid{display:flex;flex-direction:column;align-items:center;gap:.15rem}
+.c-wage{font-size:.65rem;color:var(--t3)}
+.c-wage b{color:var(--t2)}
+.c-contract{font-size:.6rem;color:var(--t3)}
+.rand-dot{width:6px;height:6px;border-radius:50%;background:var(--pur);display:inline-block;margin-left:3px;vertical-align:middle}
+
+/* LIST VIEW */
+.grid.list .card{border-radius:var(--r)}
+.grid.list .card-head{padding:.6rem 1rem}
+.grid.list .c-av{width:36px;height:36px;font-size:1rem}
+.grid.list .c-name{font-size:.88rem}
+.grid.list .c-radar-wrap{padding:0 1rem .4rem}
+
+/* EMPTY */
+.empty{grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--t3)}
+.empty h3{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:.4rem;color:var(--t2)}
+
+/* ── DETAIL PANEL ── */
+.panel-bg{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);display:none;align-items:flex-start;justify-content:flex-end}
+.panel-bg.on{display:flex}
+.panel{width:min(560px,100vw);height:100vh;background:var(--s1);border-left:1px solid var(--border);overflow-y:auto;animation:slideIn .28s cubic-bezier(.4,0,.2,1)}
+.panel::-webkit-scrollbar{width:4px}
+.panel::-webkit-scrollbar-thumb{background:var(--s4);border-radius:4px}
+@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+
+.panel-top{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;position:sticky;top:0;background:var(--s1);z-index:10}
+.panel-av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;border:2.5px solid;flex-shrink:0;position:relative}
+.panel-flag{position:absolute;bottom:-2px;right:-3px;font-size:.9rem;background:var(--s1);border-radius:50%;padding:0 2px}
+.panel-hinfo{flex:1}
+.panel-name{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.panel-sub{font-size:.78rem;color:var(--t2);margin-top:3px}
+.panel-tags{display:flex;gap:.3rem;margin-top:.5rem;flex-wrap:wrap}
+.panel-close{background:var(--s3);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;flex-shrink:0;transition:.15s}
+.panel-close:hover{color:var(--t1);border-color:var(--border2)}
+
+.panel-body{padding:1.25rem 1.5rem 2rem}
+
+/* SCORES ROW */
+.scores-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1.25rem}
+.score-cell{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.65rem .75rem;text-align:center}
+.score-cell-v{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.score-cell-l{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* RADAR SVG */
+.radar-section{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1rem;margin-bottom:1rem;display:flex;gap:1.25rem;align-items:center}
+.radar-svg-wrap{flex-shrink:0}
+.radar-legend{display:flex;flex-direction:column;gap:.35rem;flex:1}
+.rl-row{display:flex;align-items:center;gap:.5rem}
+.rl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rl-lbl{font-size:.7rem;color:var(--t2);flex:1}
+.rl-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600}
+
+/* ATTRS GRID */
+.attrs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1rem}
+.attr-cell{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .75rem}
+.attr-lbl{font-size:.62rem;color:var(--t3);margin-bottom:.3rem}
+.attr-bar-bg{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-bottom:.2rem}
+.attr-bar-fill{height:4px;border-radius:2px}
+.attr-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600}
+
+/* INFO TABLE */
+.info-table{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1rem}
+.it-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .9rem;border-bottom:1px solid var(--border)}
+.it-row:last-child{border-bottom:none}
+.it-lbl{font-size:.72rem;color:var(--t3)}
+.it-val{font-size:.78rem;font-weight:600;color:var(--t1);text-align:right}
+
+/* SCOUT REPORT */
+.scout-report{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.1rem;margin-bottom:1rem}
+.sr-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem}
+.sr-icon{font-size:.9rem}
+.sr-title{font-size:.75rem;font-weight:700;color:var(--t1);text-transform:uppercase;letter-spacing:.06em}
+.sr-text{font-size:.8rem;color:var(--t2);line-height:1.7}
+
+/* TIP BOX */
+.tip-box{background:rgba(245,197,24,.05);border:1px solid rgba(245,197,24,.18);border-radius:var(--r);padding:.7rem .9rem;font-size:.78rem;color:var(--gold);line-height:1.6;display:flex;gap:.5rem;margin-bottom:1rem}
+
+/* NOTE AREA */
+.note-section{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.1rem}
+.note-header{font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.note-ta{width:100%;background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .75rem;color:var(--t1);font-size:.8rem;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;transition:.2s;line-height:1.6}
+.note-ta:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(0,212,106,.08)}
+.note-ta::placeholder{color:var(--t3)}
+.note-foot{display:flex;justify-content:flex-end;margin-top:.4rem}
+.btn-save{background:var(--green3);border:1px solid rgba(0,212,106,.25);color:var(--green);border-radius:7px;padding:.3rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:.15s}
+.btn-save:hover{background:var(--green);color:#000}
+
+/* INTEREST BAR */
+.interest-row{display:flex;align-items:center;gap:.6rem;margin-top:.75rem}
+.interest-lbl{font-size:.65rem;color:var(--t3);width:80px;flex-shrink:0}
+.int-opts{display:flex;gap:.3rem;flex:1}
+.int-opt{padding:.2rem .55rem;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.65rem;font-weight:600;cursor:pointer;transition:.15s}
+.int-opt:hover{border-color:var(--border2);color:var(--t2)}
+.int-opt.sel-watch{border-color:var(--blu);background:var(--blu2);color:var(--blu)}
+.int-opt.sel-target{border-color:var(--gold);background:var(--gold2);color:var(--gold)}
+.int-opt.sel-sign{border-color:var(--green);background:var(--green3);color:var(--green)}
+.int-opt.sel-pass{border-color:var(--red);background:var(--red2);color:var(--red)}
+
+/* COMPARISON */
+.compare-bar{position:fixed;bottom:0;left:260px;right:0;background:rgba(8,12,18,.95);border-top:1px solid var(--border);backdrop-filter:blur(12px);padding:.75rem 1.5rem;display:none;align-items:center;gap:1rem;z-index:300}
+.compare-bar.on{display:flex}
+.cmp-slots{display:flex;gap:.5rem;flex:1}
+.cmp-slot{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:.35rem .75rem;font-size:.75rem;color:var(--t2);min-width:120px;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.cmp-slot.filled{border-color:var(--green);color:var(--t1)}
+.cmp-x{color:var(--t3);cursor:pointer;font-size:.8rem;line-height:1}
+.cmp-x:hover{color:var(--red)}
+.btn-cmp{background:linear-gradient(135deg,var(--green),var(--blu));color:#000;font-weight:700;border:none;border-radius:var(--r);padding:.45rem 1.1rem;font-size:.8rem;cursor:pointer;font-family:'Syne',sans-serif;flex-shrink:0}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes barIn{from{width:0!important}}
+.card{animation:fadeUp .3s ease both}
+
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-260px;z-index:200;height:100%;transition:.25s}
+  .sidebar.open{left:0;box-shadow:0 0 40px rgba(0,0,0,.6)}
+  .main{width:100%}
+  .compare-bar{left:0}
+  .panel{width:100vw}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <div class="logo">
+      <div class="logo-icon">S</div>
+      <div>
+        <div class="logo-text">FM<span>Scout</span></div>
+        <div class="logo-sub">Rapport de recrutement</div>
+      </div>
+    </div>
+    <div class="scout-season">
+      <span class="scout-season-lbl">Saison</span>
+      <span class="scout-season-val">FM 2026</span>
+    </div>
+  </div>
+
+  <div class="sidebar-filters">
+
+    <div class="filter-group">
+      <div class="fg-label">Poste</div>
+      <div class="pos-pills" id="pos-pills">
+        <span class="ppill on" data-pos="all">Tous</span>
+        <span class="ppill" data-pos="GK">GK</span>
+        <span class="ppill" data-pos="DEF">DEF</span>
+        <span class="ppill" data-pos="MID">MID</span>
+        <span class="ppill" data-pos="ATT">ATT</span>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Âge maximum</div>
+      <div class="range-row">
+        <span id="age-lbl">25</span>
+        <input class="frange" type="range" id="age-range" min="16" max="35" value="35">
+        <span style="color:var(--t3);font-size:.7rem">35</span>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Potentiel (PA) min</div>
+      <div class="range-row">
+        <span id="pa-lbl">0</span>
+        <input class="frange" type="range" id="pa-range" min="0" max="100" value="0">
+        <span style="color:var(--t3);font-size:.7rem">100</span>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Prix maximum</div>
+      <select class="fsel" id="val-sel">
+        <option value="999999999">Tous les prix</option>
+        <option value="0">Gratuit uniquement</option>
+        <option value="100000">≤ 100 000 €</option>
+        <option value="500000">≤ 500 000 €</option>
+        <option value="1000000">≤ 1 000 000 €</option>
+        <option value="5000000">≤ 5 000 000 €</option>
+        <option value="15000000">≤ 15 000 000 €</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Nationalité</div>
+      <select class="fsel" id="nat-sel">
+        <option value="all">Toutes les nations</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Intérêt scout</div>
+      <select class="fsel" id="int-sel">
+        <option value="all">Tous</option>
+        <option value="sign">🟢 À signer</option>
+        <option value="target">🟡 Cible</option>
+        <option value="watch">🔵 À suivre</option>
+        <option value="pass">🔴 Non retenu</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="fg-label">Pied fort</div>
+      <select class="fsel" id="foot-sel">
+        <option value="all">Les deux</option>
+        <option value="Droit">Pied droit</option>
+        <option value="Gauche">Pied gauche</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="btn-reset" onclick="resetFilters()">↺ Réinitialiser les filtres</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="sinp" type="text" id="srch" placeholder="Rechercher un joueur, club, pays…">
+    </div>
+    <div class="topbar-right">
+      <span class="count-badge"><b id="cnt">0</b> joueur(s)</span>
+      <select class="sort-sel" id="sort-sel">
+        <option value="pa">Potentiel ↓</option>
+        <option value="ca">Note ↓</option>
+        <option value="age">Âge ↑</option>
+        <option value="val">Prix ↑</option>
+        <option value="name">Nom A→Z</option>
+      </select>
+      <div class="view-btns">
+        <button class="vbtn on" id="vg" onclick="setView('grid')" title="Grille">⊞</button>
+        <button class="vbtn" id="vl" onclick="setView('list')" title="Liste">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-area">
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="panel-bg" id="panel-bg" onclick="closePanelBg(event)">
+  <div class="panel" id="panel"></div>
+</div>
+
+<!-- COMPARE BAR -->
+<div class="compare-bar" id="cmp-bar">
+  <div style="font-size:.72rem;color:var(--t2);flex-shrink:0">Comparer</div>
+  <div class="cmp-slots">
+    <div class="cmp-slot" id="cmp-0"><span id="cmp-n0">Joueur 1</span></div>
+    <div class="cmp-slot" id="cmp-1"><span id="cmp-n1">Joueur 2</span></div>
+  </div>
+  <button class="btn-cmp" onclick="openCompare()">Comparer →</button>
+  <button style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.8rem" onclick="clearCompare()">Annuler</button>
+</div>
+
+<script>
+// ── DATA ──
+var DATA = [
+  {
+    id:0,name:"Vasilije Novičić",club:"IMT Belgrade",nat:"Serbie",flag:"🇷🇸",pos:"MID",
+    posLabel:"Milieu défensif",age:17,ca:47,pa:65,paRand:true,
+    valNum:551000,val:"551 000 €",wage:"64 €/sem",foot:"Droit",height:"182 cm",contract:"juin 2028",
+    attrs:{Vitesse:48,Technique:52,Physique:55,Vision:50,Défense:56,Mental:53},
+    desc:"Milieu défensif serbe de 17 ans à l'IMT Belgrade. Bon pressing, récupération propre. International U17/U18 serbe. Régulier en Superliga serbe malgré son jeune âge.",
+    tip:"Salaire dérisoire (64€/sem). Excellent rapport qualité/prix pour un club de D2 européenne.",
+    note:"",interest:""
+  },
+  {
+    id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",
+    posLabel:"Défenseur central",age:20,ca:40,pa:58,paRand:false,
+    valNum:608000,val:"608 000 €",wage:"876 €/sem",foot:"Droit",height:"187 cm",contract:"juin 2027",
+    attrs:{Vitesse:52,Technique:45,Physique:65,Vision:40,Défense:55,Mental:48},
+    desc:"Défenseur central argentin formé à l'Atlético Madrid. Grand gabarit (187cm), fort physiquement. Clause de libération à 1M€. Peut remplacer un DC titulaire en cas de blessure.",
+    tip:"À signer en prêt la 1ère saison puis activer la clause à 1M€. Profil physique idéal.",
+    note:"",interest:""
+  },
+  {
+    id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",
+    posLabel:"Ailier / Milieu offensif",age:20,ca:50,pa:73,paRand:false,
+    valNum:338000,val:"339 000 €",wage:"1 914 €/sem",foot:"Gauche",height:"165 cm",contract:"juin 2028",
+    attrs:{Vitesse:68,Technique:66,Physique:50,Vision:62,Défense:38,Mental:60},
+    desc:"Ailier offensif sud-africain exceptionnel. Vainqueur U-20 CAN 2025, participe à la Coupe du Monde U-20. Technique, dribbleur, pied gauche dominant. L'un des meilleurs espoirs africains.",
+    tip:"PA fixe à 73 pour seulement 339K€. Potentiel top africain. Signer avant qu'il parte en Europe.",
+    note:"",interest:""
+  },
+  {
+    id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",
+    posLabel:"Milieu relayeur / DM",age:19,ca:48,pa:74,paRand:true,
+    valNum:130000,val:"130 000 €",wage:"~200 €/sem",foot:"Droit",height:"168 cm",contract:"2026",
+    attrs:{Vitesse:62,Technique:56,Physique:68,Vision:52,Défense:60,Mental:66},
+    desc:"Milieu ivoirien de 19 ans à l'Espérance Tunis. Explosif, grande endurance, excellent pressing. Bon travail de récupération. PA variable 64–74. Contrat court — approche facile.",
+    tip:"Dispo dès 130K€. Idéal pour clubs de D2 espagnole, Serie B ou Ligue 1 en difficulté.",
+    note:"",interest:""
+  },
+  {
+    id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",
+    posLabel:"Milieu offensif / N°10",age:17,ca:42,pa:68,paRand:true,
+    valNum:100000,val:"~100 000 €",wage:"~100 €/sem",foot:"Droit",height:"175 cm",contract:"2028",
+    attrs:{Vitesse:60,Technique:63,Physique:52,Vision:64,Défense:35,Mental:58},
+    desc:"Milieu offensif péruvien de 17 ans à Alianza Lima. Technique, vision du jeu, bonne finition. Profil numéro 10 classique. Très appréciable dans un système en 4-2-3-1.",
+    tip:"100K€ pour un N°10 de 17 ans avec technique et vision. Risque quasi nul financièrement.",
+    note:"",interest:""
+  },
+  {
+    id:5,name:"Pascal Mozie",club:"Agent libre",nat:"—",flag:"🌍",pos:"ATT",
+    posLabel:"Attaquant",age:21,ca:44,pa:62,paRand:true,
+    valNum:0,val:"Gratuit",wage:"0 €",foot:"Droit",height:"180 cm",contract:"Libre",
+    attrs:{Vitesse:65,Technique:55,Physique:62,Vision:48,Défense:32,Mental:56},
+    desc:"Attaquant sans club. Recrutement gratuit, zéro risque financier. Profil polyvalent à développer avec du temps de jeu régulier. Peut jouer avant-centre ou ailier.",
+    tip:"Agent libre = 0€. Signe-le pour profondeur d'effectif. Rien à perdre.",
+    note:"",interest:""
+  },
+  {
+    id:6,name:"Salah Oulad M'Hand",club:"À déterminer",nat:"Maroc",flag:"🇲🇦",pos:"MID",
+    posLabel:"Milieu central / offensif",age:22,ca:50,pa:70,paRand:true,
+    valNum:200000,val:"~200 000 €",wage:"~300 €/sem",foot:"Droit",height:"178 cm",contract:"2027",
+    attrs:{Vitesse:58,Technique:62,Physique:56,Vision:66,Défense:50,Mental:60},
+    desc:"Milieu marocain de 22 ans. Excellent équilibre entre récupération et création. Polyvalent : peut jouer DM, CM ou AM. PA variable selon saison.",
+    tip:"Profil box-to-box complet pour moins de 200K. Très bon rapport qualité/prix.",
+    note:"",interest:""
+  },
+  {
+    id:7,name:"Moïse Diarrassouba",club:"À déterminer",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",
+    posLabel:"Ailier gauche / droit",age:17,ca:38,pa:72,paRand:true,
+    valNum:50000,val:"~50 000 €",wage:"~80 €/sem",foot:"Gauche",height:"176 cm",contract:"2027",
+    attrs:{Vitesse:72,Technique:62,Physique:52,Vision:55,Défense:30,Mental:62},
+    desc:"Ailier ivoirien de 17 ans. Rapide, technique, pied gauche dominant. Inside Winger naturel. Profil idéal pour couper dans l'axe. À développer avec un bon entraineur.",
+    tip:"50 000€ pour un ailier de 17 ans avec 72 en vitesse. Investissement minimal, potentiel énorme.",
+    note:"",interest:""
+  },
+  {
+    id:8,name:"Jamie Lawrence",club:"À déterminer",nat:"Angleterre",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",pos:"DEF",
+    posLabel:"Défenseur central",age:22,ca:52,pa:68,paRand:true,
+    valNum:300000,val:"~300 000 €",wage:"~400 €/sem",foot:"Droit",height:"185 cm",contract:"2027",
+    attrs:{Vitesse:56,Technique:50,Physique:70,Vision:45,Défense:64,Mental:62},
+    desc:"Défenseur central anglais solide. Physique (185cm, 70 en physique), bon en duel aérien, lecture du jeu correcte. Progresse rapidement avec du temps de jeu.",
+    tip:"DC fiable pour Championship ou League One. 300K€ pour 70 en physique et 64 en défense.",
+    note:"",interest:""
+  },
+  {
+    id:9,name:"Giacomo De Pieri",club:"SSC Bari (prêt Inter)",nat:"Italie",flag:"🇮🇹",pos:"ATT",
+    posLabel:"Ailier droit / Inside Winger",age:18,ca:51,pa:80,paRand:false,
+    valNum:11000000,val:"11 000 000 €",wage:"255 €/sem",foot:"Gauche",height:"174 cm",contract:"Inter — 2027",
+    attrs:{Vitesse:70,Technique:72,Physique:52,Vision:66,Défense:35,Mental:65},
+    desc:"Ailier élite de l'Inter Milan prêté à la SSC Bari. Pied gauche dominant, technique exceptionnelle (72), vision de haut niveau (66). L'un des meilleurs espoirs italiens. Né le 29/12/2006.",
+    tip:"PA 80 = élite. Appartient à l'Inter — tenter un prêt dès S1. Inter le laisse partir facilement.",
+    note:"",interest:""
+  },
+  {
+    id:10,name:"Gabriele Calvani",club:"À déterminer",nat:"Italie",flag:"🇮🇹",pos:"DEF",
+    posLabel:"DC / Latéral droit",age:21,ca:46,pa:65,paRand:true,
+    valNum:150000,val:"~150 000 €",wage:"~200 €/sem",foot:"Droit",height:"183 cm",contract:"2027",
+    attrs:{Vitesse:55,Technique:50,Physique:66,Vision:44,Défense:62,Mental:58},
+    desc:"Défenseur polyvalent italien de 21 ans. Peut évoluer en DC ou latéral droit. Défense correcte (62), physique solide (66). Bon pour ligues inférieures européennes.",
+    tip:"Polyvalence défensive rare à 150K. Utile comme backup pas cher en défense.",
+    note:"",interest:""
+  },
+  {
+    id:11,name:"Jan Salas",club:"À déterminer",nat:"Espagne",flag:"🇪🇸",pos:"MID",
+    posLabel:"Milieu offensif / N°10",age:20,ca:48,pa:70,paRand:true,
+    valNum:250000,val:"~250 000 €",wage:"~350 €/sem",foot:"Droit",height:"177 cm",contract:"2027",
+    attrs:{Vitesse:58,Technique:66,Physique:54,Vision:68,Défense:42,Mental:62},
+    desc:"Milieu offensif espagnol de 20 ans. Technique élégante (66), vision de haut niveau (68). Profil numéro 10 à l'espagnole, passes décisives et jeu entre les lignes.",
+    tip:"Espagnol + technique + vision = formule gagnante. À développer avec un bon staff d'entraîneurs.",
+    note:"",interest:""
+  },
+  {
+    id:12,name:"Amara Diouf",club:"Génération Foot → Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",
+    posLabel:"Ailier (AMR, AML, AMC)",age:17,ca:42,pa:78,paRand:true,
+    valNum:0,val:"Gratuit / ~300 000 €",wage:"0 €",foot:"Droit",height:"175 cm",contract:"Libre / Fenerbahçe juil. 2026",
+    attrs:{Vitesse:74,Technique:65,Physique:55,Vision:60,Défense:35,Mental:70},
+    desc:"PÉPITE MONDIALE. Plus jeune international sénégalais de l'histoire (15 ans 94 jours). Record absolu de buts en Coupe du Monde U17 (record d'Osimhen battu). PA variable mais potentiel élite mondial. Transfert vers Fenerbahçe prévu en juillet 2026.",
+    tip:"🔥 MUST SIGN IMMÉDIAT. Gratuit ou quasi-gratuit. Potentiel top mondial. Plus il attend, plus ça coûtera cher.",
+    note:"",interest:""
+  },
+  {
+    id:13,name:"Mbekezeli Mbokazi",club:"Mamelodi Sundowns",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",
+    posLabel:"Défenseur central",age:18,ca:44,pa:68,paRand:true,
+    valNum:80000,val:"~80 000 €",wage:"~100 €/sem",foot:"Droit",height:"186 cm",contract:"2027",
+    attrs:{Vitesse:58,Technique:50,Physique:70,Vision:46,Défense:65,Mental:62},
+    desc:"Défenseur central sud-africain de 18 ans à Mamelodi Sundowns. Grand gabarit (186cm), dominant dans les airs. Physique exceptionnel pour son âge. International U20.",
+    tip:"186cm + 70 physique + 65 défense pour 80 000€. Le marché africain reste sous-côté.",
+    note:"",interest:""
+  },
+  {
+    id:14,name:"Massiré Sylla",club:"À déterminer",nat:"Guinée",flag:"🇬🇳",pos:"DEF",
+    posLabel:"Défenseur central",age:21,ca:48,pa:68,paRand:true,
+    valNum:100000,val:"~100 000 €",wage:"~150 €/sem",foot:"Droit",height:"188 cm",contract:"2027",
+    attrs:{Vitesse:55,Technique:48,Physique:74,Vision:44,Défense:66,Mental:60},
+    desc:"Défenseur central guinéen de 21 ans. Très physique (188cm, 74 en physique), dominant dans les duels aériens. Discipline défensive et progressivité au programme.",
+    tip:"188cm de DC pour 100K€. Muscler votre défense sans dépenser. Idéal pour ligues semi-pro.",
+    note:"",interest:""
+  }
+];
+
+// ── STATE ──
+var filterPos='all', filterNat='all', filterFoot='all', filterInt='all';
+var filterAge=35, filterPa=0, filterVal=999999999;
+var viewMode='grid';
+var compareList=[];
+var notes={}, interests={};
+
+function paColor(pa){if(pa>=75)return'#00D46A';if(pa>=65)return'#4D9EFF';if(pa>=55)return'#F5C518';return'#7B93B4';}
+function barColor(v){if(v>=68)return'#00D46A';if(v>=55)return'#4D9EFF';if(v>=44)return'#F5C518';return'#FF4C6A';}
+function emo(pos){if(pos==='GK')return'🧤';if(pos==='DEF')return'🛡️';if(pos==='MID')return'🎯';return'⚡';}
+
+// Radar SVG
+function drawRadar(attrs,size,stroke,bg){
+  var keys=Object.keys(attrs);
+  var vals=keys.map(function(k){return attrs[k]/100;});
+  var n=keys.length;
+  var cx=size/2,cy=size/2,r=(size/2)*0.72;
+  var pts=vals.map(function(v,i){
+    var a=(Math.PI*2/n)*i - Math.PI/2;
+    return [cx+Math.cos(a)*r*v, cy+Math.sin(a)*r*v];
+  });
+  var bgPts=Array.from({length:n},function(_,i){
+    var a=(Math.PI*2/n)*i - Math.PI/2;
+    return [cx+Math.cos(a)*r, cy+Math.sin(a)*r];
+  });
+  // grid rings
+  var rings='';
+  [0.25,0.5,0.75,1].forEach(function(s){
+    var rp=bgPts.map(function(p){return [(p[0]-cx)*s+cx,(p[1]-cy)*s+cy];});
+    rings+='<polygon points="'+rp.map(function(p){return p.join(',');}).join(' ')+'" fill="none" stroke="'+bg+'" stroke-width="0.5"/>';
+  });
+  // axis lines
+  var axes=bgPts.map(function(p){return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="'+bg+'" stroke-width="0.5"/>';}).join('');
+  // data area
+  var area='<polygon points="'+pts.map(function(p){return p.join(',');}).join(' ')+'" fill="'+stroke.replace(')',',0.18)').replace('rgb(','rgba(').replace('#','').split('').map(function(_,i,a){return i===0?'rgba('+parseInt(a[0]+a[1],16)+','+parseInt(a[2]+a[3],16)+','+parseInt(a[4]+a[5],16)+',0.18)':''}).filter(Boolean)[0] +'" stroke="'+stroke+'" stroke-width="1.5" fill-opacity="0.15"/>';
+  // Fallback simpler fill
+  var fillColor=stroke==='#00D46A'?'rgba(0,212,106,0.12)':stroke==='#4D9EFF'?'rgba(77,158,255,0.12)':'rgba(245,197,24,0.12)';
+  area='<polygon points="'+pts.map(function(p){return p.join(',');}).join(' ')+'" fill="'+fillColor+'" stroke="'+stroke+'" stroke-width="1.5"/>';
+  // dots
+  var dots=pts.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="'+stroke+'"/>';}).join('');
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+rings+axes+area+dots+'</svg>';
+}
+
+// ── RENDER ──
+function render(){
+  var q=document.getElementById('srch').value.toLowerCase();
+  var sort=document.getElementById('sort-sel').value;
+  var d=DATA.filter(function(p){
+    if(filterPos!=='all'&&p.pos!==filterPos)return false;
+    if(filterNat!=='all'&&p.nat!==filterNat)return false;
+    if(filterFoot!=='all'&&p.foot!==filterFoot)return false;
+    if(p.age>filterAge)return false;
+    if(p.pa<filterPa)return false;
+    if(p.valNum>filterVal)return false;
+    var pi=interests[p.id]||'';
+    if(filterInt!=='all'&&pi!==filterInt)return false;
+    if(q&&![p.name,p.club,p.nat].some(function(s){return s.toLowerCase().indexOf(q)>=0;}))return false;
+    return true;
+  });
+  if(sort==='pa')d.sort(function(a,b){return b.pa-a.pa;});
+  else if(sort==='ca')d.sort(function(a,b){return b.ca-a.ca;});
+  else if(sort==='age')d.sort(function(a,b){return a.age-b.age;});
+  else if(sort==='val')d.sort(function(a,b){return a.valNum-b.valNum;});
+  else d.sort(function(a,b){return a.name.localeCompare(b.name);});
+  document.getElementById('cnt').textContent=d.length;
+  var g=document.getElementById('grid');
+  g.className='grid'+(viewMode==='list'?' list':'');
+  if(!d.length){g.innerHTML='<div class="empty"><h3>Aucun joueur trouvé</h3><p>Modifiez vos filtres de recherche.</p></div>';return;}
+  g.innerHTML=d.map(function(p,i){return cardHTML(p,i);}).join('');
+}
+
+function cardHTML(p,i){
+  var pc=paColor(p.pa);
+  var caBarW=Math.round(p.ca/100*100);
+  var paBarW=Math.round(p.pa/100*100);
+  var radarSvg=drawRadar(p.attrs,80,pc,'rgba(255,255,255,0.06)');
+  var intBadge='';
+  var pi=interests[p.id]||'';
+  if(pi==='sign')intBadge='<span style="font-size:.55rem;color:var(--green)">● À signer</span>';
+  else if(pi==='target')intBadge='<span style="font-size:.55rem;color:var(--gold)">● Cible</span>';
+  else if(pi==='watch')intBadge='<span style="font-size:.55rem;color:var(--blu)">● À suivre</span>';
+  else if(pi==='pass')intBadge='<span style="font-size:.55rem;color:var(--red)">● Non retenu</span>';
+  var vTag=p.valNum===0?'<span class="val-tag val-free">🆓 Gratuit</span>':'<span class="val-tag">'+p.val+'</span>';
+  var randMark=p.paRand?'<span class="rand-dot" title="PA aléatoire selon sauvegarde"></span>':'';
+  return '<div class="card" style="animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
+    +'<div class="card-stripe" style="background:'+pc+'"></div>'
+    +'<div class="card-head">'
+      +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<span class="c-av-flag">'+p.flag+'</span></div>'
+      +'<div class="c-info">'
+        +'<div class="c-name">'+p.name+'</div>'
+        +'<div class="c-club">'+p.club+'</div>'
+        +'<div class="c-pos-line"><span class="pos-tag pos-'+p.pos+'">'+p.posLabel.split('/')[0].trim()+'</span>'+vTag+intBadge+'</div>'
+      +'</div>'
+      +'<div class="c-pa-block"><div class="c-pa-v" style="color:'+pc+'">'+p.pa+randMark+'</div><div class="c-pa-l">PA/100</div><div class="c-pa-age">'+p.age+' ans</div></div>'
+    +'</div>'
+    +'<div class="c-rating-row"><span class="c-rating-lbl">Note (CA)</span><div class="c-rating-bar"><div class="c-rating-fill" style="width:'+caBarW+'%;background:'+barColor(p.ca)+';animation:barIn .8s ease both"></div></div><span class="c-rating-val" style="color:'+barColor(p.ca)+'">'+p.ca+'</span></div>'
+    +'<div class="c-rating-row" style="margin-top:-.1rem"><span class="c-rating-lbl">Potentiel</span><div class="c-rating-bar"><div class="c-rating-fill" style="width:'+paBarW+'%;background:'+pc+';animation:barIn .8s .1s ease both"></div></div><span class="c-rating-val" style="color:'+pc+'">'+p.pa+'</span></div>'
+    +'<div class="c-radar-wrap">'
+      +'<div class="mini-radar">'+radarSvg+'</div>'
+      +'<div class="c-stats-mini">'
+        +Object.keys(p.attrs).slice(0,6).map(function(k){var v=p.attrs[k];return '<div class="smi"><span class="smi-l">'+k+'</span><span class="smi-v" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
+      +'</div>'
+    +'</div>'
+    +'<div class="card-foot">'
+      +'<div class="c-age"><b>'+p.age+'</b> ans · '+p.foot+'</div>'
+      +'<div class="c-foot-mid"><div class="c-wage">Salaire <b>'+p.wage+'</b></div><div class="c-contract">Contrat : '+p.contract+'</div></div>'
+    +'</div>'
+  +'</div>';
+}
+
+// ── PANEL ──
+function openPanel(id){
+  var p=DATA[id];if(!p)return;
+  var pc=paColor(p.pa);
+  var pn=notes[id]||'';
+  var pi=interests[id]||'';
+  var radarSvg=drawRadar(p.attrs,140,pc,'rgba(255,255,255,0.07)');
+  var attrCells=Object.keys(p.attrs).map(function(k){
+    var v=p.attrs[k];
+    return '<div class="attr-cell"><div class="attr-lbl">'+k+'</div>'
+      +'<div class="attr-bar-bg"><div class="attr-bar-fill" style="width:'+v+'%;background:'+barColor(v)+';animation:barIn .7s ease both"></div></div>'
+      +'<div class="attr-val" style="color:'+barColor(v)+'">'+v+'</div></div>';
+  }).join('');
+  var randNote=p.paRand?'<div style="font-size:.68rem;color:var(--pur);margin-bottom:.75rem;padding:.4rem .65rem;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.15);border-radius:7px">⚠️ PA aléatoire — peut varier selon votre sauvegarde (±10)</div>':'';
+  var intSel=function(v){return pi===v?' sel-'+v:'';};
+  document.getElementById('panel').innerHTML=
+    '<div class="panel-top">'
+      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<span class="panel-flag">'+p.flag+'</span></div>'
+      +'<div class="panel-hinfo">'
+        +'<div class="panel-name">'+p.name+'</div>'
+        +'<div class="panel-sub">'+p.nat+' · '+p.club+'</div>'
+        +'<div class="panel-tags"><span class="pos-tag pos-'+p.pos+'">'+p.posLabel+'</span>'+(p.valNum===0?'<span class="val-tag val-free">🆓 Gratuit</span>':'<span class="val-tag">'+p.val+'</span>')+(p.paRand?'<span style="background:rgba(167,139,250,.1);color:#A78BFA;border:1px solid rgba(167,139,250,.2);border-radius:4px;padding:.14rem .48rem;font-size:.6rem;font-weight:600">PA ±</span>':'')+'</div>'
+      +'</div>'
+      +'<button class="panel-close" onclick="closePanel()">✕</button>'
+    +'</div>'
+    +'<div class="panel-body">'
+      +randNote
+      +'<div class="scores-row">'
+        +'<div class="score-cell"><div class="score-cell-v" style="color:'+barColor(p.ca)+'">'+p.ca+'</div><div class="score-cell-l">Note CA</div></div>'
+        +'<div class="score-cell"><div class="score-cell-v" style="color:'+pc+'">'+p.pa+'</div><div class="score-cell-l">Potentiel</div></div>'
+        +'<div class="score-cell"><div class="score-cell-v">'+p.age+'</div><div class="score-cell-l">Âge</div></div>'
+        +'<div class="score-cell"><div class="score-cell-v" style="font-size:1.1rem">'+p.height+'</div><div class="score-cell-l">Taille</div></div>'
+      +'</div>'
+      +'<div class="radar-section">'
+        +'<div class="radar-svg-wrap">'+radarSvg+'</div>'
+        +'<div class="radar-legend">'
+          +Object.keys(p.attrs).map(function(k){var v=p.attrs[k];return '<div class="rl-row"><span class="rl-dot" style="background:'+barColor(v)+'"></span><span class="rl-lbl">'+k+'</span><span class="rl-val" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
+        +'</div>'
+      +'</div>'
+      +'<div style="font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Attributs détaillés</div>'
+      +'<div class="attrs-grid">'+attrCells+'</div>'
+      +'<div class="info-table">'
+        +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+p.foot+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+p.contract+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Salaire</span><span class="it-val">'+p.wage+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Valeur marchande</span><span class="it-val" style="color:'+pc+'">'+p.val+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Nationalité</span><span class="it-val">'+p.flag+' '+p.nat+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Taille</span><span class="it-val">'+p.height+'</span></div>'
+      +'</div>'
+      +'<div class="scout-report">'
+        +'<div class="sr-header"><span class="sr-icon">🔍</span><span class="sr-title">Rapport scout</span></div>'
+        +'<div class="sr-text">'+p.desc+'</div>'
+      +'</div>'
+      +'<div class="tip-box">💡 '+p.tip+'</div>'
+      +'<div class="note-section">'
+        +'<div class="note-header">Notes personnelles</div>'
+        +'<textarea class="note-ta" id="note-ta-'+id+'" placeholder="Ajoutez vos observations sur ce joueur…">'+pn+'</textarea>'
+        +'<div class="interest-row">'
+          +'<span class="interest-lbl">Statut</span>'
+          +'<div class="int-opts">'
+            +'<span class="int-opt'+intSel('watch')+'" onclick="setInterest('+id+',\'watch\')">👁 Suivre</span>'
+            +'<span class="int-opt'+intSel('target')+'" onclick="setInterest('+id+',\'target\')">🎯 Cible</span>'
+            +'<span class="int-opt'+intSel('sign')+'" onclick="setInterest('+id+',\'sign\')">✅ Signer</span>'
+            +'<span class="int-opt'+intSel('pass')+'" onclick="setInterest('+id+',\'pass\')">❌ Passer</span>'
+          +'</div>'
+        +'</div>'
+        +'<div class="note-foot"><button class="btn-save" onclick="saveNote('+id+')">Enregistrer</button></div>'
+      +'</div>'
+    +'</div>';
+  document.getElementById('panel-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function closePanel(){document.getElementById('panel-bg').classList.remove('on');document.body.style.overflow='';}
+function closePanelBg(e){if(e.target===document.getElementById('panel-bg'))closePanel();}
+
+function saveNote(id){
+  var ta=document.getElementById('note-ta-'+id);
+  if(ta)notes[id]=ta.value;
+}
+function setInterest(id,val){
+  if(interests[id]===val){delete interests[id];}else{interests[id]=val;}
+  openPanel(id);render();
+}
+
+// ── FILTERS ──
+function populateNations(){
+  var nats=[...new Set(DATA.map(function(p){return p.nat;}))].filter(function(n){return n!=='—';}).sort();
+  var sel=document.getElementById('nat-sel');
+  nats.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+}
+
+document.querySelectorAll('.ppill').forEach(function(el){
+  el.addEventListener('click',function(){
+    document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});
+    el.classList.add('on');filterPos=el.dataset.pos;render();
+  });
+});
+document.getElementById('srch').addEventListener('input',render);
+document.getElementById('sort-sel').addEventListener('change',render);
+document.getElementById('nat-sel').addEventListener('change',function(){filterNat=this.value;render();});
+document.getElementById('val-sel').addEventListener('change',function(){filterVal=parseInt(this.value);render();});
+document.getElementById('int-sel').addEventListener('change',function(){filterInt=this.value;render();});
+document.getElementById('foot-sel').addEventListener('change',function(){filterFoot=this.value;render();});
+document.getElementById('age-range').addEventListener('input',function(){filterAge=parseInt(this.value);document.getElementById('age-lbl').textContent=this.value;render();});
+document.getElementById('pa-range').addEventListener('input',function(){filterPa=parseInt(this.value);document.getElementById('pa-lbl').textContent=this.value;render();});
+
+function resetFilters(){
+  filterPos='all';filterNat='all';filterFoot='all';filterInt='all';filterAge=35;filterPa=0;filterVal=999999999;
+  document.getElementById('srch').value='';
+  document.getElementById('sort-sel').value='pa';
+  document.getElementById('nat-sel').value='all';
+  document.getElementById('val-sel').value='999999999';
+  document.getElementById('int-sel').value='all';
+  document.getElementById('foot-sel').value='all';
+  document.getElementById('age-range').value=35;document.getElementById('age-lbl').textContent=35;
+  document.getElementById('pa-range').value=0;document.getElementById('pa-lbl').textContent=0;
+  document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});
+  document.querySelector('.ppill[data-pos="all"]').classList.add('on');
+  render();
+}
+
+function setView(v){
+  viewMode=v;
+  document.getElementById('vg').classList.toggle('on',v==='grid');
+  document.getElementById('vl').classList.toggle('on',v==='list');
+  render();
+}
+
+// compare
+function clearCompare(){compareList=[];document.getElementById('cmp-bar').classList.remove('on');}
+function openCompare(){if(compareList.length<2)return;alert('Comparaison : '+compareList.map(function(id){return DATA[id].name;}).join(' vs '));}
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel();});
+
+populateNations();
+render();
+</script>
+</body>
+</html>
