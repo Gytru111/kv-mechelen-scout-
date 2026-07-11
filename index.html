@@ -110,7 +110,8 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-si
 
 /* CARD HEADER */
 .card-head{padding:.85rem 1rem .6rem;display:flex;gap:.7rem;align-items:flex-start}
-.c-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:2px solid;position:relative}
+.c-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:2px solid;position:relative;overflow:hidden}
+.c-av img{width:100%;height:100%;object-fit:cover}
 .c-av-flag{position:absolute;bottom:-2px;right:-3px;font-size:.65rem;background:var(--s1);border-radius:50%;padding:0 1px;line-height:1.2}
 .c-info{flex:1;min-width:0}
 .c-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
@@ -156,6 +157,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-si
 .grid.list .card{border-radius:var(--r)}
 .grid.list .card-head{padding:.6rem 1rem}
 .grid.list .c-av{width:36px;height:36px;font-size:1rem}
+.grid.list .c-av img{width:100%;height:100%;object-fit:cover}
 .grid.list .c-name{font-size:.88rem}
 .grid.list .c-radar-wrap{padding:0 1rem .4rem}
 
@@ -172,7 +174,8 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-si
 @keyframes panelIn{from{transform:scale(.95) translateY(12px);opacity:0}to{transform:none;opacity:1}}
 
 .panel-top{padding:1.5rem 1.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;gap:1.25rem;align-items:flex-start;position:sticky;top:0;background:var(--s1);z-index:10;border-radius:12px 12px 0 0}
-.panel-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:2.5px solid;flex-shrink:0;position:relative}
+.panel-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:2.5px solid;flex-shrink:0;position:relative;overflow:hidden}
+.panel-av img{width:100%;height:100%;object-fit:cover}
 .panel-flag{position:absolute;bottom:-2px;right:-3px;font-size:.9rem;background:var(--s1);border-radius:50%;padding:0 2px}
 .panel-hinfo{flex:1}
 .panel-name{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
@@ -491,7 +494,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-si
 // ── DATA ──
 var DATA = [
   {
-    id:0,name:"Vasilije Novičić",club:"IMT Belgrade",nat:"Serbie",flag:"🇷🇸",pos:"MID",
+    id:0,name:"Vasilije Novičić",club:"IMT Belgrade",nat:"Serbie",flag:"🇷🇸",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1957265/image",
     posLabel:"Milieu défensif",age:17,ca:93,pa:185,paRand:true,
     valNum:4000000,val:"4 000 000 €",wage:"563 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",
     attrs:{Vitesse:50,Technique:55,Physique:65,Vision:50,Défense:60,Mental:65},
@@ -503,7 +506,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",
+    id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1544426/image",
     posLabel:"Défenseur central",age:20,ca:105,pa:135,paRand:false,
     valNum:200000,val:"200 000 €",wage:"3 796 €/mois",foot:"Droit",height:"187 cm",contract:"juin 2027",
     attrs:{Vitesse:60,Technique:40,Physique:70,Vision:40,Défense:65,Mental:48},
@@ -515,7 +518,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",
+    id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1799520/image",
     posLabel:"Ailier / Milieu offensif",age:20,ca:125,pa:155,paRand:false,
     valNum:550000,val:"550 000 €",wage:"5 417 €/mois",foot:"Droit",height:"165 cm",contract:"juin 2028",
     attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:38,Mental:65},
@@ -527,7 +530,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",
+    id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1463496/image",
     posLabel:"Milieu relayeur / DM",age:19,ca:125,pa:155,paRand:true,
     valNum:850000,val:"850 000 €",wage:"3 215 €/mois",foot:"Droit",height:"168 cm",contract:"juin 2028",
     attrs:{Vitesse:50,Technique:65,Physique:75,Vision:60,Défense:60,Mental:70},
@@ -539,7 +542,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",
+    id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",img:"https://img.sofascore.com/api/v1/player/2039604/image",
     posLabel:"Milieu offensif / N°10",age:18,ca:95,pa:135,paRand:true,
     valNum:600000,val:"600 000 €",wage:"1 714 €/mois",foot:"Droit",height:"181 cm",contract:"déc. 2027",
     attrs:{Vitesse:65,Technique:70,Physique:60,Vision:60,Défense:35,Mental:65},
@@ -551,7 +554,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:5,name:"Pascal Mozie",club:"Legia Warszawa",nat:"Pologne",flag:"🇵🇱",pos:"MID",
+    id:5,name:"Pascal Mozie",club:"Legia Warszawa",nat:"Pologne",flag:"🇵🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1890312/image",
     posLabel:"Milieu défensif / relayeur",age:17,ca:95,pa:145,paRand:true,
     valNum:300000,val:"300 000 €",wage:"117 €/mois",foot:"Gauche",height:"184 cm",contract:"juin 2028",
     attrs:{Vitesse:65,Technique:60,Physique:75,Vision:60,Défense:65,Mental:75},
@@ -563,7 +566,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:6,name:"Salah Oulad M'Hand",club:"Riga FC",nat:"Pays-Bas",flag:"🇳🇱",pos:"MID",
+    id:6,name:"Salah Oulad M'Hand",club:"Riga FC",nat:"Pays-Bas",flag:"🇳🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1067114/image",
     posLabel:"Milieu central / offensif",age:22,ca:115,pa:135,paRand:false,
     valNum:350000,val:"350 000 €",wage:"2 548 €/mois",foot:"Droit",height:"183 cm",contract:"juin 2028",
     attrs:{Vitesse:65,Technique:60,Physique:65,Vision:60,Défense:55,Mental:60},
@@ -575,7 +578,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:7,name:"Moïse Diarrassouba",club:"Agent libre",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",
+    id:7,name:"Moïse Diarrassouba",club:"Agent libre",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/2111998/image",
     posLabel:"Ailier droit",age:16,ca:75,pa:150,paRand:true,
     valNum:0,val:"Gratuit",wage:"0 €/mois",foot:"Droit",height:"181 cm",contract:"Libre",
     attrs:{Vitesse:65,Technique:65,Physique:55,Vision:60,Défense:30,Mental:60},
@@ -587,7 +590,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:8,name:"Jamie Lawrence",club:"WSG Tirol",nat:"Allemagne",flag:"🇩🇪",pos:"DEF",
+    id:8,name:"Jamie Lawrence",club:"WSG Tirol",nat:"Allemagne",flag:"🇩🇪",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/997206/image",
     posLabel:"Défenseur central",age:23,ca:135,pa:155,paRand:false,
     valNum:500000,val:"500 000 €",wage:"15 080 €/mois",foot:"Droit",height:"201 cm",contract:"juin 2026",
     attrs:{Vitesse:60,Technique:45,Physique:80,Vision:60,Défense:70,Mental:72},
@@ -599,7 +602,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:9,name:"Giacomo De Pieri",club:"SSC Bari (prêt Inter)",nat:"Italie",flag:"🇮🇹",pos:"ATT",
+    id:9,name:"Giacomo De Pieri",club:"SSC Bari (prêt Inter)",nat:"Italie",flag:"🇮🇹",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1466113/image",
     posLabel:"Ailier droit / Inside Winger",age:18,ca:125,pa:165,paRand:true,
     valNum:1500000,val:"1 500 000 €",wage:"1 103 €/mois",foot:"Gauche",height:"174 cm",contract:"Inter — 2027",
     attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:35,Mental:68},
@@ -611,7 +614,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:10,name:"Gabriele Calvani",club:"Genoa (prêt Frosinone)",nat:"Italie",flag:"🇮🇹",pos:"DEF",
+    id:10,name:"Gabriele Calvani",club:"Genoa (prêt Frosinone)",nat:"Italie",flag:"🇮🇹",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1425050/image",
     posLabel:"Défenseur central",age:23,ca:135,pa:155,paRand:true,
     valNum:3500000,val:"3 500 000 €",wage:"3 748 €/mois",foot:"Droit",height:"184 cm",contract:"juin 2026",
     attrs:{Vitesse:65,Technique:60,Physique:70,Vision:45,Défense:65,Mental:68},
@@ -623,7 +626,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:11,name:"Jan Salas",club:"Mallorca (prêt Córdoba)",nat:"Espagne",flag:"🇪🇸",pos:"MID",
+    id:11,name:"Jan Salas",club:"Mallorca (prêt Córdoba)",nat:"Espagne",flag:"🇪🇸",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1905699/image",
     posLabel:"Milieu offensif / N°10",age:20,ca:125,pa:155,paRand:true,
     valNum:500000,val:"500 000 €",wage:"7 318 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",
     attrs:{Vitesse:65,Technique:65,Physique:60,Vision:65,Défense:42,Mental:65},
@@ -635,7 +638,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:12,name:"Amara Diouf",club:"Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",
+    id:12,name:"Amara Diouf",club:"Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1536761/image",
     posLabel:"Ailier (AMR, AML, AMC)",age:17,ca:105,pa:160,paRand:true,
     valNum:300000,val:"300 000 €",wage:"3 120 €/mois",foot:"Droit",height:"174 cm",contract:"Fenerbahçe — 2030",
     attrs:{Vitesse:55,Technique:65,Physique:50,Vision:60,Défense:35,Mental:68},
@@ -647,7 +650,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:13,name:"Mbekezeli Mbokazi",club:"Chicago Fire (MLS)",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",
+    id:13,name:"Mbekezeli Mbokazi",club:"Chicago Fire (MLS)",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/2058228/image",
     posLabel:"Défenseur central",age:20,ca:135,pa:155,paRand:false,
     valNum:2500000,val:"2 500 000 €",wage:"37 105 €/mois",foot:"Gauche",height:"180 cm",contract:"déc. 2029",
     attrs:{Vitesse:55,Technique:50,Physique:75,Vision:80,Défense:68,Mental:70},
@@ -659,7 +662,7 @@ var DATA = [
     note:"",interest:""
   },
   {
-    id:14,name:"Massiré Sylla",club:"Royale Union Saint-Gilloise",nat:"Sénégal",flag:"🇸🇳",pos:"DEF",
+    id:14,name:"Massiré Sylla",club:"Royale Union Saint-Gilloise",nat:"Sénégal",flag:"🇸🇳",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1897832/image",
     posLabel:"Défenseur central / DM",age:20,ca:120,pa:145,paRand:true,
     valNum:600000,val:"600 000 €",wage:"21 667 €/mois",foot:"Droit",height:"196 cm",contract:"juin 2030",
     attrs:{Vitesse:60,Technique:60,Physique:80,Vision:55,Défense:65,Mental:70},
@@ -776,7 +779,7 @@ function cardHTML(p,i){
     +'<div class="card-stripe" style="background:'+posColor(p.pos)+'"></div>'
     +dropBadge
     +'<div class="card-head">'
-      +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<span class="c-av-flag">'+p.flag+'</span></div>'
+      +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<img src="'+p.img+'" style="position:absolute;inset:0" onerror="this.remove()"><span class="c-av-flag">'+p.flag+'</span></div>'
       +'<div class="c-info">'
         +'<div class="c-name">'+p.name+'</div>'
         +'<div class="c-club">'+p.club+'</div>'
@@ -858,7 +861,7 @@ function openPanel(id){
   }
   document.getElementById('panel').innerHTML=
     '<div class="panel-top">'
-      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<span class="panel-flag">'+p.flag+'</span></div>'
+      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<img src="'+p.img+'" style="position:absolute;inset:0" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
       +'<div class="panel-hinfo">'
         +'<div class="panel-name">'+p.name+'</div>'
         +'<div class="panel-sub">'+p.nat+' · '+p.club+'</div>'
