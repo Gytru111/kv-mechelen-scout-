@@ -711,6 +711,7 @@ function drawRadar(attrs,size,stroke,bg){
   // axis lines
   var axes=bgPts.map(function(p){return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="'+bg+'" stroke-width="0.5"/>';}).join('');
   // data area
+  var fillColor=stroke==='#4CAF50'?'rgba(76,175,80,0.1)':stroke==='#5B8DEF'?'rgba(91,141,239,0.1)':'rgba(212,168,67,0.1)';
   var area='<polygon points="'+pts.map(function(p){return p.join(',');}).join(' ')+'" fill="'+fillColor+'" stroke="'+stroke+'" stroke-width="1.5"/>';
   // dots
   var dots=pts.map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="'+stroke+'"/>';}).join('');
