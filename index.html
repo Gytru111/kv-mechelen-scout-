@@ -278,47 +278,54 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .main{width:100%}
   .compare-bar{left:0}
   .panel{width:100vw}
-  .evo-cards{flex-direction:column}
-  .stats-table{font-size:.7rem}
+  .evo-summary{gap:1rem;flex-wrap:wrap}
+  .evo-row-name{width:55px;font-size:.6rem}
+  .stats-thead span,.stats-row span{width:40px;font-size:.6rem}
+  .stats-thead span:first-child,.stats-row span:first-child{width:auto}
 }
 
-/* FM25/FM26 EVOLUTION SECTION */
-.section-title{font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;margin-top:.5rem}
-.evo-cards{display:flex;gap:.75rem;margin-bottom:1rem}
-.evo-card{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);padding:.85rem;position:relative;overflow:hidden}
-.evo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.evo-card.fm25::before{background:linear-gradient(90deg,var(--t3),var(--t3))}
-.evo-card.fm26::before{background:linear-gradient(90deg,var(--green),var(--blu))}
-.evo-card-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
-.evo-card.fm25 .evo-card-label{color:var(--t3)}
-.evo-card.fm26 .evo-card-label{color:var(--green)}
-.evo-scores{display:flex;gap:.75rem;margin-bottom:.6rem}
-.evo-score{text-align:center;flex:1}
-.evo-score-v{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;line-height:1}
-.evo-score-l{font-size:.5rem;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.evo-attrs{display:flex;flex-direction:column;gap:.25rem}
-.evo-attr-row{display:flex;align-items:center;gap:.4rem}
-.evo-attr-name{font-size:.6rem;color:var(--t3);width:60px;flex-shrink:0}
-.evo-attr-bar{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.evo-attr-bar-fill{height:4px;border-radius:2px;transition:width .5s ease}
-.evo-attr-val{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;width:22px;text-align:right}
-.evo-arrow-col{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px}
-.evo-arrow{width:36px;height:36px;border-radius:50%;background:var(--s3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--green)}
-.evo-arrow.neg{color:var(--red)}
-.evo-delta{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:600;color:var(--green);text-align:center;margin-top:.2rem}
-.evo-delta.neg{color:var(--red)}
-
-/* MATCH STATS TABLE */
-.stats-table{width:100%;border-collapse:collapse;margin-bottom:1rem;font-size:.75rem}
-.stats-table th{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:.4rem .5rem;text-align:center;border-bottom:1px solid var(--border2)}
-.stats-table th:first-child{text-align:left}
-.stats-table td{padding:.45rem .5rem;text-align:center;border-bottom:1px solid var(--border);color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:.7rem}
-.stats-table td:first-child{text-align:left;font-family:'Inter',sans-serif;color:var(--t1);font-weight:600;font-size:.72rem}
-.stats-table tr:last-child td{border-bottom:none}
-.stats-table .td-rat{color:var(--green);font-weight:600}
-.stats-table .td-gol{color:var(--gold)}
-.stats-table .td-bonus{color:var(--green);font-weight:600}
-.stats-table tr.total td{border-top:2px solid var(--border2);font-weight:700;color:var(--t1)}
+/* FM25/FM26 EVOLUTION + STATS — clean centered cards */
+.evo-box{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1rem}
+.evo-head{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:.6rem .9rem;border-bottom:1px solid var(--border)}
+.evo-head-title{font-size:.68rem;font-weight:700;color:var(--t1);text-transform:uppercase;letter-spacing:.08em}
+.evo-badge{font-size:.55rem;font-weight:600;padding:.15rem .5rem;border-radius:4px}
+.evo-badge-old{background:rgba(255,255,255,.06);color:var(--t3);border:1px solid var(--border)}
+.evo-badge-new{background:var(--green3);color:var(--green);border:1px solid rgba(0,212,106,.2)}
+.evo-badge-arrow{color:var(--t3);font-size:.7rem}
+.evo-summary{display:flex;justify-content:center;gap:2rem;padding:.7rem 1rem;border-bottom:1px solid var(--border)}
+.evo-sum-item{text-align:center}
+.evo-sum-v{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;line-height:1}
+.evo-sum-l{font-size:.5rem;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.evo-sum-delta{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;margin-top:1px}
+.evo-sum-delta.up{color:var(--green)}
+.evo-sum-delta.down{color:var(--red)}
+.evo-sum-delta.neutral{color:var(--t3)}
+.evo-grid{padding:.5rem .9rem}
+.evo-row{display:flex;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.evo-row:last-child{border-bottom:none}
+.evo-row-name{width:70px;flex-shrink:0;font-size:.65rem;color:var(--t3);font-weight:600}
+.evo-row-old{width:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t3);flex-shrink:0}
+.evo-row-bar{flex:1;display:flex;align-items:center;gap:.3rem;padding:0 .5rem}
+.evo-row-bar-track{flex:1;height:5px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;position:relative}
+.evo-row-bar-fill{height:5px;border-radius:3px;position:absolute;top:0;left:0}
+.evo-row-new{width:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;flex-shrink:0}
+.evo-row-delta{width:38px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;flex-shrink:0}
+.evo-row-delta.up{color:var(--green)}
+.evo-row-delta.down{color:var(--red)}
+.evo-row-delta.zero{color:var(--t3)}
+/* Stats table */
+.stats-thead{display:flex;padding:.5rem .9rem;border-bottom:1px solid var(--border);font-size:.5rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
+.stats-thead span{text-align:center}
+.stats-thead span:first-child{text-align:left;flex:1}
+.stats-thead span{width:48px;flex-shrink:0}
+.stats-row{display:flex;align-items:center;padding:.5rem .9rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.72rem}
+.stats-row:last-child{border-bottom:none}
+.stats-row span{text-align:center;font-family:'JetBrains Mono',monospace;color:var(--t2);width:48px;flex-shrink:0;font-size:.7rem}
+.stats-row span:first-child{text-align:left;flex:1;font-family:'Inter',sans-serif;font-weight:600;color:var(--t1)}
+.stats-row.sr-rat span.sr-rat-v{color:var(--green);font-weight:700}
+.stats-row.sr-goals span.sr-goal-v{color:var(--gold)}
+.stats-row.sr-total{border-top:2px solid var(--border2);font-weight:700}
+.stats-row.sr-total span{color:var(--t1);font-weight:700}
 </style>
 </head>
 <body>
@@ -778,48 +785,44 @@ function openPanel(id){
   var stats=p.stats||null;
   var evoHTML='';
   if(fm25){
-    var caDelta=p.ca-fm25.ca;var caDcls=caDelta>=0?'':' neg';var caArrow=caDelta>=0?'▲':'▼';
-    var paDelta=p.pa-fm25.pa;var paDcls=paDelta>=0?'':' neg';var paArrow=paDelta>=0?'▲':'▼';
+    var caD=p.ca-fm25.ca;var paD=p.pa-fm25.pa;
+    var caCls=caD>0?'up':caD<0?'down':'neutral';
+    var paCls=paD>0?'up':paD<0?'down':'neutral';
     var attrKeys=Object.keys(p.attrs);
-    var evoAttrRows=attrKeys.map(function(k){
-      var v25=fm25.attrs[k]||0;var v26=p.attrs[k]||0;var d=v26-v25;var dcls=d>=0?'':' neg';
-      return '<div class="evo-attr-row"><span class="evo-attr-name">'+k+'</span>'
-        +'<div class="evo-attr-bar"><div class="evo-attr-bar-fill" style="width:'+v25+'%;background:var(--t3)"></div></div>'
-        +'<span class="evo-attr-val">'+v25+'</span>'
-        +'<div class="evo-attr-bar"><div class="evo-attr-bar-fill" style="width:'+v26+'%;background:'+barColor(v26)+'"></div></div>'
-        +'<span class="evo-attr-val" style="color:'+barColor(v26)+'">'+v26+'</span>'
-        +'<span class="evo-delta'+dcls+'">'+(d>=0?'+':'')+d+'</span></div>';
+    var evoRows=attrKeys.map(function(k){
+      var v25=fm25.attrs[k]||0;var v26=p.attrs[k]||0;var d=v26-v25;
+      var dc=d>0?'up':d<0?'down':'zero';
+      return '<div class="evo-row"><span class="evo-row-name">'+k+'</span>'
+        +'<span class="evo-row-old">'+v25+'</span>'
+        +'<div class="evo-row-bar"><div class="evo-row-bar-track"><div class="evo-row-bar-fill" style="width:'+v26+'%;background:'+barColor(v26)+'"></div></div></div>'
+        +'<span class="evo-row-new" style="color:'+barColor(v26)+'">'+v26+'</span>'
+        +'<span class="evo-row-delta '+dc+'">'+(d>0?'+':'')+d+'</span></div>';
     }).join('');
-    evoHTML='<div class="section-title">Évolution FM25 → FM26</div>'
-      +'<div class="evo-cards">'
-        +'<div class="evo-card fm25">'
-          +'<div class="evo-card-label">FM 2025</div>'
-          +'<div class="evo-scores"><div class="evo-score"><div class="evo-score-v" style="color:'+barColor(fm25.ca)+'">'+fm25.ca+'</div><div class="evo-score-l">CA</div></div>'
-          +'<div class="evo-score"><div class="evo-score-v" style="color:'+barColor(fm25.pa)+'">'+fm25.pa+'</div><div class="evo-score-l">PA</div></div></div>'
-        +'</div>'
-        +'<div class="evo-arrow-col"><div><div class="evo-arrow">'+caArrow+'</div><div class="evo-delta'+caDcls+'">'+(caDelta>=0?'+':'')+caDelta+'</div></div></div>'
-        +'<div class="evo-card fm26">'
-          +'<div class="evo-card-label">FM 2026</div>'
-          +'<div class="evo-scores"><div class="evo-score"><div class="evo-score-v" style="color:'+barColor(p.ca)+'">'+p.ca+'</div><div class="evo-score-l">CA</div></div>'
-          +'<div class="evo-score"><div class="evo-score-v" style="color:'+barColor(p.pa)+'">'+p.pa+'</div><div class="evo-score-l">PA</div></div></div>'
-        +'</div>'
+    evoHTML='<div class="evo-box">'
+      +'<div class="evo-head"><span class="evo-badge evo-badge-old">FM 2025</span><span class="evo-badge-arrow">→</span><span class="evo-badge evo-badge-new">FM 2026</span><span class="evo-head-title">Évolution</span></div>'
+      +'<div class="evo-summary">'
+        +'<div class="evo-sum-item"><div class="evo-sum-v" style="color:'+barColor(fm25.ca)+'">'+fm25.ca+'</div><div class="evo-sum-l">CA FM25</div><div class="evo-sum-delta '+caCls+'">'+(caD>=0?'+':'')+caD+'</div></div>'
+        +'<div class="evo-sum-item"><div class="evo-sum-v" style="color:'+barColor(p.ca)+'">'+p.ca+'</div><div class="evo-sum-l">CA FM26</div></div>'
+        +'<div class="evo-sum-item"><div class="evo-sum-v" style="color:'+barColor(fm25.pa)+'">'+fm25.pa+'</div><div class="evo-sum-l">PA FM25</div><div class="evo-sum-delta '+paCls+'">'+(paD>=0?'+':'')+paD+'</div></div>'
+        +'<div class="evo-sum-item"><div class="evo-sum-v" style="color:'+barColor(p.pa)+'">'+p.pa+'</div><div class="evo-sum-l">PA FM26</div></div>'
       +'</div>'
-      +'<div style="margin-bottom:1rem">'+evoAttrRows+'</div>';
+      +'<div class="evo-grid">'+evoRows+'</div>'
+    +'</div>';
   }
   var statsHTML='';
   if(stats){
     var s25=stats.fm25||{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0};
     var s26=stats.fm26||{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0};
-    var tM=s25.matches+s26.matches,tG=s25.goals+s26.goals,tA=s25.assists+s26.assists,tY=s25.yc+s26.yc,tR=s25.rc+s26.rc,tC=s25.cs+s26.cs,tMi=s25.minutes+s26.minutes;
+    var tM=s25.matches+s26.matches,tG=s25.goals+s26.goals,tA=s25.assists+s26.assists,tY=s25.yc+s26.yc,tR=s25.rc+s26.rc,tC=s25.cs+s26.cs;
     var tRat=tM>0?(s25.rating*s25.matches+s26.rating*s26.matches)/tM:0;
-    statsHTML='<div class="section-title">Statistiques par saison</div>'
-      +'<div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1rem">'
-      +'<table class="stats-table"><thead><tr><th>Saison</th><th>Matchs</th><th>Note</th><th>Buts</th><th>Passes</th><th>Clean</th><th>JM</th><th>RM</th></tr></thead>'
-      +'<tbody>'
-      +'<tr><td>FM 2025</td><td>'+s25.matches+'</td><td class="td-rat">'+(s25.rating?s25.rating.toFixed(1):'—')+'</td><td class="td-gol">'+s25.goals+'</td><td>'+s25.assists+'</td><td>'+s25.cs+'</td><td>'+s25.yc+'</td><td>'+s25.rc+'</td></tr>'
-      +'<tr><td>FM 2026</td><td>'+s26.matches+'</td><td class="td-rat">'+(s26.rating?s26.rating.toFixed(1):'—')+'</td><td class="td-gol">'+s26.goals+'</td><td>'+s26.assists+'</td><td>'+s26.cs+'</td><td>'+s26.yc+'</td><td>'+s26.rc+'</td></tr>'
-      +'<tr class="total"><td>Total</td><td>'+tM+'</td><td class="td-rat">'+(tRat?tRat.toFixed(1):'—')+'</td><td class="td-gol">'+tG+'</td><td>'+tA+'</td><td>'+tC+'</td><td>'+tY+'</td><td>'+tR+'</td></tr>'
-      +'</tbody></table></div>';
+    var r25=s25.rating?s25.rating.toFixed(1):'—';var r26=s26.rating?s26.rating.toFixed(1):'—';var rT=tRat?tRat.toFixed(1):'—';
+    statsHTML='<div class="evo-box">'
+      +'<div class="evo-head"><span class="evo-head-title">Statistiques par saison</span></div>'
+      +'<div class="stats-thead"><span>Saison</span><span>Matchs</span><span>Note</span><span>Buts</span><span>Passes</span><span>Clean</span><span>JM</span><span>RM</span></div>'
+      +'<div class="stats-row"><span>FM 2025</span><span>'+s25.matches+'</span><span style="color:var(--green);font-weight:600">'+r25+'</span><span style="color:var(--gold)">'+s25.goals+'</span><span>'+s25.assists+'</span><span>'+s25.cs+'</span><span>'+s25.yc+'</span><span>'+s25.rc+'</span></div>'
+      +'<div class="stats-row"><span>FM 2026</span><span>'+s26.matches+'</span><span style="color:var(--green);font-weight:600">'+r26+'</span><span style="color:var(--gold)">'+s26.goals+'</span><span>'+s26.assists+'</span><span>'+s26.cs+'</span><span>'+s26.yc+'</span><span>'+s26.rc+'</span></div>'
+      +'<div class="stats-row sr-total"><span>Total</span><span>'+tM+'</span><span style="color:var(--green);font-weight:700">'+rT+'</span><span style="color:var(--gold);font-weight:700">'+tG+'</span><span>'+tA+'</span><span>'+tC+'</span><span>'+tY+'</span><span>'+tR+'</span></div>'
+    +'</div>';
   }
   document.getElementById('panel').innerHTML=
     '<div class="panel-top">'
