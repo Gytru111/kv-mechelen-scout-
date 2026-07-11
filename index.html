@@ -116,7 +116,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .grid.list{grid-template-columns:1fr}
 
 /* PLAYER CARD */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.card{background:var(--s1);border:1px solid var(--border);border-left:3px solid;border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:.2s;position:relative}
 .card:hover{border-color:rgba(0,212,106,.25);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(0,212,106,.08)}
 .card-stripe{position:absolute;top:0;left:0;right:0;height:2px}
 
@@ -666,6 +666,7 @@ var notes={}, interests={};
 function paColor(pa){if(pa>=75)return'#00D46A';if(pa>=65)return'#4D9EFF';if(pa>=55)return'#F5C518';return'#7B93B4';}
 function barColor(v){if(v>=68)return'#00D46A';if(v>=55)return'#4D9EFF';if(v>=44)return'#F5C518';return'#FF4C6A';}
 function emo(pos){if(pos==='GK')return'🧤';if(pos==='DEF')return'🛡️';if(pos==='MID')return'🎯';return'⚡';}
+function posColor(pos){if(pos==='GK')return'#4D9EFF';if(pos==='DEF')return'#00D46A';if(pos==='MID')return'#F5C518';return'#FF4C6A';}
 
 // Radar SVG
 function drawRadar(attrs,size,stroke,bg){
@@ -740,7 +741,7 @@ function cardHTML(p,i){
   else if(pi==='pass')intBadge='<span style="font-size:.55rem;color:var(--red)">● Non retenu</span>';
   var vTag=p.valNum===0?'<span class="val-tag val-free">🆓 Gratuit</span>':'<span class="val-tag">'+p.val+'</span>';
   var randMark=p.paRand?'<span class="rand-dot" title="PA aléatoire selon sauvegarde"></span>':'';
-  return '<div class="card" style="animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
+  return '<div class="card" style="border-left-color:'+posColor(p.pos)+';animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
     +'<div class="card-stripe" style="background:'+pc+'"></div>'
     +'<div class="card-head">'
       +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<span class="c-av-flag">'+p.flag+'</span></div>'
