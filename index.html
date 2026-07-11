@@ -210,6 +210,25 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;font-si
 .attr-val{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600}
 
 /* INFO TABLE */
+.career-section{margin-bottom:1rem}
+.career-hdr{font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.career-tl{position:relative;padding-left:1.1rem}
+.career-tl::before{content:'';position:absolute;left:.4rem;top:.3rem;bottom:.3rem;width:2px;background:var(--border);border-radius:1px}
+.career-item{position:relative;display:flex;align-items:flex-start;gap:.6rem;padding:.35rem 0}
+.career-item::before{content:'';position:absolute;left:-.7rem;top:.55rem;width:8px;height:8px;border-radius:50%;border:2px solid var(--border);background:var(--s2);z-index:1}
+.career-item.current::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 6px rgba(232,98,44,.3)}
+.career-item.loan::before{background:var(--blu);border-color:var(--blu)}
+.career-info{flex:1;min-width:0}
+.career-club{font-size:.78rem;font-weight:600;color:var(--t1)}
+.career-meta{font-size:.65rem;color:var(--t3);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.career-type{font-size:.58rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;text-transform:uppercase;letter-spacing:.03em}
+.career-type.transfer{background:rgba(232,98,44,.1);color:var(--accent)}
+.career-type.loan{background:rgba(107,178,255,.1);color:var(--blu)}
+.career-type.youth{background:rgba(155,127,230,.1);color:#9B7FE6}
+.career-type.formé{background:rgba(155,127,230,.1);color:#9B7FE6}
+.career-type.promotion{background:rgba(76,175,80,.1);color:#4CAF50}
+.career-type.free{background:rgba(255,255,255,.06);color:var(--t3)}
+.career-fee{font-size:.65rem;font-weight:600;color:var(--gold)}
 .info-table{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1rem}
 .it-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .9rem;border-bottom:1px solid var(--border)}
 .it-row:last-child{border-bottom:none}
@@ -503,7 +522,12 @@ var DATA = [
            fm26:{matches:33,goals:8,assists:4,rating:7.1,minutes:2860,yc:11,rc:0,cs:9}},
     desc:"Milieu défensif serbe de 17 ans à l'IMT Belgrade. Bon pressing, récupération propre. International U17/U18 serbe. Régulier en Superliga serbe malgré son jeune âge. Excellent potentiel de développement.",
     tip:"Salaire dérisoire (563€/mois). PA aléatoire -10 (170-200). 4M€ mais potentiel top mondial — excellent investissement long terme.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Kosmet U15",period:"2016 - 2023",type:"youth"},
+       {club:"FK Ole U17",period:"2023 - 2024",type:"transfer",fee:"?"},
+       {club:"IMT Belgrad",period:"2024 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1544426/image",
@@ -515,7 +539,13 @@ var DATA = [
            fm26:{matches:7,goals:0,assists:0,rating:6.5,minutes:490,yc:2,rc:1,cs:2}},
     desc:"Défenseur central argentin formé à l'Atlético Madrid. Grand gabarit (187cm), fort physiquement. Bon tacleur (70), excellent duels aériens (JR 75). Déterminé (85) et positionné (70).",
     tip:"À signer en prêt la 1ère saison. PA fixe 135 — profil solide pour D2 européenne. Contrat court, clause raisonnable.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Estudiantes U20",period:"2022 - 2023",type:"youth"},
+       {club:"Atletico Madrid U19",period:"2023",type:"formé"},
+       {club:"Atletico Madrid B",period:"2023 - ",type:"transfer",fee:"?"},
+       {club:"Atletico Madrid",period:"2024 - ",type:"promotion"}
+     ]
   },
   {
     id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1799520/image",
@@ -527,7 +557,10 @@ var DATA = [
            fm26:{matches:21,goals:3,assists:2,rating:6.9,minutes:1250,yc:2,rc:0,cs:0}},
     desc:"Ailier offensif sud-africain exceptionnel. Flair exceptionnel (99), dribbleur né (80), passes (80). Vainqueur U-20 CAN 2025. L'un des meilleurs espoirs africains.",
     tip:"PA 155 = top africain. Flair 99 et technique 70 pour 550K€. Signer avant qu'il parte en Europe.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Kaizer Chiefs",period:"2024 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1463496/image",
@@ -539,7 +572,11 @@ var DATA = [
            fm26:{matches:14,goals:1,assists:0,rating:6.8,minutes:1050,yc:0,rc:0,cs:4}},
     desc:"Milieu ivoirien de 19 ans à l'Espérance Tunis. Explosif, grande endurance, excellent pressing (Work Rate 75). Bon travail de récupération. International 1 cap. PA aléatoire -8 (150-170).",
     tip:"Dispo dès 815K€. Idéal pour clubs de D2 espagnole, Serie B ou Ligue 1. PA aléatoire peut atteindre 170.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"San Pedro",period:"2024",type:"formé"},
+       {club:"Espérance Tunis",period:"2024 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",img:"https://img.sofascore.com/api/v1/player/2039604/image",
@@ -551,7 +588,10 @@ var DATA = [
            fm26:{matches:6,goals:0,assists:0,rating:6.5,minutes:250,yc:0,rc:0,cs:0}},
     desc:"Milieu offensif péruvien de 18 ans à Alianza Lima. Technique (70), flair (70), bonne finition. Profil numéro 10 classique. International 1 cap Pérou.",
     tip:"232K€ pour un N°10 de 18 ans avec technique 70 et flair 70. Risque quasi nul financièrement.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Alianza Lima",period:"2025 - ",type:"formé"}
+     ]
   },
   {
     id:5,name:"Pascal Mozie",club:"Legia Warszawa",nat:"Pologne",flag:"🇵🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1890312/image",
@@ -563,7 +603,11 @@ var DATA = [
            fm26:{matches:11,goals:0,assists:2,rating:6.2,minutes:450,yc:2,rc:0,cs:0}},
     desc:"Milieu défensif polonais de 17 ans au Legia Warszawa. Physique imposant (184cm), détermination (75), excellent travail d'équipe (75). Profil box-to-box prometteur.",
     tip:"17 ans, 184cm, physique 75 au Legia Warszawa pour 300K€. Potentiel énorme à développer.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Legia Warszawa U19",period:"2024",type:"youth"},
+       {club:"Legia Warszawa",period:"2024 - ",type:"promotion"}
+     ]
   },
   {
     id:6,name:"Salah Oulad M'Hand",club:"Riga FC",nat:"Pays-Bas",flag:"🇳🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1067114/image",
@@ -575,7 +619,14 @@ var DATA = [
            fm26:{matches:24,goals:6,assists:7,rating:7.8,minutes:1800,yc:2,rc:0,cs:0}},
     desc:"Milieu néerlandais de 22 ans au Riga FC (ex-Arsenal). Excellent équilibre entre récupération et création. Polyvalent : peut jouer DM, CM ou AM. Bonne première touche (65).",
     tip:"Ancien Arsenal, maintenant à Riga. 454K€ pour un milieu expérimenté. Contrat long jusqu'en 2028.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Feyenoord",period:"2016 - 2020",type:"youth"},
+       {club:"Arsenal",period:"2020 - 2024",type:"formé"},
+       {club:"Hull City",period:"2022 - 2023",type:"loan"},
+       {club:"FC Den Bosch",period:"2023 - 2024",type:"loan"},
+       {club:"Riga FC",period:"2026 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:7,name:"Moïse Diarrassouba",club:"Agent libre",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/2111998/image",
@@ -587,7 +638,10 @@ var DATA = [
            fm26:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0}},
     desc:"Ailier ivoirien de 16 ans, libre de tout contrat. Technique correcte (65), bon potentiel de développement. Inside Winger naturel. À développer avec du temps de jeu.",
     tip:"Agent libre à 16 ans = 0€/mois. Investissement minimal, potentiel énorme si development réussi.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Libre",period:"2008 - ",type:"free"}
+     ]
   },
   {
     id:8,name:"Jamie Lawrence",club:"WSG Tirol",nat:"Allemagne",flag:"🇩🇪",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/997206/image",
@@ -599,7 +653,12 @@ var DATA = [
            fm26:{matches:32,goals:2,assists:0,rating:7.0,minutes:2852,yc:5,rc:0,cs:7}},
     desc:"Défenseur central allemand de 23 ans au WSG Tirol. 201cm, physique exceptionnel (80), duels aériens dominants (JR 90). Tacleur solide (80), courageux (75). Contrat court — disponible.",
     tip:"201cm + physique 80 + tacle 80 pour 500K€. Contrat expire juin 2026 — prix très accessible.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Kirchheimer SC",period:"- 2017",type:"youth"},
+       {club:"FC Bayern München",period:"2017 - 2020",type:"formé"},
+       {club:"WSG Tirol",period:"2024 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:9,name:"Giacomo De Pieri",club:"SSC Bari (prêt Inter)",nat:"Italie",flag:"🇮🇹",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1466113/image",
@@ -611,7 +670,12 @@ var DATA = [
            fm26:{matches:16,goals:1,assists:1,rating:6.5,minutes:630,yc:5,rc:0,cs:0}},
     desc:"Ailier élite de l'Inter Milan prêté à la SSC Bari. Pied gauche dominant, technique exceptionnelle (70), flair (75), détermination (75). L'un des meilleurs espoirs italiens.",
     tip:"PA aléatoire -8.5 (160-180). 1.5M€ pour un ailier de l'Inter. Tenter un prêt dès S1. Potentiel élite mondial.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Inter Milan",period:"2020 - ",type:"formé"},
+       {club:"Juve Stabia",period:"2025",type:"loan"},
+       {club:"SSC Bari",period:"2026 - ",type:"loan",fee:"1,5M€ prêt"}
+     ]
   },
   {
     id:10,name:"Gabriele Calvani",club:"Genoa (prêt Frosinone)",nat:"Italie",flag:"🇮🇹",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1425050/image",
@@ -623,7 +687,13 @@ var DATA = [
            fm26:{matches:35,goals:1,assists:1,rating:6.9,minutes:2790,yc:4,rc:1,cs:8}},
     desc:"Défenseur central italien de 23 ans, prêté par Genoa au Frosinone. Marquage (70), en-tête (70), positionnement (65). Excellent travail d'équipe (70). Contrat court — disponible.",
     tip:"3.5M€ mais contrat expire 2026. Négocier un prix réduit ou attendre la fin de contrat.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Genoa",period:"2020 - ",type:"formé"},
+       {club:"Pontedera",period:"2023 - 2024",type:"loan"},
+       {club:"Brescia",period:"2024 - 2025",type:"loan"},
+       {club:"Frosinone",period:"2025 - ",type:"loan"}
+     ]
   },
   {
     id:11,name:"Jan Salas",club:"Mallorca (prêt Córdoba)",nat:"Espagne",flag:"🇪🇸",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1905699/image",
@@ -635,7 +705,12 @@ var DATA = [
            fm26:{matches:6,goals:0,assists:0,rating:6.2,minutes:134,yc:0,rc:0,cs:0}},
     desc:"Milieu offensif espagnol de 20 ans, prêté par le RCD Mallorca au Córdoba. Technique élégante (65), vision de haut niveau (65). Profil numéro 10 à l'espagnole.",
     tip:"Prêté au Córdoba, possédé par Mallorca. 500K€ pour un milieu technique espagnol de 20 ans. Contrat long.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"RCD Mallorca",period:"2013 - ",type:"formé"},
+       {club:"RCD Mallorca B",period:"2023 - 2025",type:"promotion"},
+       {club:"Córdoba",period:"2025 - 2026",type:"loan"}
+     ]
   },
   {
     id:12,name:"Amara Diouf",club:"Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1536761/image",
@@ -647,7 +722,11 @@ var DATA = [
            fm26:{matches:2,goals:0,assists:0,rating:6.0,minutes:180,yc:0,rc:0,cs:0}},
     desc:"PÉPITE MONDIALE. Plus jeune international sénégalais de l'histoire (15 ans 94 jours). Record absolu de buts en Coupe du Monde U17. Flair exceptionnel (80), détermination (80). Transfert au Fenerbahçe confirmé.",
     tip:"🔥 MUST SIGN. Transfert au Fenerbahçe pour 300K€. Potentiel top mondial. Flair 80 et détermination 80.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"AS Génération Foot",period:"2023 - 2026",type:"formé"},
+       {club:"Fenerbahçe",period:"2026 - ",type:"transfer",fee:"300K€"}
+     ]
   },
   {
     id:13,name:"Mbekezeli Mbokazi",club:"Chicago Fire (MLS)",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/2058228/image",
@@ -659,7 +738,12 @@ var DATA = [
            fm26:{matches:33,goals:1,assists:2,rating:7.0,minutes:2700,yc:4,rc:0,cs:8}},
     desc:"Défenseur central sud-africain de 20 ans au Chicago Fire (MLS). Transfert depuis Orlando Pirates. Vision exceptionnelle (80), leadership (80), passes (80). International 1 cap.",
     tip:"2.5M€ pour un DC avec vision 80 et leadership 80. Contrat long jusqu'en 2029.",
-    note:"",interest:""
+         note:"",interest:"",
+     career:[
+       {club:"Orlando Pirates II",period:"2024 - 2025",type:"youth"},
+       {club:"Orlando Pirates",period:"2025 - 2026",type:"promotion"},
+       {club:"Chicago Fire",period:"2026 - ",type:"transfer",fee:"?"}
+     ]
   },
   {
     id:14,name:"Massiré Sylla",club:"Royale Union Saint-Gilloise",nat:"Sénégal",flag:"🇸🇳",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1897832/image",
@@ -671,7 +755,13 @@ var DATA = [
            fm26:{matches:7,goals:0,assists:0,rating:8.3,minutes:280,yc:1,rc:0,cs:2}},
     desc:"Défenseur central sénégalais de 20 ans à la Royale Union Saint-Gilloise. 196cm, physique dominant (80), duels aériens (JR 85). Excellence au travail (90). Vainqueur de la Coupe de Belgique 2025/26.",
     tip:"196cm + physique 80 + travail 90 pour 600K€. Contrat jusqu'en 2030. Profil DC/DM polyvalent.",
-    note:"",interest:""
+     note:"",interest:"",
+     career:[
+       {club:"Diambars FC",period:"2022 - 2024",type:"formé"},
+       {club:"Pau FC B",period:"2024",type:"loan"},
+       {club:"Lyn Oslo",period:"2024 - 2026",type:"transfer",fee:"?"},
+       {club:"Union Saint-Gilloise",period:"2026 - ",type:"transfer",fee:"600K€"}
+     ]
   }
 ];
 
@@ -859,6 +949,28 @@ function openPanel(id){
       +'<div class="stats-row sr-total"><span>Total</span><span>'+tM+'</span><span style="color:var(--accent);font-weight:700">'+rT+'</span><span style="color:var(--gold);font-weight:700">'+tG+'</span><span>'+tA+'</span><span>'+tC+'</span><span>'+tY+'</span><span>'+tR+'</span></div>'
     +'</div>';
   }
+  var careerHTML='';
+  if(p.career&&p.career.length){
+    var clItems=p.career.slice().reverse().map(function(c,i){
+      var isCurrent=c.period.indexOf('- ')===c.period.length-2;
+      var cls=isCurrent?'current':c.type==='loan'?'loan':'';
+      var feeHTML=c.fee?'<span class="career-fee">'+c.fee+'</span>':'';
+      return '<div class="career-item '+cls+'">'
+        +'<div class="career-info">'
+          +'<div class="career-club">'+c.club+'</div>'
+          +'<div class="career-meta">'
+            +'<span class="career-type '+c.type+'">'+c.type+'</span>'
+            +'<span>'+c.period+'</span>'
+            +feeHTML
+          +'</div>'
+        +'</div>'
+      +'</div>';
+    }).join('');
+    careerHTML='<div class="career-section">'
+      +'<div class="career-hdr">Parcours</div>'
+      +'<div class="career-tl">'+clItems+'</div>'
+    +'</div>';
+  }
   document.getElementById('panel').innerHTML=
     '<div class="panel-top">'
       +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35;font-size:1.8rem">'+emo(p.pos)+'<img src="'+p.img+'" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
@@ -887,6 +999,7 @@ function openPanel(id){
       +'<div class="attrs-grid">'+attrCells+'</div>'
       +evoHTML
       +statsHTML
+      +careerHTML
       +'<div class="info-table">'
         +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+p.foot+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+p.contract+'</span></div>'
