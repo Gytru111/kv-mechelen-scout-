@@ -331,6 +331,25 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .stats-row.sr-goals span.sr-goal-v{color:var(--gold)}
 .stats-row.sr-total{border-top:2px solid var(--border2);font-weight:700}
 .stats-row.sr-total span{color:var(--t1);font-weight:700}
+
+/* TABS */
+.tab-bar{display:flex;gap:.15rem;margin-left:.75rem}
+.tab-btn{padding:.35rem .85rem;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.75rem;font-weight:600;cursor:pointer;transition:.15s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.tab-btn:hover{border-color:var(--border2);color:var(--t2)}
+.tab-btn.on{border-color:var(--green);background:var(--green3);color:var(--green)}
+.tab-btn .tab-count{font-family:'JetBrains Mono',monospace;font-size:.65rem;opacity:.7}
+.tab-btn.tab-dropped.on{border-color:#FF8C42;background:rgba(255,140,66,.1);color:#FF8C42}
+.tab-btn.tab-dropped:hover{border-color:#FF8C42}
+
+/* DROPPED CARD */
+.card.dropped{opacity:.6;filter:saturate(.4)}
+.card.dropped:hover{opacity:.85;filter:saturate(.7)}
+.card .dropped-badge{display:none;position:absolute;top:.65rem;right:.65rem;background:rgba(255,140,66,.15);border:1px solid rgba(255,140,66,.3);border-radius:5px;padding:.15rem .5rem;font-size:.58rem;font-weight:700;color:#FF8C42;z-index:2}
+.card.dropped .dropped-badge{display:block}
+.drop-reason{font-size:.62rem;color:var(--t3);margin-top:.15rem;font-style:italic}
+
+/* INT OPT DROPPED */
+.int-opt.sel-dropped{border-color:#FF8C42;background:rgba(255,140,66,.1);color:#FF8C42}
 </style>
 </head>
 <body>
@@ -411,6 +430,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         <option value="target">🟡 Cible</option>
         <option value="watch">🔵 À suivre</option>
         <option value="pass">🔴 Non retenu</option>
+        <option value="dropped">🚫 Trop cher</option>
       </select>
     </div>
 
@@ -436,6 +456,10 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="search-wrap">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input class="sinp" type="text" id="srch" placeholder="Rechercher un joueur, club, pays…">
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn on" id="tab-active" onclick="setTab('active')">Scout actif <span class="tab-count" id="tab-cnt-active">0</span></button>
+      <button class="tab-btn tab-dropped" id="tab-dropped" onclick="setTab('dropped')">🚫 Abandonnés <span class="tab-count" id="tab-cnt-dropped">0</span></button>
     </div>
     <div class="topbar-right">
       <span class="count-badge"><b id="cnt">0</b> joueur(s)</span>
@@ -665,8 +689,9 @@ var DATA = [
 var filterPos='all', filterNat='all', filterFoot='all', filterInt='all';
 var filterAge=35, filterPa=0, filterVal=999999999;
 var viewMode='grid';
+var activeTab='active';
 var compareList=[];
-var notes={}, interests={};
+var notes={}, interests={}, dropReasons={};
 
 function paColor(pa){if(pa>=75)return'#00D46A';if(pa>=65)return'#4D9EFF';if(pa>=55)return'#F5C518';return'#7B93B4';}
 function barColor(v){if(v>=68)return'#00D46A';if(v>=55)return'#4D9EFF';if(v>=44)return'#F5C518';return'#FF4C6A';}
@@ -710,13 +735,18 @@ function render(){
   var q=document.getElementById('srch').value.toLowerCase();
   var sort=document.getElementById('sort-sel').value;
   var d=DATA.filter(function(p){
+    var pi=interests[p.id]||'';
+    if(activeTab==='dropped'){
+      if(pi!=='dropped')return false;
+    }else{
+      if(pi==='dropped')return false;
+    }
     if(filterPos!=='all'&&p.pos!==filterPos)return false;
     if(filterNat!=='all'&&p.nat!==filterNat)return false;
     if(filterFoot!=='all'&&p.foot!==filterFoot)return false;
     if(p.age>filterAge)return false;
     if(p.pa<filterPa)return false;
     if(p.valNum>filterVal)return false;
-    var pi=interests[p.id]||'';
     if(filterInt!=='all'&&pi!==filterInt)return false;
     if(q&&![p.name,p.club,p.nat].some(function(s){return s.toLowerCase().indexOf(q)>=0;}))return false;
     return true;
@@ -727,9 +757,13 @@ function render(){
   else if(sort==='val')d.sort(function(a,b){return a.valNum-b.valNum;});
   else d.sort(function(a,b){return a.name.localeCompare(b.name);});
   document.getElementById('cnt').textContent=d.length;
+  var activeCount=DATA.filter(function(p){return(p.interest||'')!=='dropped'&&interests[p.id]!=='dropped';}).length;
+  var droppedCount=DATA.filter(function(p){return(p.interest||'')==='dropped'||interests[p.id]==='dropped';}).length;
+  document.getElementById('tab-cnt-active').textContent=activeCount;
+  document.getElementById('tab-cnt-dropped').textContent=droppedCount;
   var g=document.getElementById('grid');
   g.className='grid'+(viewMode==='list'?' list':'');
-  if(!d.length){g.innerHTML='<div class="empty"><h3>Aucun joueur trouvé</h3><p>Modifiez vos filtres de recherche.</p></div>';return;}
+  if(!d.length){g.innerHTML='<div class="empty"><h3>Aucun joueur trouvé</h3><p>'+(activeTab==='dropped'?'Aucun joueur abandonné pour le moment.':'Modifiez vos filtres de recherche.')+'</p></div>';return;}
   g.innerHTML=d.map(function(p,i){return cardHTML(p,i);}).join('');
 }
 
@@ -740,20 +774,26 @@ function cardHTML(p,i){
   var radarSvg=drawRadar(p.attrs,80,pc,'rgba(255,255,255,0.06)');
   var intBadge='';
   var pi=interests[p.id]||'';
+  var isDropped=pi==='dropped';
   if(pi==='sign')intBadge='<span style="font-size:.55rem;color:var(--green)">● À signer</span>';
   else if(pi==='target')intBadge='<span style="font-size:.55rem;color:var(--gold)">● Cible</span>';
   else if(pi==='watch')intBadge='<span style="font-size:.55rem;color:var(--blu)">● À suivre</span>';
   else if(pi==='pass')intBadge='<span style="font-size:.55rem;color:var(--red)">● Non retenu</span>';
+  else if(pi==='dropped')intBadge='<span style="font-size:.55rem;color:#FF8C42">● Trop cher</span>';
   var vTag=p.valNum===0?'<span class="val-tag val-free">🆓 Gratuit</span>':'<span class="val-tag">'+p.val+'</span>';
   var randMark=p.paRand?'<span class="rand-dot" title="PA aléatoire selon sauvegarde"></span>':'';
-  return '<div class="card" style="border-left-color:'+posColor(p.pos)+';animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
+  var dropBadge=isDropped?'<span class="dropped-badge">🚫 Trop cher</span>':'';
+  var dropReason=dropReasons[p.id]?'<div class="drop-reason">'+dropReasons[p.id]+'</div>':'';
+  return '<div class="card'+(isDropped?' dropped':'')+'" style="border-left-color:'+posColor(p.pos)+';animation-delay:'+Math.min(i*0.04,.3)+'s" onclick="openPanel('+p.id+')">'
     +'<div class="card-stripe" style="background:'+posColor(p.pos)+'"></div>'
+    +dropBadge
     +'<div class="card-head">'
       +'<div class="c-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<span class="c-av-flag">'+p.flag+'</span></div>'
       +'<div class="c-info">'
         +'<div class="c-name">'+p.name+'</div>'
         +'<div class="c-club">'+p.club+'</div>'
         +'<div class="c-pos-line"><span class="pos-tag pos-'+p.pos+'">'+p.posLabel.split('/')[0].trim()+'</span>'+vTag+intBadge+'</div>'
+        +dropReason
       +'</div>'
       +'<div class="c-pa-block"><div class="c-pa-v" style="color:'+pc+'">'+p.pa+randMark+'</div><div class="c-pa-l">PA/100</div><div class="c-pa-age">'+p.age+' ans</div></div>'
     +'</div>'
@@ -875,11 +915,16 @@ function openPanel(id){
         +'<div class="interest-row">'
           +'<span class="interest-lbl">Statut</span>'
           +'<div class="int-opts">'
-            +'<span class="int-opt'+intSel('watch')+'" onclick="setInterest('+id+',\'watch\')">👁 Suivre</span>'
-            +'<span class="int-opt'+intSel('target')+'" onclick="setInterest('+id+',\'target\')">🎯 Cible</span>'
-            +'<span class="int-opt'+intSel('sign')+'" onclick="setInterest('+id+',\'sign\')">✅ Signer</span>'
-            +'<span class="int-opt'+intSel('pass')+'" onclick="setInterest('+id+',\'pass\')">❌ Passer</span>'
+          +'<span class="int-opt'+intSel('watch')+'" onclick="setInterest('+id+',\'watch\')">👁 Suivre</span>'
+          +'<span class="int-opt'+intSel('target')+'" onclick="setInterest('+id+',\'target\')">🎯 Cible</span>'
+          +'<span class="int-opt'+intSel('sign')+'" onclick="setInterest('+id+',\'sign\')">✅ Signer</span>'
+          +'<span class="int-opt'+intSel('pass')+'" onclick="setInterest('+id+',\'pass\')">❌ Passer</span>'
+          +'<span class="int-opt'+intSel('dropped')+'" onclick="setInterest('+id+',\'dropped\')">🚫 Trop cher</span>'
           +'</div>'
+        +'</div>'
+        +'<div class="drop-row" id="drop-row-'+id+'" style="display:'+(pi==='dropped'?'flex':'none')+';align-items:center;gap:.6rem;margin-top:.5rem">'
+          +'<span class="interest-lbl">Raison</span>'
+          +'<input class="drop-input" id="drop-'+id+'" type="text" placeholder="Ex: Prix devenu trop élevé, concurrence…" value="'+(dropReasons[id]||'')+'" style="flex:1;background:var(--s3);border:1px solid rgba(255,140,66,.25);border-radius:5px;padding:.3rem .6rem;color:#FF8C42;font-size:.72rem;font-family:Inter,sans-serif;outline:none">'
         +'</div>'
         +'<div class="note-foot"><button class="btn-save" onclick="saveNote('+id+')">Enregistrer</button></div>'
       +'</div>'
@@ -894,6 +939,8 @@ function closePanelBg(e){if(e.target===document.getElementById('panel-bg'))close
 function saveNote(id){
   var ta=document.getElementById('note-ta-'+id);
   if(ta)notes[id]=ta.value;
+  var dr=document.getElementById('drop-'+id);
+  if(dr)dropReasons[id]=dr.value;
 }
 function setInterest(id,val){
   if(interests[id]===val){delete interests[id];}else{interests[id]=val;}
@@ -924,6 +971,7 @@ document.getElementById('pa-range').addEventListener('input',function(){filterPa
 
 function resetFilters(){
   filterPos='all';filterNat='all';filterFoot='all';filterInt='all';filterAge=35;filterPa=0;filterVal=999999999;
+  activeTab='active';
   document.getElementById('srch').value='';
   document.getElementById('sort-sel').value='pa';
   document.getElementById('nat-sel').value='all';
@@ -934,6 +982,8 @@ function resetFilters(){
   document.getElementById('pa-range').value=0;document.getElementById('pa-lbl').textContent=0;
   document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});
   document.querySelector('.ppill[data-pos="all"]').classList.add('on');
+  document.getElementById('tab-active').classList.add('on');
+  document.getElementById('tab-dropped').classList.remove('on');
   render();
 }
 
@@ -941,6 +991,13 @@ function setView(v){
   viewMode=v;
   document.getElementById('vg').classList.toggle('on',v==='grid');
   document.getElementById('vl').classList.toggle('on',v==='list');
+  render();
+}
+
+function setTab(t){
+  activeTab=t;
+  document.getElementById('tab-active').classList.toggle('on',t==='active');
+  document.getElementById('tab-dropped').classList.toggle('on',t==='dropped');
   render();
 }
 
