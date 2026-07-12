@@ -644,7 +644,7 @@ function render(){
 }
 
 function cardHTML(p,i){
-  var pc=paColor(p.pa),caW=Math.round(p.ca),paW=Math.round(p.pa);
+  var pc=paColor(p.pa),caW=Math.round(p.ca/2),paW=Math.round(p.pa/2);
   var radarSvg=drawRadar(p.attrs,78,pc,'rgba(255,255,255,.06)');
   var pi=interests[p.id]||'',isDropped=pi==='dropped';
   var intBadge='';
