@@ -574,8 +574,9 @@ document.addEventListener('keydown',function(e){
   }
 });
 
-populateNations();
-render();
+// === STAR RATINGS (must init before render) ===
+var starRatings={};
+try{var s=localStorage.getItem('kvscout_stars');if(s)starRatings=JSON.parse(s);}catch(e){}
 
 // === LIGHT/DARK MODE ===
 var currentTheme=localStorage.getItem('kvscout_theme')||'dark';
@@ -583,9 +584,8 @@ function applyTheme(t){document.documentElement.setAttribute('data-theme',t);doc
 applyTheme(currentTheme);
 function toggleTheme(){currentTheme=currentTheme==='dark'?'light':'dark';localStorage.setItem('kvscout_theme',currentTheme);applyTheme(currentTheme);}
 
-// === STAR RATINGS ===
-var starRatings={};
-try{var s=localStorage.getItem('kvscout_stars');if(s)starRatings=JSON.parse(s);}catch(e){}
+populateNations();
+render();
 function setStar(id,n,event){
   if(event)event.stopPropagation();
   if(starRatings[id]===n){delete starRatings[id];}else{starRatings[id]=n;}
@@ -666,7 +666,6 @@ showSkeletons();
 var _origRender=render;
 render=function(){showSkeletons();setTimeout(_origRender,80);};
 render();
-render=render;
 
 // === PANEL SCROLL SHADOW ===
 document.getElementById('panel').addEventListener('scroll',function(){
