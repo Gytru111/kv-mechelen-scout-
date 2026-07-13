@@ -7,596 +7,142 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#08090c;--bg2:#0d0e12;--s1:rgba(14,15,20,.85);--s2:rgba(20,22,28,.9);--s3:rgba(28,30,38,.9);--s4:rgba(38,40,50,.9);
-  --glass:rgba(255,255,255,.03);--glass2:rgba(255,255,255,.06);--glass3:rgba(255,255,255,.1);
-  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);--border3:rgba(255,255,255,.16);
-  --t1:#f0f0f4;--t2:#a0a0ac;--t3:#606070;--t4:#3a3a48;
-  --accent:#E8622C;--accent2:#ff7a3d;--accent-glow:rgba(232,98,44,.25);--accent-soft:rgba(232,98,44,.08);
-  --gold:#D4A843;--gold-soft:rgba(212,168,67,.08);
-  --red:#E04555;--red-soft:rgba(224,69,85,.08);
-  --blu:#5B8DEF;--blu-soft:rgba(91,141,239,.08);
-  --pur:#9B7FE6;--grn:#4CAF50;
-  --r:10px;--r2:14px;--r3:20px;
-  --sh-sm:0 2px 8px rgba(0,0,0,.3);--sh-md:0 8px 30px rgba(0,0,0,.4);--sh-lg:0 20px 60px rgba(0,0,0,.5);--sh-xl:0 30px 80px rgba(0,0,0,.6);
-  --perspective:1200px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
-body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 15% 50%,rgba(232,98,44,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 85% 15%,rgba(91,141,239,.04) 0%,transparent 50%),radial-gradient(ellipse 70% 50% at 50% 90%,rgba(155,127,230,.03) 0%,transparent 50%);z-index:0;pointer-events:none;animation:meshDrift 25s ease-in-out infinite alternate}
-body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;z-index:0;pointer-events:none}
-@keyframes meshDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-2%,1%) scale(1.02)}100%{transform:translate(1%,-1%) scale(.99)}}
-
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.14)}
-
-.app{display:flex;height:100vh;position:relative;z-index:1}
-
-/* ── SIDEBAR ── */
-.sidebar{width:270px;flex-shrink:0;background:rgba(12,13,18,.75);backdrop-filter:blur(50px) saturate(140%);-webkit-backdrop-filter:blur(50px) saturate(140%);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:.3s}
-.sidebar-head{padding:1.6rem 1.4rem 1.3rem;border-bottom:1px solid var(--border);flex-shrink:0}
-.logo{display:flex;align-items:center;gap:.75rem;margin-bottom:1.1rem}
-.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),#c04a18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif;flex-shrink:0;box-shadow:0 4px 20px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.15);letter-spacing:-.02em}
-.logo-text{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.04em}
-.logo-text span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.logo-sub{font-size:.58rem;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-top:3px;font-weight:500}
-.scout-season{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.65rem .85rem;display:flex;align-items:center;justify-content:space-between}
-.scout-season-lbl{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
-.scout-season-val{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:var(--accent);letter-spacing:-.02em}
-
-.sidebar-filters{flex:1;overflow-y:auto;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.1rem}
-.filter-group{}
-.fg-label{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.55rem;display:flex;align-items:center;gap:.5rem}
-.fg-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.fsel{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .8rem;color:var(--t1);font-size:.78rem;font-family:'Inter',system-ui,sans-serif;outline:none;cursor:pointer;transition:.25s;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23606070'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center}
-.fsel:hover{border-color:var(--border2);background-color:var(--glass2)}
-.fsel:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.range-row{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--t2)}
-.range-row span{width:28px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);flex-shrink:0;font-weight:600}
-.frange{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--s4);border-radius:3px;outline:none;cursor:pointer}
-.frange::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 12px var(--accent-glow)}
-.frange::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;box-shadow:0 0 12px var(--accent-glow)}
-.pos-pills{display:flex;flex-wrap:wrap;gap:.3rem}
-.ppill{padding:.25rem .65rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.68rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif}
-.ppill:hover{border-color:var(--border2);color:var(--t2);background:var(--glass)}
-.ppill.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 12px rgba(232,98,44,.1)}
-.sidebar-footer{padding:1rem 1.4rem;border-top:1px solid var(--border);flex-shrink:0}
-.btn-reset{width:100%;padding:.55rem;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:.73rem;font-family:'Inter',system-ui,sans-serif;cursor:pointer;transition:.2s;font-weight:500}
-.btn-reset:hover{border-color:var(--border2);color:var(--t1);background:var(--glass2)}
-
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{background:rgba(8,9,12,.8);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;flex-shrink:0;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
-.search-wrap{position:relative;flex:1;max-width:400px}
-.search-wrap svg{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);opacity:.25;pointer-events:none}
-.sinp{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .9rem .55rem 2.5rem;color:var(--t1);font-size:.85rem;font-family:'Inter',system-ui,sans-serif;outline:none;transition:.25s}
-.sinp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.sinp::placeholder{color:var(--t4)}
-.topbar-right{display:flex;align-items:center;gap:.7rem;margin-left:auto}
-.sort-sel{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.48rem .85rem;color:var(--t1);font-size:.76rem;font-family:'Inter',system-ui,sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23606070'%3E%3Cpath d='M1 3l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;padding-right:1.8rem}
-.view-btns{display:flex;gap:.25rem}
-.vbtn{width:33px;height:33px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem;transition:.2s}
-.vbtn.on,.vbtn:hover{background:var(--glass2);border-color:var(--border2);color:var(--t1)}
-.count-badge{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.35rem .75rem;font-size:.7rem;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap}
-.count-badge b{color:var(--accent);font-weight:700}
-
-/* ── TABS ── */
-.tab-bar{display:flex;gap:.25rem;margin-left:.85rem}
-.tab-btn{padding:.4rem 1rem;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.73rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif;display:flex;align-items:center;gap:.5rem;white-space:nowrap}
-.tab-btn:hover{border-color:var(--border2);color:var(--t2)}
-.tab-btn.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 16px rgba(232,98,44,.08)}
-.tab-btn .tab-count{font-family:'JetBrains Mono',monospace;font-size:.63rem;opacity:.65}
-.tab-btn.tab-dropped.on{border-color:#E8913A;background:rgba(232,145,58,.06);color:#E8913A;box-shadow:0 0 16px rgba(232,145,58,.06)}
-.tab-btn.tab-dropped:hover{border-color:#E8913A}
-
-/* ── CARDS ── */
-.cards-area{flex:1;overflow-y:auto;padding:1.75rem 2rem 4rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;perspective:var(--perspective)}
-.grid.list{grid-template-columns:1fr}
-
-.card{
-  --pos-c:#888;
-  position:relative;
-  background:linear-gradient(168deg,rgba(18,19,26,.97) 0%,rgba(10,11,16,.99) 100%);
-  border:1px solid rgba(255,255,255,.05);
-  border-radius:16px;
-  overflow:hidden;
-  cursor:pointer;
-  transform-style:preserve-3d;
-  transition:all .5s cubic-bezier(.23,1,.32,1);
-  box-shadow:
-    0 1px 0 0 rgba(255,255,255,.03),
-    0 4px 16px rgba(0,0,0,.4),
-    0 12px 40px rgba(0,0,0,.25);
-}
-.card::before{
-  content:'';position:absolute;inset:-1px;border-radius:17px;
-  background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%,transparent 60%,rgba(255,255,255,.02));
-  pointer-events:none;z-index:0;opacity:0;transition:opacity .4s;
-}
-.card::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06) 20%,rgba(255,255,255,.06) 80%,transparent);
-  pointer-events:none;z-index:5;
-}
-.card:hover{
-  transform:translateY(-10px) translateZ(12px);
-  border-color:rgba(255,255,255,.1);
-  box-shadow:
-    0 1px 0 0 rgba(255,255,255,.06),
-    0 8px 28px rgba(0,0,0,.5),
-    0 28px 70px rgba(0,0,0,.35),
-    0 0 50px rgba(232,98,44,.05),
-    inset 0 1px 0 rgba(255,255,255,.05);
-}
-.card:hover::before{opacity:1}
-
-/* Position color accent — top edge */
-.card-accent{
-  height:3px;
-  background:linear-gradient(90deg,var(--pos-c),var(--pos-c) 40%,transparent);
-  opacity:.85;
-  position:relative;z-index:2;
-}
-.card:hover .card-accent{opacity:1;height:3px;box-shadow:0 0 12px var(--pos-c)}
-
-/* Hero section — player photo */
-.card-hero{
-  position:relative;
-  height:185px;
-  overflow:hidden;
-  background:rgba(8,9,12,.5);
-}
-.card-hero-bg{
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,var(--pos-c),rgba(8,9,12,.8));
-  opacity:.15;
-}
-.card-hero-img{
-  width:100%;height:100%;
-  object-fit:cover;object-position:center 20%;
-  transition:all .6s cubic-bezier(.23,1,.32,1);
-  position:relative;z-index:1;
-  filter:brightness(.8) contrast(1.05) saturate(1.1);
-}
-.card:hover .card-hero-img{
-  transform:scale(1.08);
-  filter:brightness(.85) contrast(1.05) saturate(1.15);
-}
-.card-hero-overlay{
-  position:absolute;inset:0;z-index:2;
-  background:
-    linear-gradient(0deg,rgba(10,11,16,1) 0%,rgba(10,11,16,.85) 25%,rgba(10,11,16,.3) 50%,rgba(10,11,16,.1) 70%,transparent 100%),
-    linear-gradient(180deg,rgba(10,11,16,.4) 0%,transparent 30%);
-  pointer-events:none;
-}
-.card-hero-top{
-  position:absolute;top:.7rem;left:.8rem;right:.8rem;
-  display:flex;justify-content:space-between;align-items:flex-start;
-  z-index:3;
-}
-.card-hero-pa{
-  font-family:'Syne',sans-serif;
-  font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.04em;
-  text-shadow:0 2px 20px rgba(0,0,0,.6),0 0 40px rgba(0,0,0,.3);
-  transition:transform .35s cubic-bezier(.23,1,.32,1);
-}
-.card:hover .card-hero-pa{transform:scale(1.08) translateY(-2px)}
-.card-hero-bottom{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:.9rem 1rem;z-index:3;
-}
-.card-hero-name{
-  font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;
-  color:#fff;letter-spacing:-.03em;line-height:1.15;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  text-shadow:0 1px 12px rgba(0,0,0,.6);
-  transition:color .25s;
-}
-.card:hover .card-hero-name{color:var(--accent2)}
-.card-hero-meta{
-  font-size:.7rem;color:rgba(255,255,255,.5);
-  margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.card-hero-tags{display:flex;gap:.3rem;margin-top:.45rem;flex-wrap:wrap;align-items:center}
-
-/* Position tags */
-.pos-tag{padding:.18rem .6rem;border-radius:7px;font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
-.pos-GK{background:rgba(91,141,239,.12);color:#5B8DEF;border:1px solid rgba(91,141,239,.15)}
-.pos-DEF{background:rgba(76,175,80,.12);color:#4CAF50;border:1px solid rgba(76,175,80,.15)}
-.pos-MID{background:rgba(212,168,67,.12);color:#D4A843;border:1px solid rgba(212,168,67,.15)}
-.pos-ATT{background:rgba(224,69,85,.12);color:#E04555;border:1px solid rgba(224,69,85,.15)}
-.c-vtag{
-  padding:.15rem .5rem;border-radius:6px;font-size:.52rem;font-weight:600;
-  background:rgba(255,255,255,.06);color:var(--t2);border:1px solid rgba(255,255,255,.06);
-}
-.c-vtag.c-free{background:rgba(232,98,44,.08);color:var(--accent);border-color:rgba(232,98,44,.12)}
-.c-int{padding:.15rem .5rem;border-radius:6px;font-size:.5rem;font-weight:700;letter-spacing:.04em}
-.c-int-sign{background:rgba(232,98,44,.08);color:var(--accent);border:1px solid rgba(232,98,44,.12)}
-.c-int-target{background:rgba(212,168,67,.08);color:var(--gold);border:1px solid rgba(212,168,67,.12)}
-.c-int-watch{background:rgba(91,141,239,.08);color:var(--blu);border:1px solid rgba(91,141,239,.12)}
-.c-int-pass{background:rgba(224,69,85,.08);color:var(--red);border:1px solid rgba(224,69,85,.12)}
-
-/* Rating bars */
-.card-ratings{padding:.75rem 1rem .3rem}
-.card-rating{display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem}
-.card-rating:last-child{margin-bottom:0}
-.card-rating-lbl{font-size:.52rem;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;width:26px;flex-shrink:0;font-weight:700}
-.card-rating-bar{flex:1;height:4px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
-.card-rating-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.23,1,.32,1);animation:barIn .8s ease both}
-.card-rating-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;min-width:28px;text-align:right}
-
-/* Stats + Radar */
-.card-stats{padding:.45rem 1rem .7rem;display:flex;align-items:center;gap:.8rem}
-.card-radar-mini{flex-shrink:0;filter:drop-shadow(0 0 8px rgba(232,98,44,.08))}
-.card-attrs{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.2rem .5rem}
-.card-attr{display:flex;align-items:center;justify-content:space-between;font-size:.57rem}
-.card-attr-l{color:var(--t3);font-weight:400}
-.card-attr-v{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.62rem}
-
-/* Card footer */
-.card-foot{
-  padding:.6rem 1rem;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;gap:.4rem;
-  background:rgba(255,255,255,.012);
-}
-.card-foot span{font-size:.6rem;color:var(--t3);white-space:nowrap}
-.card-foot b{color:var(--t1);font-family:'Syne',sans-serif;font-weight:700}
-
-/* Dropped / badges */
-.rand-dot{width:5px;height:5px;border-radius:50%;background:var(--pur);display:inline-block;margin-left:3px;vertical-align:middle;box-shadow:0 0 8px rgba(155,127,230,.5);animation:pulseDot 2s ease-in-out infinite}
-@keyframes pulseDot{0%,100%{box-shadow:0 0 4px rgba(155,127,230,.3)}50%{box-shadow:0 0 12px rgba(155,127,230,.6)}}
-.card.dropped{opacity:.35;filter:grayscale(.4)}
-.card.dropped:hover{opacity:.55;filter:grayscale(.2)}
-.card .dropped-badge{display:none;position:absolute;top:1rem;right:.8rem;background:rgba(232,145,58,.1);border:1px solid rgba(232,145,58,.18);border-radius:8px;padding:.2rem .65rem;font-size:.55rem;font-weight:600;color:#E8913A;z-index:5;backdrop-filter:blur(10px);letter-spacing:.04em}
-.card.dropped .dropped-badge{display:block}
-.drop-reason{font-size:.58rem;color:var(--t3);margin-top:.2rem;font-style:italic}
-
-/* LIST */
-.grid.list .card{border-radius:var(--r)}
-.grid.list .card-hero{height:0;display:none}
-.grid.list .card-accent{height:2px}
-.grid.list .card-ratings{padding:.5rem 1rem .2rem}
-.grid.list .card-stats{padding:.3rem 1rem .5rem}
-.grid.list .card-hero-name{font-size:1rem}
-
-.empty{grid-column:1/-1;text-align:center;padding:5rem 1rem;color:var(--t3)}
-.empty h3{font-family:'Syne',sans-serif;font-size:1.15rem;margin-bottom:.4rem;color:var(--t2);letter-spacing:-.02em}
-
-/* ── DETAIL PANEL ── */
-.panel-bg{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center}
-.panel-bg.on{display:flex}
-.panel{width:min(760px,94vw);max-height:88vh;background:rgba(14,15,20,.92);backdrop-filter:blur(40px) saturate(130%);-webkit-backdrop-filter:blur(40px) saturate(130%);border:1px solid var(--border2);border-radius:var(--r3);overflow-y:auto;box-shadow:var(--sh-xl),0 0 80px rgba(232,98,44,.03);animation:panelIn3D .55s cubic-bezier(.23,1,.32,1)}
-@keyframes panelIn3D{from{transform:perspective(1200px) rotateY(-8deg) rotateX(3deg) scale(.92);opacity:0}to{transform:perspective(1200px) rotateY(0) rotateX(0) scale(1);opacity:1}}
-.panel::-webkit-scrollbar{width:5px}
-.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}
-
-.panel-top{padding:1.75rem 2rem 1.4rem;border-bottom:1px solid var(--border);display:flex;gap:1.4rem;align-items:flex-start;position:sticky;top:0;z-index:10;background:rgba(14,15,20,.88);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:var(--r3) var(--r3) 0 0}
-.panel-av{width:80px;height:80px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:2.5px solid;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.35),0 0 20px rgba(232,98,44,.06)}
-.panel-av img{width:100%;height:100%;object-fit:cover}
-.panel-flag{position:absolute;bottom:-4px;right:-5px;font-size:.95rem;background:var(--bg2);border-radius:8px;padding:1px 3px;border:1px solid var(--border)}
-.panel-hinfo{flex:1;min-width:0}
-.panel-name{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;letter-spacing:-.04em;line-height:1.1}
-.panel-sub{font-size:.82rem;color:var(--t2);margin-top:5px}
-.panel-tags{display:flex;gap:.35rem;margin-top:.6rem;flex-wrap:wrap}
-.panel-close{background:var(--glass2);border:1px solid var(--border);border-radius:var(--r);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;flex-shrink:0;transition:.2s}
-.panel-close:hover{color:var(--t1);border-color:var(--border2);background:var(--glass3);transform:rotate(90deg)}
-
-.panel-body{padding:1.75rem 2rem 3rem}
-
-.scores-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.4rem}
-.score-cell{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:.9rem 1rem;text-align:center;transition:.25s;position:relative;overflow:hidden}
-.score-cell::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 100%);pointer-events:none}
-.score-cell:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
-.score-cell-v{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;line-height:1;letter-spacing:-.04em}
-.score-cell-l{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;font-weight:600}
-
-.radar-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.4rem 1.5rem;margin-bottom:1.25rem;display:flex;gap:1.6rem;align-items:center}
-.radar-svg-wrap{flex-shrink:0;filter:drop-shadow(0 0 10px rgba(232,98,44,.08))}
-.radar-legend{display:flex;flex-direction:column;gap:.45rem;flex:1}
-.rl-row{display:flex;align-items:center;gap:.55rem}
-.rl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
-.rl-lbl{font-size:.78rem;color:var(--t2);flex:1}
-.rl-val{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600}
-
-.attrs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.1rem}
-.attr-cell{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1rem;transition:.25s}
-.attr-cell:hover{border-color:var(--border2)}
-.attr-lbl{font-size:.62rem;color:var(--t3);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
-.attr-bar-bg{height:4px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;margin-bottom:.3rem}
-.attr-bar-fill{height:4px;border-radius:4px}
-.attr-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600}
-
-/* EVOLUTION + STATS */
-.evo-box{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1.1rem}
-.evo-head{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.1rem;border-bottom:1px solid var(--border)}
-.ev-hdr-label{font-family:'Syne',sans-serif;font-size:.73rem;font-weight:700;letter-spacing:-.01em}
-.ev-hdr-label.old{color:var(--t3)}.ev-hdr-label.new{color:var(--accent)}
-.evo-badge-arrow{color:var(--t3);font-size:.7rem}
-.evo-head-title{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}
-.evo-summary{padding:.7rem 1.1rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.55rem}
-.evo-sum-row{display:flex;align-items:center;gap:.55rem}
-.evo-sum-label{width:30px;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:var(--t2);flex-shrink:0}
-.evo-sum-old{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--t3);flex-shrink:0}
-.evo-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;position:relative}
-.evo-sum-bar-fill{height:6px;border-radius:4px;position:absolute;top:0;left:0}
-.evo-sum-new{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;flex-shrink:0}
-.evo-sum-delta{width:44px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;flex-shrink:0}
-.evo-sum-delta.up{color:var(--accent)}.evo-sum-delta.down{color:var(--red)}.evo-sum-delta.neutral{color:var(--t3)}
-.evo-grid{padding:.55rem 1rem}
-.evo-row{display:flex;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.02)}
-.evo-row:last-child{border-bottom:none}
-.evo-row-name{width:72px;flex-shrink:0;font-size:.62rem;color:var(--t3);font-weight:600}
-.evo-row-old{width:42px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--t3);flex-shrink:0}
-.evo-row-bar{flex:1;display:flex;align-items:center;gap:.3rem;padding:0 .5rem}
-.evo-row-bar-track{flex:1;height:4px;background:rgba(255,255,255,.03);border-radius:3px;overflow:hidden;position:relative}
-.evo-row-bar-fill{height:4px;border-radius:3px;position:absolute;top:0;left:0}
-.evo-row-new{width:42px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;flex-shrink:0}
-.evo-row-delta{width:40px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;flex-shrink:0}
-.evo-row-delta.up{color:var(--accent)}.evo-row-delta.down{color:var(--red)}.evo-row-delta.zero{color:var(--t3)}
-.stats-thead{display:flex;padding:.55rem 1rem;border-bottom:1px solid var(--border);font-size:.48rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}
-.stats-thead span{text-align:center}
-.stats-thead span:first-child{text-align:left;flex:1}
-.stats-thead span{width:50px;flex-shrink:0}
-.stats-row{display:flex;align-items:center;padding:.55rem 1rem;border-bottom:1px solid rgba(255,255,255,.02);font-size:.7rem}
-.stats-row:last-child{border-bottom:none}
-.stats-row span{text-align:center;font-family:'JetBrains Mono',monospace;color:var(--t2);width:50px;flex-shrink:0;font-size:.68rem}
-.stats-row span:first-child{text-align:left;flex:1;font-family:'Inter',system-ui,sans-serif;font-weight:600;color:var(--t1)}
-.stats-row.sr-rat span.sr-rat-v{color:var(--accent);font-weight:700}
-.stats-row.sr-goals span.sr-goal-v{color:var(--gold)}
-.stats-row.sr-total{border-top:2px solid var(--border2);font-weight:700}
-.stats-row.sr-total span{color:var(--t1);font-weight:700}
-
-/* CAREER */
-.career-section{margin-bottom:1.1rem}
-.career-hdr{font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem}
-.career-tl{position:relative;padding-left:1.2rem}
-.career-tl::before{content:'';position:absolute;left:.44rem;top:.35rem;bottom:.35rem;width:1.5px;background:var(--border2);border-radius:1px}
-.career-item{position:relative;display:flex;align-items:flex-start;gap:.7rem;padding:.42rem 0}
-.career-item::before{content:'';position:absolute;left:-.76rem;top:.6rem;width:9px;height:9px;border-radius:50%;border:2px solid var(--border2);background:var(--bg);z-index:1;transition:.2s}
-.career-item.current::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px var(--accent-glow)}
-.career-item.loan::before{background:var(--blu);border-color:var(--blu);box-shadow:0 0 8px rgba(91,141,239,.3)}
-.career-info{flex:1;min-width:0}
-.career-club{font-size:.8rem;font-weight:600;color:var(--t1)}
-.career-meta{font-size:.6rem;color:var(--t3);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:2px}
-.career-type{font-size:.52rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;text-transform:uppercase;letter-spacing:.05em}
-.career-type.transfer{background:rgba(232,98,44,.1);color:var(--accent)}
-.career-type.loan{background:rgba(91,141,239,.1);color:var(--blu)}
-.career-type.youth{background:rgba(155,127,230,.08);color:#9B7FE6}
-.career-type.formé{background:rgba(155,127,230,.08);color:#9B7FE6}
-.career-type.promotion{background:rgba(76,175,80,.08);color:#4CAF50}
-.career-type.free{background:var(--glass2);color:var(--t3)}
-.career-fee{font-size:.6rem;font-weight:700;color:var(--gold)}
-
-.info-table{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1.1rem}
-.it-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;border-bottom:1px solid var(--border)}
-.it-row:last-child{border-bottom:none}
-.it-lbl{font-size:.76rem;color:var(--t3)}
-.it-val{font-size:.85rem;font-weight:600;color:var(--t1);text-align:right}
-
-.scout-report{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;margin-bottom:1.1rem}
-.sr-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
-.sr-icon{font-size:.9rem}
-.sr-title{font-size:.7rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em}
-.sr-text{font-size:.83rem;color:var(--t2);line-height:1.75}
-
-.tip-box{background:var(--gold-soft);border:1px solid rgba(212,168,67,.1);border-radius:var(--r2);padding:.85rem 1rem;font-size:.8rem;color:var(--gold);line-height:1.7;display:flex;gap:.55rem;margin-bottom:1.1rem}
-
-.note-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem}
-.note-header{font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.55rem}
-.note-ta{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:.8rem 1rem;color:var(--t1);font-size:.83rem;font-family:'Inter',system-ui,sans-serif;outline:none;resize:vertical;min-height:80px;transition:.25s;line-height:1.7}
-.note-ta:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.note-ta::placeholder{color:var(--t4)}
-.note-foot{display:flex;justify-content:flex-end;margin-top:.5rem}
-.btn-save{background:linear-gradient(135deg,var(--accent),#c04a18);border:none;color:#fff;border-radius:var(--r);padding:.4rem 1rem;font-size:.73rem;font-weight:600;cursor:pointer;font-family:'Inter',system-ui,sans-serif;transition:.2s;box-shadow:0 4px 16px var(--accent-glow)}
-.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
-
-.interest-row{display:flex;align-items:center;gap:.65rem;margin-top:.8rem}
-.interest-lbl{font-size:.6rem;color:var(--t3);width:85px;flex-shrink:0;font-weight:600}
-.int-opts{display:flex;gap:.3rem;flex:1}
-.int-opt{padding:.24rem .65rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.63rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif}
-.int-opt:hover{border-color:var(--border2);color:var(--t2);background:var(--glass)}
-.int-opt.sel-watch{border-color:var(--blu);background:var(--blu-soft);color:var(--blu)}
-.int-opt.sel-target{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}
-.int-opt.sel-sign{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 12px rgba(232,98,44,.08)}
-.int-opt.sel-pass{border-color:var(--red);background:var(--red-soft);color:var(--red)}
-.int-opt.sel-dropped{border-color:#E8913A;background:rgba(232,145,58,.06);color:#E8913A}
-
-/* COMPARE */
-.compare-bar{position:fixed;bottom:0;left:270px;right:0;background:rgba(8,9,12,.92);border-top:1px solid var(--border);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);padding:.85rem 2rem;display:none;align-items:center;gap:1rem;z-index:300}
-.compare-bar.on{display:flex}
-.cmp-slots{display:flex;gap:.5rem;flex:1}
-.cmp-slot{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .9rem;font-size:.73rem;color:var(--t2);min-width:140px;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-.cmp-slot.filled{border-color:var(--accent);color:var(--t1)}
-.cmp-x{color:var(--t3);cursor:pointer;font-size:.82rem;line-height:1}
-.cmp-x:hover{color:var(--red)}
-.btn-cmp{background:linear-gradient(135deg,var(--accent),#c04a18);color:#fff;font-weight:700;border:none;border-radius:var(--r);padding:.55rem 1.3rem;font-size:.78rem;cursor:pointer;font-family:'Inter',system-ui,sans-serif;flex-shrink:0;transition:.2s;box-shadow:0 4px 16px var(--accent-glow)}
-.btn-cmp:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
-
-@keyframes barIn{from{width:0!important}}
-.panel-body > div:first-child:not(.scores-row):not(.radar-section){margin-top:0}
-
-@media(max-width:768px){
-  .sidebar{position:fixed;left:-270px;z-index:200;height:100%;transition:.3s}
-  .sidebar.open{left:0;box-shadow:0 0 60px rgba(0,0,0,.7)}
-  .main{width:100%}
-  .compare-bar{left:0}
-  .panel{width:96vw;max-height:92vh;border-radius:var(--r2)}
-  .panel-top{border-radius:var(--r2) var(--r2) 0 0}
-  .cards-area{padding:1.2rem}
-  .grid{grid-template-columns:1fr;gap:.75rem}
-  .evo-summary{padding:.4rem .8rem}
-  .evo-row-name{width:55px;font-size:.58rem}
-  .evo-sum-label{width:24px;font-size:.65rem}
-  .evo-sum-old,.evo-sum-new{width:30px;font-size:.72rem}
-  .stats-thead span,.stats-row span{width:40px;font-size:.56rem}
-  .stats-thead span:first-child,.stats-row span:first-child{width:auto}
-}
+:root{--bg:#08090c;--bg2:#0d0e12;--s1:rgba(14,15,20,.85);--s2:rgba(20,22,28,.9);--s3:rgba(28,30,38,.9);--s4:rgba(38,40,50,.9);--glass:rgba(255,255,255,.03);--glass2:rgba(255,255,255,.06);--glass3:rgba(255,255,255,.1);--border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);--border3:rgba(255,255,255,.16);--t1:#f0f0f4;--t2:#a0a0ac;--t3:#606070;--t4:#3a3a48;--accent:#E8622C;--accent2:#ff7a3d;--accent-glow:rgba(232,98,44,.25);--accent-soft:rgba(232,98,44,.08);--gold:#D4A843;--gold-soft:rgba(212,168,67,.08);--red:#E04555;--red-soft:rgba(224,69,85,.08);--blu:#5B8DEF;--blu-soft:rgba(91,141,239,.08);--pur:#9B7FE6;--grn:#4CAF50;--r:10px;--r2:14px;--r3:20px;--sh-sm:0 2px 8px rgba(0,0,0,.3);--sh-md:0 8px 30px rgba(0,0,0,.4);--sh-lg:0 20px 60px rgba(0,0,0,.5);--sh-xl:0 30px 80px rgba(0,0,0,.6);--perspective:1200px}*{box-sizing:border-box;margin:0;padding:0}html{height:100%}body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 15% 50%,rgba(232,98,44,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 85% 15%,rgba(91,141,239,.04) 0%,transparent 50%),radial-gradient(ellipse 70% 50% at 50% 90%,rgba(155,127,230,.03) 0%,transparent 50%);z-index:0;pointer-events:none;animation:meshDrift 25s ease-in-out infinite alternate}body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:32px 32px;z-index:0;pointer-events:none}@keyframes meshDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-2%,1%) scale(1.02)}100%{transform:translate(1%,-1%) scale(.99)}}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.14)}*{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}.app{display:flex;height:100vh;position:relative;z-index:1}.sidebar{width:270px;flex-shrink:0;background:rgba(12,13,18,.75);backdrop-filter:blur(50px) saturate(140%);-webkit-backdrop-filter:blur(50px) saturate(140%);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:.3s}.sidebar-head{padding:1.6rem 1.4rem 1.3rem;border-bottom:1px solid var(--border);flex-shrink:0}.logo{display:flex;align-items:center;gap:.75rem;margin-bottom:1.1rem}.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),#c04a18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif;flex-shrink:0;box-shadow:0 4px 20px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.15);letter-spacing:-.02em}.logo-text{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.04em}.logo-text span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.logo-sub{font-size:.58rem;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-top:3px;font-weight:500}.scout-season{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.65rem .85rem;display:flex;align-items:center;justify-content:space-between}.scout-season-lbl{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;font-weight:600}.scout-season-val{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:var(--accent);letter-spacing:-.02em}.sidebar-filters{flex:1;overflow-y:auto;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.1rem}.fg-label{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.55rem;display:flex;align-items:center;gap:.5rem}.fg-label::after{content:'';flex:1;height:1px;background:var(--border)}.fsel{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .8rem;color:var(--t1);font-size:.78rem;font-family:'Inter',system-ui,sans-serif;outline:none;cursor:pointer;transition:.25s;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23606070'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center}.fsel:hover{border-color:var(--border2);background-color:var(--glass2)}.fsel:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.range-row{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--t2)}.range-row span{width:28px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);flex-shrink:0;font-weight:600}.frange{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--s4);border-radius:3px;outline:none;cursor:pointer}.frange::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 12px var(--accent-glow)}.frange::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;box-shadow:0 0 12px var(--accent-glow)}.pos-pills{display:flex;flex-wrap:wrap;gap:.3rem}.ppill{padding:.25rem .65rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.68rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif}.ppill:hover{border-color:var(--border2);color:var(--t2);background:var(--glass)}.ppill.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 12px rgba(232,98,44,.1)}.ppill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.sidebar-footer{padding:1rem 1.4rem;border-top:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;gap:.6rem}.btn-reset{width:100%;padding:.55rem;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);color:var(--t2);font-size:.73rem;font-family:'Inter',system-ui,sans-serif;cursor:pointer;transition:.2s;font-weight:500}.btn-reset:hover{border-color:var(--border2);color:var(--t1);background:var(--glass2)}.budget-tracker{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.65rem .8rem}.bt-label{font-size:.5rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4rem}.bt-row{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;padding:.15rem 0}.bt-row span:first-child{color:var(--t3)}.bt-row span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent)}.sidebar-footer-btns{display:flex;gap:.35rem}.btn-export,.btn-import{flex:1;padding:.45rem;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);color:var(--t3);font-size:.65rem;font-family:'Inter',system-ui,sans-serif;cursor:pointer;transition:.2s;font-weight:500;text-align:center}.btn-export:hover,.btn-import:hover{border-color:var(--border2);color:var(--t2);background:var(--glass2)}.main{flex:1;display:flex;flex-direction:column;overflow:hidden}.topbar{background:rgba(8,9,12,.8);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;flex-shrink:0;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}.hamburger{display:none;width:36px;height:36px;border-radius:var(--r);border:1px solid var(--border);background:var(--glass);color:var(--t2);font-size:1.1rem;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}.hamburger:hover{border-color:var(--border2);color:var(--t1)}.search-wrap{position:relative;flex:1;max-width:400px}.search-wrap svg{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);opacity:.25;pointer-events:none}.sinp{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.55rem .9rem .55rem 2.5rem;color:var(--t1);font-size:.85rem;font-family:'Inter',system-ui,sans-serif;outline:none;transition:.25s}.sinp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.sinp::placeholder{color:var(--t4)}.topbar-right{display:flex;align-items:center;gap:.7rem;margin-left:auto}.sort-sel{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.48rem .85rem;color:var(--t1);font-size:.76rem;font-family:'Inter',system-ui,sans-serif;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%23606070'%3E%3Cpath d='M1 3l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;padding-right:1.8rem}.view-btns{display:flex;gap:.25rem}.vbtn{width:33px;height:33px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.82rem;transition:.2s}.vbtn.on,.vbtn:hover{background:var(--glass2);border-color:var(--border2);color:var(--t1)}.count-badge{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.35rem .75rem;font-size:.7rem;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap}.count-badge b{color:var(--accent);font-weight:700}.tab-bar{display:flex;gap:.25rem;margin-left:.85rem}.tab-btn{padding:.4rem 1rem;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.73rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif;display:flex;align-items:center;gap:.5rem;white-space:nowrap}.tab-btn:hover{border-color:var(--border2);color:var(--t2)}.tab-btn.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 16px rgba(232,98,44,.08)}.tab-btn .tab-count{font-family:'JetBrains Mono',monospace;font-size:.63rem;opacity:.65}.tab-btn.tab-dropped.on{border-color:#E8913A;background:rgba(232,145,58,.06);color:#E8913A;box-shadow:0 0 16px rgba(232,145,58,.06)}.tab-btn.tab-dropped:hover{border-color:#E8913A}.cards-area{flex:1;overflow-y:auto;padding:1.75rem 2rem 4rem}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;perspective:var(--perspective)}.grid.list{grid-template-columns:1fr}.card{--pos-c:#888;position:relative;background:linear-gradient(168deg,rgba(18,19,26,.97) 0%,rgba(10,11,16,.99) 100%);border:1px solid rgba(255,255,255,.05);border-radius:16px;overflow:hidden;cursor:pointer;transform-style:preserve-3d;transition:all .5s cubic-bezier(.23,1,.32,1);box-shadow:0 1px 0 0 rgba(255,255,255,.03),0 4px 16px rgba(0,0,0,.4),0 12px 40px rgba(0,0,0,.25)}.card::before{content:'';position:absolute;inset:-1px;border-radius:17px;background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%,transparent 60%,rgba(255,255,255,.02));pointer-events:none;z-index:0;opacity:0;transition:opacity .4s}.card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06) 20%,rgba(255,255,255,.06) 80%,transparent);pointer-events:none;z-index:5}.card:hover{transform:translateY(-10px) translateZ(12px);border-color:rgba(255,255,255,.1);box-shadow:0 1px 0 0 rgba(255,255,255,.06),0 8px 28px rgba(0,0,0,.5),0 28px 70px rgba(0,0,0,.35),0 0 50px rgba(232,98,44,.05),inset 0 1px 0 rgba(255,255,255,.05)}.card:hover::before{opacity:1}.card-accent{height:3px;background:linear-gradient(90deg,var(--pos-c),var(--pos-c) 40%,transparent);opacity:.85;position:relative;z-index:2}.card:hover .card-accent{opacity:1;height:3px;box-shadow:0 0 12px var(--pos-c)}.card-hero{position:relative;height:185px;overflow:hidden;background:rgba(8,9,12,.5)}.card-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--pos-c),rgba(8,9,12,.8));opacity:.15}.card-hero-img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:all .6s cubic-bezier(.23,1,.32,1);position:relative;z-index:1;filter:brightness(.8) contrast(1.05) saturate(1.1)}.card:hover .card-hero-img{transform:scale(1.08);filter:brightness(.85) contrast(1.05) saturate(1.15)}.card-hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(10,11,16,1) 0%,rgba(10,11,16,.85) 25%,rgba(10,11,16,.3) 50%,rgba(10,11,16,.1) 70%,transparent 100%),linear-gradient(180deg,rgba(10,11,16,.4) 0%,transparent 30%);pointer-events:none}.card-hero-top{position:absolute;top:.7rem;left:.8rem;right:.8rem;display:flex;justify-content:space-between;align-items:flex-start;z-index:3}.card-hero-pa{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.04em;text-shadow:0 2px 20px rgba(0,0,0,.6),0 0 40px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.23,1,.32,1)}.card:hover .card-hero-pa{transform:scale(1.08) translateY(-2px)}.card-hero-bottom{position:absolute;bottom:0;left:0;right:0;padding:.9rem 1rem;z-index:3}.card-hero-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:-.03em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 12px rgba(0,0,0,.6);transition:color .25s}.card:hover .card-hero-name{color:var(--accent2)}.card-hero-meta{font-size:.7rem;color:rgba(255,255,255,.5);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-hero-tags{display:flex;gap:.3rem;margin-top:.45rem;flex-wrap:wrap;align-items:center}.pos-tag{padding:.18rem .6rem;border-radius:7px;font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}.pos-GK{background:rgba(91,141,239,.12);color:#5B8DEF;border:1px solid rgba(91,141,239,.15)}.pos-DEF{background:rgba(76,175,80,.12);color:#4CAF50;border:1px solid rgba(76,175,80,.15)}.pos-MID{background:rgba(212,168,67,.12);color:#D4A843;border:1px solid rgba(212,168,67,.15)}.pos-ATT{background:rgba(224,69,85,.12);color:#E04555;border:1px solid rgba(224,69,85,.15)}.c-vtag{padding:.15rem .5rem;border-radius:6px;font-size:.52rem;font-weight:600;background:rgba(255,255,255,.06);color:var(--t2);border:1px solid rgba(255,255,255,.06)}.c-vtag.c-free{background:rgba(232,98,44,.08);color:var(--accent);border-color:rgba(232,98,44,.12)}.c-int{padding:.15rem .5rem;border-radius:6px;font-size:.5rem;font-weight:700;letter-spacing:.04em}.c-int-sign{background:rgba(232,98,44,.08);color:var(--accent);border:1px solid rgba(232,98,44,.12)}.c-int-target{background:rgba(212,168,67,.08);color:var(--gold);border:1px solid rgba(212,168,67,.12)}.c-int-watch{background:rgba(91,141,239,.08);color:var(--blu);border:1px solid rgba(91,141,239,.12)}.c-int-pass{background:rgba(224,69,85,.08);color:var(--red);border:1px solid rgba(224,69,85,.12)}.card-ratings{padding:.75rem 1rem .3rem}.card-rating{display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem}.card-rating:last-child{margin-bottom:0}.card-rating-lbl{font-size:.52rem;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;width:26px;flex-shrink:0;font-weight:700}.card-rating-bar{flex:1;height:4px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}.card-rating-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.23,1,.32,1);animation:barIn .8s ease both}.card-rating-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;min-width:28px;text-align:right}.card-stats{padding:.45rem 1rem .7rem;display:flex;align-items:center;gap:.8rem}.card-radar-mini{flex-shrink:0;filter:drop-shadow(0 0 8px rgba(232,98,44,.08))}.card-attrs{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:.2rem .5rem}.card-attr{display:flex;align-items:center;justify-content:space-between;font-size:.57rem}.card-attr-l{color:var(--t3);font-weight:400}.card-attr-v{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.62rem}.card-foot{padding:.6rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.4rem;background:rgba(255,255,255,.012)}.card-foot span{font-size:.6rem;color:var(--t3);white-space:nowrap}.card-foot b{color:var(--t1);font-family:'Syne',sans-serif;font-weight:700}.contract-badge{display:inline-block;padding:.1rem .4rem;border-radius:5px;font-size:.5rem;font-weight:700;letter-spacing:.03em;margin-left:4px;vertical-align:middle}.cb-green{background:rgba(76,175,80,.12);color:#4CAF50;border:1px solid rgba(76,175,80,.15)}.cb-yellow{background:rgba(212,168,67,.12);color:#D4A843;border:1px solid rgba(212,168,67,.15)}.cb-red{background:rgba(224,69,85,.12);color:#E04555;border:1px solid rgba(224,69,85,.15)}.cb-libre{background:rgba(232,98,44,.08);color:var(--accent);border:1px solid rgba(232,98,44,.12)}.cmp-toggle{position:absolute;top:.6rem;right:.6rem;z-index:6;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.7rem;backdrop-filter:blur(10px);transition:.2s;opacity:0}.card:hover .cmp-toggle{opacity:1}.cmp-toggle:hover{border-color:var(--accent);color:var(--accent);background:rgba(232,98,44,.15)}.cmp-toggle.active{opacity:1;background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}.card-tags-chips{display:flex;gap:.25rem;margin-top:.3rem;flex-wrap:wrap}.tag-chip{padding:.12rem .4rem;border-radius:5px;font-size:.46rem;font-weight:600;border:1px solid}.tag-summer{background:rgba(232,98,44,.08);color:var(--accent);border-color:rgba(232,98,44,.15)}.tag-winter{background:rgba(91,141,239,.08);color:var(--blu);border-color:rgba(91,141,239,.15)}.tag-backup{background:rgba(255,255,255,.05);color:var(--t3);border-color:rgba(255,255,255,.08)}.tag-prete{background:rgba(155,127,230,.08);color:var(--pur);border-color:rgba(155,127,230,.15)}.tag-watchlt{background:rgba(212,168,67,.08);color:var(--gold);border-color:rgba(212,168,67,.15)}.rand-dot{width:5px;height:5px;border-radius:50%;background:var(--pur);display:inline-block;margin-left:3px;vertical-align:middle;box-shadow:0 0 8px rgba(155,127,230,.5);animation:pulseDot 2s ease-in-out infinite}@keyframes pulseDot{0%,100%{box-shadow:0 0 4px rgba(155,127,230,.3)}50%{box-shadow:0 0 12px rgba(155,127,230,.6)}}.card.dropped{opacity:.35;filter:grayscale(.4)}.card.dropped:hover{opacity:.55;filter:grayscale(.2)}.card .dropped-badge{display:none;position:absolute;top:1rem;right:.8rem;background:rgba(232,145,58,.1);border:1px solid rgba(232,145,58,.18);border-radius:8px;padding:.2rem .65rem;font-size:.55rem;font-weight:600;color:#E8913A;z-index:5;backdrop-filter:blur(10px);letter-spacing:.04em}.card.dropped .dropped-badge{display:block}.drop-reason{font-size:.58rem;color:var(--t3);margin-top:.2rem;font-style:italic}.grid.list .card{border-radius:var(--r)}.grid.list .card-hero{height:0;display:none}.grid.list .card-accent{height:2px}.grid.list .card-ratings{padding:.5rem 1rem .2rem}.grid.list .card-stats{padding:.3rem 1rem .5rem}.grid.list .card-hero-name{font-size:1rem}.empty{grid-column:1/-1;text-align:center;padding:5rem 1rem;color:var(--t3)}.empty h3{font-family:'Syne',sans-serif;font-size:1.15rem;margin-bottom:.4rem;color:var(--t2);letter-spacing:-.02em}.panel-bg{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center}.panel-bg.on{display:flex}.panel{width:min(760px,94vw);max-height:88vh;background:rgba(14,15,20,.92);backdrop-filter:blur(40px) saturate(130%);-webkit-backdrop-filter:blur(40px) saturate(130%);border:1px solid var(--border2);border-radius:var(--r3);overflow-y:auto;box-shadow:var(--sh-xl),0 0 80px rgba(232,98,44,.03);animation:panelIn3D .55s cubic-bezier(.23,1,.32,1)}@keyframes panelIn3D{from{transform:perspective(1200px) rotateY(-8deg) rotateX(3deg) scale(.92);opacity:0}to{transform:perspective(1200px) rotateY(0) rotateX(0) scale(1);opacity:1}}.panel::-webkit-scrollbar{width:5px}.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}.panel-top{padding:1.75rem 2rem 1.4rem;border-bottom:1px solid var(--border);display:flex;gap:1.4rem;align-items:flex-start;position:sticky;top:0;z-index:10;background:rgba(14,15,20,.88);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:var(--r3) var(--r3) 0 0}.panel-av{width:80px;height:80px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;border:2.5px solid;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.35),0 0 20px rgba(232,98,44,.06)}.panel-av img{width:100%;height:100%;object-fit:cover}.panel-flag{position:absolute;bottom:-4px;right:-5px;font-size:.95rem;background:var(--bg2);border-radius:8px;padding:1px 3px;border:1px solid var(--border)}.panel-hinfo{flex:1;min-width:0}.panel-name{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;letter-spacing:-.04em;line-height:1.1}.panel-sub{font-size:.82rem;color:var(--t2);margin-top:5px}.panel-tags{display:flex;gap:.35rem;margin-top:.6rem;flex-wrap:wrap}.panel-close{background:var(--glass2);border:1px solid var(--border);border-radius:var(--r);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;flex-shrink:0;transition:.2s}.panel-close:hover{color:var(--t1);border-color:var(--border2);background:var(--glass3);transform:rotate(90deg)}.panel-body{padding:1.75rem 2rem 3rem}.scores-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.4rem}.score-cell{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:.9rem 1rem;text-align:center;transition:.25s;position:relative;overflow:hidden}.score-cell::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.02) 0%,transparent 100%);pointer-events:none}.score-cell:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}.score-cell-v{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;line-height:1;letter-spacing:-.04em}.score-cell-l{font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-top:5px;font-weight:600}.radar-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.4rem 1.5rem;margin-bottom:1.25rem;display:flex;gap:1.6rem;align-items:center}.radar-svg-wrap{flex-shrink:0;filter:drop-shadow(0 0 10px rgba(232,98,44,.08))}.radar-legend{display:flex;flex-direction:column;gap:.45rem;flex:1}.rl-row{display:flex;align-items:center;gap:.55rem}.rl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}.rl-lbl{font-size:.78rem;color:var(--t2);flex:1}.rl-val{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600}.attrs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.1rem}.attr-cell{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1rem;transition:.25s}.attr-cell:hover{border-color:var(--border2)}.attr-lbl{font-size:.62rem;color:var(--t3);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}.attr-bar-bg{height:4px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;margin-bottom:.3rem}.attr-bar-fill{height:4px;border-radius:4px}.attr-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600}.evo-box{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1.1rem}.evo-head{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.1rem;border-bottom:1px solid var(--border)}.ev-hdr-label{font-family:'Syne',sans-serif;font-size:.73rem;font-weight:700;letter-spacing:-.01em}.ev-hdr-label.old{color:var(--t3)}.ev-hdr-label.new{color:var(--accent)}.evo-head-title{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}.evo-summary{padding:.7rem 1.1rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.55rem}.evo-sum-row{display:flex;align-items:center;gap:.55rem}.evo-sum-label{width:30px;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:var(--t2);flex-shrink:0}.evo-sum-old{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--t3);flex-shrink:0}.evo-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;position:relative}.evo-sum-bar-fill{height:6px;border-radius:4px;position:absolute;top:0;left:0}.evo-sum-new{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;flex-shrink:0}.evo-sum-delta{width:44px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;flex-shrink:0}.evo-sum-delta.up{color:var(--accent)}.evo-sum-delta.down{color:var(--red)}.evo-sum-delta.neutral{color:var(--t3)}.evo-grid{padding:.55rem 1rem}.evo-row{display:flex;align-items:center;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.02)}.evo-row:last-child{border-bottom:none}.evo-row-name{width:72px;flex-shrink:0;font-size:.62rem;color:var(--t3);font-weight:600}.evo-row-old{width:42px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--t3);flex-shrink:0}.evo-row-bar{flex:1;display:flex;align-items:center;gap:.3rem;padding:0 .5rem}.evo-row-bar-track{flex:1;height:4px;background:rgba(255,255,255,.03);border-radius:3px;overflow:hidden;position:relative}.evo-row-bar-fill{height:4px;border-radius:3px;position:absolute;top:0;left:0}.evo-row-new{width:42px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;flex-shrink:0}.evo-row-delta{width:40px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;flex-shrink:0}.evo-row-delta.up{color:var(--accent)}.evo-row-delta.down{color:var(--red)}.evo-row-delta.zero{color:var(--t3)}.stats-thead{display:flex;padding:.55rem 1rem;border-bottom:1px solid var(--border);font-size:.48rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em}.stats-thead span{text-align:center;width:50px;flex-shrink:0}.stats-thead span:first-child{text-align:left;flex:1}.stats-row{display:flex;align-items:center;padding:.55rem 1rem;border-bottom:1px solid rgba(255,255,255,.02);font-size:.7rem}.stats-row:last-child{border-bottom:none}.stats-row span{text-align:center;font-family:'JetBrains Mono',monospace;color:var(--t2);width:50px;flex-shrink:0;font-size:.68rem}.stats-row span:first-child{text-align:left;flex:1;font-family:'Inter',system-ui,sans-serif;font-weight:600;color:var(--t1)}.stats-row.sr-total{border-top:2px solid var(--border2);font-weight:700}.stats-row.sr-total span{color:var(--t1);font-weight:700}.career-section{margin-bottom:1.1rem}.career-hdr{font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem}.career-tl{position:relative;padding-left:1.2rem}.career-tl::before{content:'';position:absolute;left:.44rem;top:.35rem;bottom:.35rem;width:1.5px;background:var(--border2);border-radius:1px}.career-item{position:relative;display:flex;align-items:flex-start;gap:.7rem;padding:.42rem 0}.career-item::before{content:'';position:absolute;left:-.76rem;top:.6rem;width:9px;height:9px;border-radius:50%;border:2px solid var(--border2);background:var(--bg);z-index:1;transition:.2s}.career-item.current::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px var(--accent-glow)}.career-item.loan::before{background:var(--blu);border-color:var(--blu);box-shadow:0 0 8px rgba(91,141,239,.3)}.career-info{flex:1;min-width:0}.career-club{font-size:.8rem;font-weight:600;color:var(--t1)}.career-meta{font-size:.6rem;color:var(--t3);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:2px}.career-type{font-size:.52rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;text-transform:uppercase;letter-spacing:.05em}.career-type.transfer{background:rgba(232,98,44,.1);color:var(--accent)}.career-type.loan{background:rgba(91,141,239,.1);color:var(--blu)}.career-type.youth{background:rgba(155,127,230,.08);color:#9B7FE6}.career-type.formé{background:rgba(155,127,230,.08);color:#9B7FE6}.career-type.promotion{background:rgba(76,175,80,.08);color:#4CAF50}.career-type.free{background:var(--glass2);color:var(--t3)}.career-fee{font-size:.6rem;font-weight:700;color:var(--gold)}.info-table{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:1.1rem}.it-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;border-bottom:1px solid var(--border)}.it-row:last-child{border-bottom:none}.it-lbl{font-size:.76rem;color:var(--t3)}.it-val{font-size:.85rem;font-weight:600;color:var(--t1);text-align:right}.scout-report{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;margin-bottom:1.1rem}.sr-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}.sr-title{font-size:.7rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em}.sr-text{font-size:.83rem;color:var(--t2);line-height:1.75}.tip-box{background:var(--gold-soft);border:1px solid rgba(212,168,67,.1);border-radius:var(--r2);padding:.85rem 1rem;font-size:.8rem;color:var(--gold);line-height:1.7;display:flex;gap:.55rem;margin-bottom:1.1rem}.tag-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;margin-bottom:1.1rem}.tag-section-header{font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.55rem}.tag-options{display:flex;flex-wrap:wrap;gap:.3rem}.tag-opt{padding:.24rem .65rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.63rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif}.tag-opt:hover{border-color:var(--border2);color:var(--t2);background:var(--glass)}.tag-opt.sel-summer{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}.tag-opt.sel-winter{border-color:var(--blu);background:var(--blu-soft);color:var(--blu)}.tag-opt.sel-backup{border-color:var(--t2);background:var(--glass2);color:var(--t2)}.tag-opt.sel-prete{border-color:var(--pur);background:rgba(155,127,230,.08);color:var(--pur)}.tag-opt.sel-watchlt{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}.note-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem}.note-header{font-size:.56rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.55rem}.note-ta{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:.8rem 1rem;color:var(--t1);font-size:.83rem;font-family:'Inter',system-ui,sans-serif;outline:none;resize:vertical;min-height:80px;transition:.25s;line-height:1.7}.note-ta:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.note-ta::placeholder{color:var(--t4)}.note-foot{display:flex;justify-content:flex-end;margin-top:.5rem}.btn-save{background:linear-gradient(135deg,var(--accent),#c04a18);border:none;color:#fff;border-radius:var(--r);padding:.4rem 1rem;font-size:.73rem;font-weight:600;cursor:pointer;font-family:'Inter',system-ui,sans-serif;transition:.2s;box-shadow:0 4px 16px var(--accent-glow)}.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.interest-row{display:flex;align-items:center;gap:.65rem;margin-top:.8rem}.interest-lbl{font-size:.6rem;color:var(--t3);width:85px;flex-shrink:0;font-weight:600}.int-opts{display:flex;gap:.3rem;flex:1}.int-opt{padding:.24rem .65rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:.63rem;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter',system-ui,sans-serif}.int-opt:hover{border-color:var(--border2);color:var(--t2);background:var(--glass)}.int-opt.sel-watch{border-color:var(--blu);background:var(--blu-soft);color:var(--blu)}.int-opt.sel-target{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}.int-opt.sel-sign{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);box-shadow:0 0 12px rgba(232,98,44,.08)}.int-opt.sel-pass{border-color:var(--red);background:var(--red-soft);color:var(--red)}.int-opt.sel-dropped{border-color:#E8913A;background:rgba(232,145,58,.06);color:#E8913A}.compare-bar{position:fixed;bottom:0;left:270px;right:0;background:rgba(8,9,12,.92);border-top:1px solid var(--border);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);padding:.85rem 2rem;display:none;align-items:center;gap:1rem;z-index:300}.compare-bar.on{display:flex}.cmp-slots{display:flex;gap:.5rem;flex:1}.cmp-slot{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .9rem;font-size:.73rem;color:var(--t2);min-width:140px;display:flex;align-items:center;justify-content:space-between;gap:.5rem}.cmp-slot.filled{border-color:var(--accent);color:var(--t1)}.cmp-x{color:var(--t3);cursor:pointer;font-size:.82rem;line-height:1}.cmp-x:hover{color:var(--red)}.btn-cmp{background:linear-gradient(135deg,var(--accent),#c04a18);color:#fff;font-weight:700;border:none;border-radius:var(--r);padding:.55rem 1.3rem;font-size:.78rem;cursor:pointer;font-family:'Inter',system-ui,sans-serif;flex-shrink:0;transition:.2s;box-shadow:0 4px 16px var(--accent-glow)}.btn-cmp:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}.compare-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.8);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);display:none;align-items:center;justify-content:center}.compare-bg.on{display:flex}.compare-panel{width:min(900px,96vw);max-height:90vh;background:rgba(14,15,20,.95);border:1px solid var(--border2);border-radius:var(--r3);overflow-y:auto;box-shadow:var(--sh-xl);animation:panelIn3D .55s cubic-bezier(.23,1,.32,1)}.compare-panel::-webkit-scrollbar{width:5px}.compare-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}.cmp-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:rgba(14,15,20,.9);border-radius:var(--r3) var(--r3) 0 0}.cmp-header-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-.03em}.cmp-body{padding:1.75rem 2rem 3rem}.cmp-radar-row{display:flex;gap:2rem;align-items:center;margin-bottom:1.5rem;background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem}.cmp-radar-svg{flex-shrink:0}.cmp-radar-legend{display:flex;flex-direction:column;gap:.5rem;flex:1}.cmp-legend-hdr{font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;margin-bottom:.2rem}.cmp-legend-row{display:flex;align-items:center;gap:.4rem;font-size:.7rem}.cmp-legend-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}.cmp-legend-lbl{color:var(--t3);flex:1}.cmp-legend-v1{font-family:'JetBrains Mono',monospace;font-weight:600;width:28px;text-align:right;font-size:.68rem}.cmp-legend-v2{font-family:'JetBrains Mono',monospace;font-weight:600;width:28px;text-align:right;font-size:.68rem}.cmp-table{width:100%;border-collapse:collapse;margin-bottom:1.5rem}.cmp-table th{font-size:.55rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;padding:.5rem .75rem;text-align:left;border-bottom:1px solid var(--border)}.cmp-table th:not(:first-child){text-align:center}.cmp-table td{padding:.5rem .75rem;border-bottom:1px solid rgba(255,255,255,.02);font-size:.78rem}.cmp-table td:not(:first-child){text-align:center;font-family:'JetBrains Mono',monospace;font-weight:600}.cmp-table td:first-child{color:var(--t2);font-weight:500}.cmp-table .cmp-win{color:var(--accent)}.cmp-table .cmp-lose{color:var(--t3)}.cmp-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}.cmp-info-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.25rem}.cmp-info-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.6rem}.cmp-info-row{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.75rem;border-bottom:1px solid rgba(255,255,255,.02)}.cmp-info-row:last-child{border-bottom:none}.cmp-info-row span:first-child{color:var(--t3)}.cmp-info-row span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600}.sidebar-overlay{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}.sidebar-overlay.on{display:block}@keyframes barIn{from{width:0!important}}.panel-body > div:first-child:not(.scores-row):not(.radar-section){margin-top:0}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}body::before{animation:none}.card:hover{transform:none}.card:hover .card-hero-img{transform:none}.card:hover .card-hero-pa{transform:none}.panel{animation:none}.compare-panel{animation:none}}@media(max-width:768px){.hamburger{display:flex}.sidebar{position:fixed;left:-270px;z-index:200;height:100%;transition:.3s}.sidebar.open{left:0;box-shadow:0 0 60px rgba(0,0,0,.7)}.main{width:100%}.compare-bar{left:0}.panel{width:96vw;max-height:92vh;border-radius:var(--r2)}.panel-top{border-radius:var(--r2) var(--r2) 0 0}.cards-area{padding:1.2rem}.grid{grid-template-columns:1fr;gap:.75rem}.evo-summary{padding:.4rem .8rem}.evo-row-name{width:55px;font-size:.58rem}.evo-sum-label{width:24px;font-size:.65rem}.evo-sum-old,.evo-sum-new{width:30px;font-size:.72rem}.stats-thead span,.stats-row span{width:40px;font-size:.56rem}.stats-thead span:first-child,.stats-row span:first-child{width:auto}.cmp-radar-row{flex-direction:column}.cmp-info-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-head">
-    <div class="logo">
-      <div class="logo-icon">KV</div>
-      <div>
-        <div class="logo-text">FM<span>Scout</span></div>
-        <div class="logo-sub">KV Mechelen — Recrutement</div>
-      </div>
-    </div>
-    <div class="scout-season">
-      <span class="scout-season-lbl">Saison</span>
-      <span class="scout-season-val">FM 2026</span>
-    </div>
+    <div class="logo"><div class="logo-icon">KV</div><div><div class="logo-text">FM<span>Scout</span></div><div class="logo-sub">KV Mechelen — Recrutement</div></div></div>
+    <div class="scout-season"><span class="scout-season-lbl">Saison</span><span class="scout-season-val">FM 2026</span></div>
   </div>
-
   <div class="sidebar-filters">
-    <div class="filter-group">
-      <div class="fg-label">Poste</div>
+    <div class="filter-group"><div class="fg-label">Poste</div>
       <div class="pos-pills" id="pos-pills">
-        <span class="ppill on" data-pos="all">Tous</span>
-        <span class="ppill" data-pos="GK">GK</span>
-        <span class="ppill" data-pos="DEF">DEF</span>
-        <span class="ppill" data-pos="MID">MID</span>
-        <span class="ppill" data-pos="ATT">ATT</span>
+        <span class="ppill on" data-pos="all" role="button" tabindex="0">Tous</span>
+        <span class="ppill" data-pos="GK" role="button" tabindex="0">GK</span>
+        <span class="ppill" data-pos="DC" role="button" tabindex="0">DC</span>
+        <span class="ppill" data-pos="DL" role="button" tabindex="0">DL</span>
+        <span class="ppill" data-pos="DR" role="button" tabindex="0">DR</span>
+        <span class="ppill" data-pos="MDC" role="button" tabindex="0">MDC</span>
+        <span class="ppill" data-pos="MC" role="button" tabindex="0">MC</span>
+        <span class="ppill" data-pos="MO" role="button" tabindex="0">MO</span>
+        <span class="ppill" data-pos="AIL" role="button" tabindex="0">AIL</span>
+        <span class="ppill" data-pos="BU" role="button" tabindex="0">BU</span>
       </div>
     </div>
-    <div class="filter-group">
-      <div class="fg-label">Âge max</div>
-      <div class="range-row">
-        <span id="age-lbl">35</span>
-        <input class="frange" type="range" id="age-range" min="16" max="35" value="35">
-        <span style="color:var(--t3);font-size:.68rem">35</span>
-      </div>
-    </div>
-    <div class="filter-group">
-      <div class="fg-label">Potentiel (PA) min</div>
-      <div class="range-row">
-        <span id="pa-lbl">0</span>
-        <input class="frange" type="range" id="pa-range" min="0" max="200" value="0">
-        <span style="color:var(--t3);font-size:.68rem">200</span>
-      </div>
-    </div>
-    <div class="filter-group">
-      <div class="fg-label">Prix max</div>
-      <select class="fsel" id="val-sel">
-        <option value="999999999">Tous les prix</option>
-        <option value="0">Gratuit uniquement</option>
-        <option value="100000">≤ 100 000 €</option>
-        <option value="500000">≤ 500 000 €</option>
-        <option value="1000000">≤ 1 000 000 €</option>
-        <option value="5000000">≤ 5 000 000 €</option>
-        <option value="15000000">≤ 15 000 000 €</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <div class="fg-label">Nationalité</div>
-      <select class="fsel" id="nat-sel"><option value="all">Toutes les nations</option></select>
-    </div>
-    <div class="filter-group">
-      <div class="fg-label">Intérêt scout</div>
-      <select class="fsel" id="int-sel">
-        <option value="all">Tous</option>
-        <option value="sign">A signer</option>
-        <option value="target">Cible</option>
-        <option value="watch">A suivre</option>
-        <option value="pass">Non retenu</option>
-        <option value="dropped">Trop cher</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <div class="fg-label">Pied fort</div>
-      <select class="fsel" id="foot-sel">
-        <option value="all">Les deux</option>
-        <option value="Droit">Pied droit</option>
-        <option value="Gauche">Pied gauche</option>
-      </select>
-    </div>
+    <div class="filter-group"><div class="fg-label">Âge max</div><div class="range-row"><span id="age-lbl">35</span><input class="frange" type="range" id="age-range" min="16" max="35" value="35"><span style="color:var(--t3);font-size:.68rem">35</span></div></div>
+    <div class="filter-group"><div class="fg-label">Potentiel (PA) min</div><div class="range-row"><span id="pa-lbl">0</span><input class="frange" type="range" id="pa-range" min="0" max="200" value="0"><span style="color:var(--t3);font-size:.68rem">200</span></div></div>
+    <div class="filter-group"><div class="fg-label">Prix max</div><select class="fsel" id="val-sel"><option value="999999999">Tous les prix</option><option value="0">Gratuit uniquement</option><option value="100000">≤ 100 000 €</option><option value="500000">≤ 500 000 €</option><option value="1000000">≤ 1 000 000 €</option><option value="5000000">≤ 5 000 000 €</option><option value="15000000">≤ 15 000 000 €</option></select></div>
+    <div class="filter-group"><div class="fg-label">Nationalité</div><select class="fsel" id="nat-sel"><option value="all">Toutes les nations</option></select></div>
+    <div class="filter-group"><div class="fg-label">Intérêt scout</div><select class="fsel" id="int-sel"><option value="all">Tous</option><option value="sign">A signer</option><option value="target">Cible</option><option value="watch">A suivre</option><option value="pass">Non retenu</option><option value="dropped">Trop cher</option></select></div>
+    <div class="filter-group"><div class="fg-label">Pied fort</div><select class="fsel" id="foot-sel"><option value="all">Les deux</option><option value="Droit">Pied droit</option><option value="Gauche">Pied gauche</option></select></div>
   </div>
   <div class="sidebar-footer">
-    <button class="btn-reset" onclick="resetFilters()">↺ Réinitialiser</button>
+    <div class="budget-tracker" id="budget-tracker"><div class="bt-label">Budget « A signer »</div><div class="bt-row"><span>Transferts</span><span id="bt-total-val">0 €</span></div><div class="bt-row"><span>Salaires/mois</span><span id="bt-total-wage">0 €/mois</span></div></div>
+    <button class="btn-reset" onclick="resetFilters()" aria-label="Réinitialiser les filtres">↺ Réinitialiser</button>
+    <div class="sidebar-footer-btns"><button class="btn-export" onclick="exportData()" aria-label="Exporter les données">↓ Exporter</button><button class="btn-import" onclick="document.getElementById('import-file').click()" aria-label="Importer des données">↑ Importer</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"></div>
   </div>
 </aside>
-
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 <div class="main">
   <div class="topbar">
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
     <div class="search-wrap">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <label for="srch" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Recherche</label>
       <input class="sinp" type="text" id="srch" placeholder="Rechercher un joueur, club, pays…">
     </div>
     <div class="tab-bar">
-      <button class="tab-btn on" id="tab-active" onclick="setTab('active')">Actif <span class="tab-count" id="tab-cnt-active">0</span></button>
-      <button class="tab-btn tab-dropped" id="tab-dropped" onclick="setTab('dropped')">Abandonnés <span class="tab-count" id="tab-cnt-dropped">0</span></button>
+      <button class="tab-btn on" id="tab-active" onclick="setTab('active')" aria-label="Joueurs actifs">Actif <span class="tab-count" id="tab-cnt-active">0</span></button>
+      <button class="tab-btn tab-dropped" id="tab-dropped" onclick="setTab('dropped')" aria-label="Joueurs abandonnés">Abandonnés <span class="tab-count" id="tab-cnt-dropped">0</span></button>
     </div>
     <div class="topbar-right">
       <span class="count-badge"><b id="cnt">0</b></span>
-      <select class="sort-sel" id="sort-sel">
-        <option value="pa">Potentiel ↓</option>
-        <option value="ca">Note ↓</option>
-        <option value="age">Âge ↑</option>
-        <option value="val">Prix ↑</option>
-        <option value="name">Nom A→Z</option>
-      </select>
-      <div class="view-btns">
-        <button class="vbtn on" id="vg" onclick="setView('grid')" title="Grille">⊞</button>
-        <button class="vbtn" id="vl" onclick="setView('list')" title="Liste">☰</button>
-      </div>
+      <select class="sort-sel" id="sort-sel" aria-label="Tri"><option value="pa">Potentiel ↓</option><option value="ca">Note ↓</option><option value="age">Âge ↑</option><option value="val">Prix ↑</option><option value="name">Nom A→Z</option></select>
+      <div class="view-btns"><button class="vbtn on" id="vg" onclick="setView('grid')" title="Grille" aria-label="Vue grille">⊞</button><button class="vbtn" id="vl" onclick="setView('list')" title="Liste" aria-label="Vue liste">☰</button></div>
     </div>
   </div>
-  <div class="cards-area">
-    <div class="grid" id="grid"></div>
-  </div>
+  <div class="cards-area"><div class="grid" id="grid"></div></div>
 </div>
-
 </div>
-
-<div class="panel-bg" id="panel-bg" onclick="closePanelBg(event)">
-  <div class="panel" id="panel"></div>
-</div>
-
+<div class="panel-bg" id="panel-bg" role="dialog" aria-modal="true" aria-label="Détails du joueur" onclick="closePanelBg(event)"><div class="panel" id="panel"></div></div>
+<div class="compare-bg" id="compare-bg" role="dialog" aria-modal="true" aria-label="Comparaison de joueurs" onclick="closeCompareBg(event)"><div class="compare-panel" id="compare-panel"></div></div>
 <div class="compare-bar" id="cmp-bar">
   <div style="font-size:.7rem;color:var(--t2);flex-shrink:0;font-weight:600">Comparer</div>
-  <div class="cmp-slots">
-    <div class="cmp-slot" id="cmp-0"><span id="cmp-n0">Joueur 1</span></div>
-    <div class="cmp-slot" id="cmp-1"><span id="cmp-n1">Joueur 2</span></div>
-  </div>
-  <button class="btn-cmp" onclick="openCompare()">Comparer →</button>
-  <button style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.78rem" onclick="clearCompare()">Annuler</button>
+  <div class="cmp-slots"><div class="cmp-slot" id="cmp-0"><span id="cmp-n0">Joueur 1</span></div><div class="cmp-slot" id="cmp-1"><span id="cmp-n1">Joueur 2</span></div></div>
+  <button class="btn-cmp" onclick="openCompare()" aria-label="Lancer la comparaison">Comparer →</button>
+  <button style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.78rem" onclick="clearCompare()" aria-label="Annuler la comparaison">Annuler</button>
 </div>
-
 <script>
+function escapeHTML(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 var DATA=[
-{id:0,name:"Vasilije Novičić",club:"IMT Belgrade",nat:"Serbie",flag:"🇷🇸",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1957265/image",posLabel:"Milieu défensif",age:18,ca:93,pa:185,paRand:true,valNum:4000000,val:"4 000 000 €",wage:"563 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",attrs:{Vitesse:50,Technique:55,Physique:65,Vision:50,Défense:60,Mental:65},fm25:{ca:68,pa:180,attrs:{Vitesse:45,Technique:48,Physique:55,Vision:42,Défense:48,Mental:52}},stats:{fm25:{matches:23,goals:1,assists:2,rating:6.8,minutes:1720,yc:6,rc:0,cs:5},fm26:{matches:33,goals:8,assists:4,rating:7.1,minutes:2860,yc:11,rc:0,cs:9}},desc:"Milieu défensif serbe de 18 ans à l'IMT Belgrade. Bon pressing, récupération propre. International U17/U18 serbe. Régulier en Superliga serbe malgré son jeune âge. Excellent potentiel de développement.",tip:"Salaire dérisoire (563€/mois). PA aléatoire -10 (170-200). 4M€ mais potentiel top mondial — excellent investissement long terme.",note:"",interest:"",career:[{club:"Kosmet U15",period:"2016 - 2023",type:"youth"},{club:"FK Ole U17",period:"2023 - 2024",type:"transfer",fee:"?"},{club:"IMT Belgrad",period:"2024 - ",type:"transfer",fee:"?"}]},
-{id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1544426/image",posLabel:"Défenseur central",age:21,ca:105,pa:135,paRand:false,valNum:200000,val:"200 000 €",wage:"3 796 €/mois",foot:"Droit",height:"187 cm",contract:"juin 2027",attrs:{Vitesse:60,Technique:40,Physique:70,Vision:40,Défense:65,Mental:48},fm25:{ca:82,pa:130,attrs:{Vitesse:55,Technique:35,Physique:62,Vision:35,Défense:55,Mental:42}},stats:{fm25:{matches:20,goals:0,assists:0,rating:6.8,minutes:1680,yc:6,rc:0,cs:7},fm26:{matches:7,goals:0,assists:0,rating:6.5,minutes:490,yc:2,rc:1,cs:2}},desc:"Défenseur central argentin formé à l'Atlético Madrid. Grand gabarit (187cm), fort physiquement. Bon tacleur (70), excellent duels aériens (JR 75).",tip:"À signer en prêt la 1ère saison. PA fixe 135 — profil solide pour D2 européenne. Contrat court, clause raisonnable.",note:"",interest:"",career:[{club:"Estudiantes U20",period:"2022 - 2023",type:"youth"},{club:"Atletico Madrid U19",period:"2023",type:"formé"},{club:"Atletico Madrid B",period:"2023 - ",type:"transfer",fee:"?"},{club:"Atletico Madrid",period:"2024 - ",type:"promotion"}]},
-{id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1799520/image",posLabel:"Ailier / Milieu offensif",age:20,ca:107,pa:155,paRand:false,valNum:750000,val:"750 000 €",wage:"5 417 €/mois",foot:"Gauche",height:"165 cm",contract:"juin 2028",attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:38,Mental:65},fm25:{ca:95,pa:150,attrs:{Vitesse:62,Technique:60,Physique:45,Vision:55,Défense:32,Mental:55}},stats:{fm25:{matches:22,goals:2,assists:1,rating:6.7,minutes:1200,yc:0,rc:0,cs:0},fm26:{matches:21,goals:3,assists:2,rating:6.9,minutes:1250,yc:2,rc:0,cs:0}},desc:"Ailier offensif sud-africain exceptionnel à Kaizer Chiefs. Flair exceptionnel (99), dribbleur né (80), passes (80). Vainqueur U-20 CAN 2025.",tip:"PA 155 = top africain. Flair 99 et technique 70 pour 750K€. Signer avant qu'il parte en Europe.",note:"",interest:"",career:[{club:"Kaizer Chiefs",period:"2024 - ",type:"transfer",fee:"?"}]},
-{id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1463496/image",posLabel:"Milieu relayeur / DM",age:20,ca:113,pa:155,paRand:true,valNum:850000,val:"850 000 €",wage:"3 215 €/mois",foot:"Droit",height:"168 cm",contract:"juin 2028",attrs:{Vitesse:50,Technique:65,Physique:75,Vision:60,Défense:60,Mental:70},fm25:{ca:90,pa:150,attrs:{Vitesse:45,Technique:55,Physique:65,Vision:50,Défense:50,Mental:60}},stats:{fm25:{matches:21,goals:2,assists:0,rating:6.9,minutes:1650,yc:1,rc:0,cs:5},fm26:{matches:14,goals:1,assists:0,rating:6.8,minutes:1050,yc:0,rc:0,cs:4}},desc:"Milieu ivoirien de 20 ans à l'Espérance Tunis. Explosif, grande endurance, excellent pressing. PA aléatoire -8 (150-170).",tip:"850K€. Idéal pour D2 espagnole, Serie B ou Ligue 1. PA aléatoire peut atteindre 170.",note:"",interest:"",career:[{club:"San Pedro",period:"2024",type:"formé"},{club:"Espérance Tunis",period:"2024 - ",type:"transfer",fee:"?"}]},
-{id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",img:"https://img.sofascore.com/api/v1/player/2039604/image",posLabel:"Milieu offensif / N°10",age:18,ca:95,pa:135,paRand:true,valNum:500000,val:"500 000 €",wage:"1 714 €/mois",foot:"Droit",height:"183 cm",contract:"déc. 2027",attrs:{Vitesse:65,Technique:70,Physique:60,Vision:60,Défense:35,Mental:65},fm25:{ca:65,pa:130,attrs:{Vitesse:55,Technique:58,Physique:50,Vision:50,Défense:28,Mental:55}},stats:{fm25:{matches:20,goals:1,assists:2,rating:6.8,minutes:780,yc:3,rc:0,cs:0},fm26:{matches:6,goals:0,assists:0,rating:6.5,minutes:250,yc:0,rc:0,cs:0}},desc:"Milieu offensif péruvien de 18 ans à Alianza Lima. Technique (70), flair (70), bonne finition. Profil numéro 10 classique.",tip:"500K€ pour un N°10 de 18 ans avec technique 70 et flair 70. Risque quasi nul financièrement.",note:"",interest:"",career:[{club:"Alianza Lima",period:"2025 - ",type:"formé"}]},
-{id:5,name:"Pascal Mozie",club:"Agent libre (ex-Legia Warszawa)",nat:"Pologne",flag:"🇵🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1890312/image",posLabel:"Milieu défensif / relayeur",age:18,ca:95,pa:145,paRand:true,valNum:600000,val:"600 000 €",wage:"Libre",foot:"Gauche",height:"186 cm",contract:"Libre",attrs:{Vitesse:65,Technique:60,Physique:75,Vision:60,Défense:65,Mental:75},fm25:{ca:60,pa:140,attrs:{Vitesse:55,Technique:50,Physique:60,Vision:50,Défense:52,Mental:62}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.4,minutes:100,yc:0,rc:0,cs:0},fm26:{matches:11,goals:0,assists:2,rating:6.2,minutes:450,yc:2,rc:0,cs:0}},desc:"Milieu défensif polonais de 18 ans, libre depuis la fin de son contrat au Legia Warszawa. Physique imposant (186cm), détermination (75).",tip:"18 ans, libre, 600K€ de valeur. Physique 75, polyvalent. Signer sans frais de transfert.",note:"",interest:"",career:[{club:"Legia Warszawa U19",period:"2024",type:"youth"},{club:"Legia Warszawa",period:"2024 - 2026",type:"promotion"},{club:"Agent libre",period:"2026 - ",type:"free"}]},
-{id:6,name:"Salah Oulad M'Hand",club:"Riga FC",nat:"Pays-Bas",flag:"🇳🇱",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1067114/image",posLabel:"Milieu central / offensif",age:22,ca:115,pa:135,paRand:false,valNum:600000,val:"600 000 €",wage:"2 548 €/mois",foot:"Droit",height:"177 cm",contract:"juin 2028",attrs:{Vitesse:65,Technique:60,Physique:65,Vision:60,Défense:55,Mental:60},fm25:{ca:100,pa:130,attrs:{Vitesse:60,Technique:55,Physique:60,Vision:55,Défense:50,Mental:55}},stats:{fm25:{matches:19,goals:6,assists:7,rating:6.8,minutes:1600,yc:5,rc:0,cs:0},fm26:{matches:24,goals:6,assists:7,rating:7.8,minutes:1800,yc:2,rc:0,cs:0}},desc:"Milieu néerlandais de 22 ans au Riga FC (ex-Arsenal, Feyenoord). Excellent équilibre récupération/création. Polyvalent.",tip:"Ancien Arsenal, maintenant à Riga. 600K€ pour un milieu expérimenté. Contrat jusqu'en 2028.",note:"",interest:"",career:[{club:"Feyenoord",period:"2016 - 2020",type:"youth"},{club:"Arsenal",period:"2020 - 2024",type:"formé"},{club:"Hull City",period:"2022 - 2023",type:"loan"},{club:"FC Den Bosch",period:"2023 - 2024",type:"loan"},{club:"Riga FC",period:"2026 - ",type:"transfer",fee:"?"}]},
-{id:7,name:"Moïse Diarrassouba",club:"Agent libre",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/2111998/image",posLabel:"Ailier droit",age:17,ca:75,pa:150,paRand:true,valNum:0,val:"Gratuit",wage:"0 €/mois",foot:"Droit",height:"181 cm",contract:"Libre",attrs:{Vitesse:65,Technique:65,Physique:55,Vision:60,Défense:30,Mental:60},fm25:{ca:45,pa:140,attrs:{Vitesse:55,Technique:52,Physique:45,Vision:48,Défense:22,Mental:48}},stats:{fm25:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0},fm26:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0}},desc:"Ailier ivoirien de 17 ans, libre de tout contrat. Technique correcte (65), bon potentiel de développement.",tip:"Agent libre à 17 ans. Investissement minimal, potentiel énorme si development réussi.",note:"",interest:"",career:[{club:"Libre",period:"2008 - ",type:"free"}]},
-{id:8,name:"Jamie Lawrence",club:"Agent libre (ex-WSG Tirol)",nat:"Allemagne",flag:"🇩🇪",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/997206/image",posLabel:"Défenseur central",age:23,ca:128,pa:155,paRand:false,valNum:700000,val:"700 000 €",wage:"Libre",foot:"Droit",height:"201 cm",contract:"Libre",attrs:{Vitesse:60,Technique:45,Physique:80,Vision:60,Défense:70,Mental:72},fm25:{ca:118,pa:150,attrs:{Vitesse:55,Technique:40,Physique:72,Vision:52,Défense:62,Mental:65}},stats:{fm25:{matches:28,goals:3,assists:1,rating:7.4,minutes:2520,yc:5,rc:0,cs:9},fm26:{matches:32,goals:2,assists:0,rating:7.0,minutes:2852,yc:5,rc:0,cs:7}},desc:"Défenseur central allemand de 23 ans, libre. 201cm, physique exceptionnel (80), duels aériens dominants (JR 90). Tacleur solide (80).",tip:"201cm + physique 80 + tacle 80. Libre = aucun frais de transfert. Excellent profil DC physically dominant.",note:"",interest:"",career:[{club:"Kirchheimer SC",period:"- 2017",type:"youth"},{club:"FC Bayern München",period:"2017 - 2020",type:"formé"},{club:"WSG Tirol",period:"2024 - 2026",type:"transfer",fee:"?"},{club:"Agent libre",period:"2026 - ",type:"free"}]},
-{id:9,name:"Giacomo De Pieri",club:"Ascoli (prêt Inter U23)",nat:"Italie",flag:"🇮🇹",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1466113/image",posLabel:"Ailier droit / Inside Winger",age:19,ca:118,pa:165,paRand:true,valNum:1300000,val:"1 300 000 €",wage:"1 103 €/mois",foot:"Gauche",height:"174 cm",contract:"Inter U23 — 2029",attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:35,Mental:68},fm25:{ca:95,pa:160,attrs:{Vitesse:62,Technique:60,Physique:42,Vision:55,Défense:28,Mental:58}},stats:{fm25:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0},fm26:{matches:16,goals:1,assists:1,rating:6.5,minutes:630,yc:5,rc:0,cs:0}},desc:"Ailier élite de l'Inter Milan, prêté à l'Ascoli Calcio. Pied gauche dominant, technique exceptionnelle (70), flair (75).",tip:"PA aléatoire -8.5 (160-180). 1.3M€ pour un ailier de l'Inter. Potentiel élite mondial.",note:"",interest:"",career:[{club:"Inter Milan",period:"2020 - ",type:"formé"},{club:"Juve Stabia",period:"2025",type:"loan"},{club:"SSC Bari",period:"2026",type:"loan"},{club:"Ascoli Calcio",period:"2026 - ",type:"loan",fee:"Prêt + option"}]},
-{id:10,name:"Gabriele Calvani",club:"Genoa CFC",nat:"Italie",flag:"🇮🇹",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1425050/image",posLabel:"Défenseur central",age:22,ca:132,pa:155,paRand:true,valNum:4000000,val:"4 000 000 €",wage:"3 748 €/mois",foot:"Droit",height:"190 cm",contract:"juin 2026",attrs:{Vitesse:65,Technique:60,Physique:70,Vision:45,Défense:65,Mental:68},fm25:{ca:115,pa:150,attrs:{Vitesse:58,Technique:52,Physique:62,Vision:40,Défense:58,Mental:60}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.7,minutes:250,yc:0,rc:0,cs:1},fm26:{matches:35,goals:1,assists:1,rating:6.9,minutes:2790,yc:4,rc:1,cs:8}},desc:"Défenseur central italien de 22 ans au Genoa CFC. 190cm, marquage (70), en-tête (70). Contrat court — disponible.",tip:"4M€ mais contrat expire 2026. Négocier un prix réduit ou attendre la fin de contrat.",note:"",interest:"",career:[{club:"Genoa",period:"2020 - ",type:"formé"},{club:"Pontedera",period:"2023 - 2024",type:"loan"},{club:"Brescia",period:"2024 - 2025",type:"loan"},{club:"Genoa CFC",period:"2025 - ",type:"promotion"}]},
-{id:11,name:"Jan Salas",club:"RCD Mallorca",nat:"Espagne",flag:"🇪🇸",pos:"MID",img:"https://img.sofascore.com/api/v1/player/1905699/image",posLabel:"Milieu offensif / N°10",age:20,ca:105,pa:155,paRand:true,valNum:500000,val:"500 000 €",wage:"7 318 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",attrs:{Vitesse:65,Technique:65,Physique:60,Vision:65,Défense:42,Mental:65},fm25:{ca:95,pa:150,attrs:{Vitesse:58,Technique:55,Physique:52,Vision:55,Défense:35,Mental:55}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.3,minutes:43,yc:0,rc:0,cs:0},fm26:{matches:6,goals:0,assists:0,rating:6.2,minutes:134,yc:0,rc:0,cs:0}},desc:"Milieu offensif espagnol de 20 ans au RCD Mallorca en LaLiga2. Technique élégante (65), vision de haut niveau (65).",tip:"500K€ pour un milieu technique espagnol de 20 ans en LaLiga2. Contrat long jusqu'en 2028.",note:"",interest:"",career:[{club:"RCD Mallorca",period:"2013 - ",type:"formé"},{club:"RCD Mallorca B",period:"2023 - 2025",type:"promotion"},{club:"RCD Mallorca",period:"2025 - ",type:"promotion"}]},
-{id:12,name:"Mbekezeli Mbokazi",club:"Chicago Fire (MLS)",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/2058228/image",posLabel:"Défenseur central",age:20,ca:125,pa:155,paRand:false,valNum:3500000,val:"3 500 000 €",wage:"37 105 €/mois",foot:"Gauche",height:"177 cm",contract:"déc. 2029",attrs:{Vitesse:55,Technique:50,Physique:75,Vision:80,Défense:68,Mental:70},fm25:{ca:110,pa:150,attrs:{Vitesse:50,Technique:42,Physique:65,Vision:70,Défense:58,Mental:62}},stats:{fm25:{matches:17,goals:0,assists:1,rating:7.1,minutes:1350,yc:2,rc:0,cs:5},fm26:{matches:33,goals:1,assists:2,rating:7.0,minutes:2700,yc:4,rc:0,cs:8}},desc:"Défenseur central sud-africain de 20 ans au Chicago Fire (MLS). Vision exceptionnelle (80), leadership (80), passes (80).",tip:"3.5M€ pour un DC avec vision 80 et leadership 80. Contrat long jusqu'en 2029.",note:"",interest:"",career:[{club:"Orlando Pirates II",period:"2024 - 2025",type:"youth"},{club:"Orlando Pirates",period:"2025 - 2026",type:"promotion"},{club:"Chicago Fire",period:"2026 - ",type:"transfer",fee:"?"}]},
-{id:13,name:"Massiré Sylla",club:"Royale Union Saint-Gilloise",nat:"Sénégal",flag:"🇸🇳",pos:"DEF",img:"https://img.sofascore.com/api/v1/player/1897832/image",posLabel:"Défenseur central / DM",age:21,ca:120,pa:145,paRand:true,valNum:800000,val:"800 000 €",wage:"21 667 €/mois",foot:"Droit",height:"196 cm",contract:"juin 2030",attrs:{Vitesse:60,Technique:60,Physique:80,Vision:55,Défense:65,Mental:70},fm25:{ca:90,pa:140,attrs:{Vitesse:52,Technique:50,Physique:70,Vision:45,Défense:55,Mental:60}},stats:{fm25:{matches:26,goals:0,assists:0,rating:6.8,minutes:2200,yc:4,rc:0,cs:8},fm26:{matches:7,goals:0,assists:0,rating:8.3,minutes:280,yc:1,rc:0,cs:2}},desc:"Défenseur central sénégalais de 21 ans à l'Union SG. 196cm, physique dominant (80), duels aériens (JR 85). Vainqueur Coupe de Belgique.",tip:"196cm + physique 80 + travail 90 pour 800K€. Contrat jusqu'en 2030. Profil DC/DM polyvalent.",note:"",interest:"",career:[{club:"Diambars FC",period:"2022 - 2024",type:"formé"},{club:"Pau FC B",period:"2024",type:"loan"},{club:"Lyn Oslo",period:"2024 - 2026",type:"transfer",fee:"?"},{club:"Union Saint-Gilloise",period:"2026 - ",type:"transfer",fee:"600K€"}]},
-{id:14,name:"Amara Diouf",club:"Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",img:"https://img.sofascore.com/api/v1/player/1536761/image",posLabel:"Ailier gauche / AMC",age:18,ca:88,pa:150,paRand:true,valNum:1500000,val:"1 500 000 €",wage:"720 €/mois",foot:"Droit",height:"174 cm",contract:"juin 2031",attrs:{Vitesse:60,Technique:65,Physique:60,Vision:60,Défense:28,Mental:63},fm25:{ca:72,pa:140,attrs:{Vitesse:52,Technique:55,Physique:52,Vision:52,Défense:22,Mental:55}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.5,minutes:180,yc:0,rc:0,cs:0},fm26:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0}},desc:"Ailier sénégalais de 18 ans, transfert au Fenerbahçe en juin 2026 (5 ans, jusqu'en 2031). Véritable pépite africaine — meilleur joueur et meilleur buteur de la CAN U17 2023 (5 buts, record d'Osimhen battu). Technique solide (65), flair (80), détermination (80). International senior sénégalais à 15 ans (plus jeune débiteur de l'histoire). Blessé au ligament croisé en 2024, de retour en 2026. Fils d'Ady Diouf, ancien footballeur professionnel.",tip:"1,5M€ de frais de formation + salaire progressif. PA aléatoire peut atteindre 170. Meilleur joueur de la CAN U17 2023, vainqueur du ballon d'or. Potentiel énorme au Fenerbahçe — à surveiller de près.",note:"",interest:"",career:[{club:"Génération Foot U17",period:"2017 - 2023",type:"youth"},{club:"Génération Foot",period:"2023 - 2026",type:"promotion"},{club:"Fenerbahçe",period:"2026 - ",type:"transfer",fee:"1,5M€"}]}
+{id:0,name:"Vasilije Novičić",club:"IMT Belgrade",nat:"Serbie",flag:"🇷🇸",pos:"MID",posDetail:"MDC",img:"https://img.sofascore.com/api/v1/player/1957265/image",posLabel:"Milieu défensif",age:18,ca:93,pa:185,paRand:true,valNum:4000000,val:"4 000 000 €",wage:"563 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",attrs:{Vitesse:50,Technique:55,Physique:65,Vision:50,Défense:60,Mental:65,Dribble:42,Frappe:48,Passe:50,Centres:35,Agilité:52,Endurance:70,Flair:45,Détermination:68},fm25:{ca:68,pa:180,attrs:{Vitesse:45,Technique:48,Physique:55,Vision:42,Défense:48,Mental:52,Dribble:38,Frappe:42,Passe:44,Centres:30,Agilité:46,Endurance:62,Flair:38,Détermination:60}},stats:{fm25:{matches:23,goals:1,assists:2,rating:6.8,minutes:1720,yc:6,rc:0,cs:5},fm26:{matches:33,goals:8,assists:4,rating:7.1,minutes:2860,yc:11,rc:0,cs:9}},desc:"Milieu défensif serbe de 18 ans à l'IMT Belgrade. Bon pressing, récupération propre. International U17/U18 serbe. Régulier en Superliga serbe malgré son jeune âge. Excellent potentiel de développement.",tip:"Salaire dérisoire (563€/mois). PA aléatoire -10 (170-200). 4M€ mais potentiel top mondial — excellent investissement long terme.",note:"",interest:"",career:[{club:"Kosmet U15",period:"2018 - 2023",type:"youth"},{club:"FK Ole U17",period:"2023 - 2024",type:"transfer",fee:"?"},{club:"IMT Belgrad",period:"2024 - ",type:"transfer",fee:"?"}]},
+{id:1,name:"Gerónimo Spina",club:"Atlético Madrid B",nat:"Argentine",flag:"🇦🇷",pos:"DEF",posDetail:"DC",img:"https://img.sofascore.com/api/v1/player/1544426/image",posLabel:"Défenseur central",age:21,ca:105,pa:135,paRand:false,valNum:200000,val:"200 000 €",wage:"3 796 €/mois",foot:"Droit",height:"187 cm",contract:"juin 2027",attrs:{Vitesse:60,Technique:40,Physique:70,Vision:40,Défense:65,Mental:48,Dribble:30,Frappe:35,Passe:38,Centres:25,Agilité:38,Endurance:65,Flair:28,Détermination:55},fm25:{ca:82,pa:130,attrs:{Vitesse:55,Technique:35,Physique:62,Vision:35,Défense:55,Mental:42,Dribble:25,Frappe:30,Passe:32,Centres:20,Agilité:32,Endurance:58,Flair:22,Détermination:48}},stats:{fm25:{matches:20,goals:0,assists:0,rating:6.8,minutes:1680,yc:6,rc:0,cs:7},fm26:{matches:7,goals:0,assists:0,rating:6.5,minutes:490,yc:2,rc:1,cs:2}},desc:"Défenseur central argentin formé à l'Atlético Madrid. Grand gabarit (187cm), fort physiquement. Bon tacleur (70), excellent duels aériens (JR 75).",tip:"À signer en prêt la 1ère saison. PA fixe 135 — profil solide pour D2 européenne. Contrat court, clause raisonnable.",note:"",interest:"",career:[{club:"Estudiantes U20",period:"2022 - 2023",type:"youth"},{club:"Atletico Madrid U19",period:"2023",type:"formé"},{club:"Atletico Madrid B",period:"2023 - ",type:"transfer",fee:"?"},{club:"Atletico Madrid",period:"2024 - ",type:"promotion"}]},
+{id:2,name:"Mfundo Vilakazi",club:"Kaizer Chiefs",nat:"Afrique du Sud",flag:"🇿🇦",pos:"MID",posDetail:"AIL",img:"https://img.sofascore.com/api/v1/player/1799520/image",posLabel:"Ailier / Milieu offensif",age:20,ca:107,pa:155,paRand:false,valNum:750000,val:"750 000 €",wage:"5 417 €/mois",foot:"Gauche",height:"165 cm",contract:"juin 2028",attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:38,Mental:65,Dribble:80,Frappe:60,Passe:65,Centres:55,Agilité:78,Endurance:60,Flair:99,Détermination:65},fm25:{ca:95,pa:150,attrs:{Vitesse:62,Technique:60,Physique:45,Vision:55,Défense:32,Mental:55,Dribble:70,Frappe:50,Passe:55,Centres:45,Agilité:68,Endurance:52,Flair:88,Détermination:55}},stats:{fm25:{matches:22,goals:2,assists:1,rating:6.7,minutes:1200,yc:0,rc:0,cs:0},fm26:{matches:21,goals:3,assists:2,rating:6.9,minutes:1250,yc:2,rc:0,cs:0}},desc:"Ailier offensif sud-africain exceptionnel à Kaizer Chiefs. Flair exceptionnel (99), dribbleur né (80), passes (80). Vainqueur U-20 CAN 2025.",tip:"PA 155 = top africain. Flair 99 et technique 70 pour 750K€. Signer avant qu'il parte en Europe.",note:"",interest:"",career:[{club:"Kaizer Chiefs",period:"2024 - ",type:"transfer",fee:"?"}]},
+{id:3,name:"Abdramane Konaté",club:"Espérance Tunis",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"MID",posDetail:"MDC",img:"https://img.sofascore.com/api/v1/player/1463496/image",posLabel:"Milieu relayeur / DM",age:20,ca:113,pa:155,paRand:true,valNum:850000,val:"850 000 €",wage:"3 215 €/mois",foot:"Droit",height:"168 cm",contract:"juin 2028",attrs:{Vitesse:50,Technique:65,Physique:75,Vision:60,Défense:60,Mental:70,Dribble:55,Frappe:50,Passe:58,Centres:40,Agilité:55,Endurance:80,Flair:50,Détermination:72},fm25:{ca:90,pa:150,attrs:{Vitesse:45,Technique:55,Physique:65,Vision:50,Défense:50,Mental:60,Dribble:48,Frappe:42,Passe:50,Centres:35,Agilité:48,Endurance:72,Flair:42,Détermination:64}},stats:{fm25:{matches:21,goals:2,assists:0,rating:6.9,minutes:1650,yc:1,rc:0,cs:5},fm26:{matches:14,goals:1,assists:0,rating:6.8,minutes:1050,yc:0,rc:0,cs:4}},desc:"Milieu ivoirien de 20 ans à l'Espérance Tunis. Explosif, grande endurance, excellent pressing. PA aléatoire -8 (150-170).",tip:"850K€. Idéal pour D2 espagnole, Serie B ou Ligue 1. PA aléatoire peut atteindre 170.",note:"",interest:"",career:[{club:"San Pedro",period:"2024",type:"formé"},{club:"Espérance Tunis",period:"2024 - ",type:"transfer",fee:"?"}]},
+{id:4,name:"Piero Cari",club:"Alianza Lima",nat:"Pérou",flag:"🇵🇪",pos:"MID",posDetail:"MO",img:"https://img.sofascore.com/api/v1/player/2039604/image",posLabel:"Milieu offensif / N°10",age:18,ca:95,pa:135,paRand:true,valNum:500000,val:"500 000 €",wage:"1 714 €/mois",foot:"Droit",height:"183 cm",contract:"déc. 2027",attrs:{Vitesse:65,Technique:70,Physique:60,Vision:60,Défense:35,Mental:65,Dribble:65,Frappe:62,Passe:68,Centres:50,Agilité:60,Endurance:55,Flair:70,Détermination:60},fm25:{ca:65,pa:130,attrs:{Vitesse:55,Technique:58,Physique:50,Vision:50,Défense:28,Mental:55,Dribble:55,Frappe:52,Passe:58,Centres:42,Agilité:50,Endurance:48,Flair:60,Détermination:50}},stats:{fm25:{matches:20,goals:1,assists:2,rating:6.8,minutes:780,yc:3,rc:0,cs:0},fm26:{matches:6,goals:0,assists:0,rating:6.5,minutes:250,yc:0,rc:0,cs:0}},desc:"Milieu offensif péruvien de 18 ans à Alianza Lima. Technique (70), flair (70), bonne finition. Profil numéro 10 classique.",tip:"500K€ pour un N°10 de 18 ans avec technique 70 et flair 70. Risque quasi nul financièrement.",note:"",interest:"",career:[{club:"Alianza Lima",period:"2025 - ",type:"formé"}]},
+{id:5,name:"Pascal Mozie",club:"Agent libre (ex-Legia Warszawa)",nat:"Pologne",flag:"🇵🇱",pos:"MID",posDetail:"MDC",img:"https://img.sofascore.com/api/v1/player/1890312/image",posLabel:"Milieu défensif / relayeur",age:18,ca:95,pa:145,paRand:true,valNum:600000,val:"600 000 €",wage:"Libre",foot:"Gauche",height:"186 cm",contract:"Libre",attrs:{Vitesse:65,Technique:60,Physique:75,Vision:60,Défense:65,Mental:75,Dribble:48,Frappe:45,Passe:55,Centres:35,Agilité:50,Endurance:72,Flair:42,Détermination:75},fm25:{ca:60,pa:140,attrs:{Vitesse:55,Technique:50,Physique:60,Vision:50,Défense:52,Mental:62,Dribble:40,Frappe:38,Passe:46,Centres:28,Agilité:42,Endurance:64,Flair:35,Détermination:65}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.4,minutes:100,yc:0,rc:0,cs:0},fm26:{matches:11,goals:0,assists:2,rating:6.2,minutes:450,yc:2,rc:0,cs:0}},desc:"Milieu défensif polonais de 18 ans, libre depuis la fin de son contrat au Legia Warszawa. Physique imposant (186cm), détermination (75).",tip:"18 ans, libre, 600K€ de valeur. Physique 75, polyvalent. Signer sans frais de transfert.",note:"",interest:"",career:[{club:"Legia Warszawa U19",period:"2024",type:"youth"},{club:"Legia Warszawa",period:"2024 - 2026",type:"promotion"},{club:"Agent libre",period:"2026 - ",type:"free"}]},
+{id:6,name:"Salah Oulad M'Hand",club:"Riga FC",nat:"Pays-Bas",flag:"🇳🇱",pos:"MID",posDetail:"MC",img:"https://img.sofascore.com/api/v1/player/1067114/image",posLabel:"Milieu central / offensif",age:22,ca:115,pa:135,paRand:false,valNum:600000,val:"600 000 €",wage:"2 548 €/mois",foot:"Droit",height:"177 cm",contract:"juin 2028",attrs:{Vitesse:65,Technique:60,Physique:65,Vision:60,Défense:55,Mental:60,Dribble:52,Frappe:55,Passe:58,Centres:42,Agilité:55,Endurance:68,Flair:48,Détermination:58},fm25:{ca:100,pa:130,attrs:{Vitesse:60,Technique:55,Physique:60,Vision:55,Défense:50,Mental:55,Dribble:45,Frappe:48,Passe:50,Centres:36,Agilité:48,Endurance:60,Flair:42,Détermination:50}},stats:{fm25:{matches:19,goals:6,assists:7,rating:6.8,minutes:1600,yc:5,rc:0,cs:0},fm26:{matches:24,goals:6,assists:7,rating:7.8,minutes:1800,yc:2,rc:0,cs:0}},desc:"Milieu néerlandais de 22 ans au Riga FC (ex-Arsenal, Feyenoord). Excellent équilibre récupération/création. Polyvalent.",tip:"Ancien Arsenal, maintenant à Riga. 600K€ pour un milieu expérimenté. Contrat jusqu'en 2028.",note:"",interest:"",career:[{club:"Feyenoord",period:"2016 - 2020",type:"youth"},{club:"Arsenal",period:"2020 - 2024",type:"formé"},{club:"Hull City",period:"2022 - 2023",type:"loan"},{club:"FC Den Bosch",period:"2023 - 2024",type:"loan"},{club:"Riga FC",period:"2026 - ",type:"transfer",fee:"?"}]},
+{id:7,name:"Moïse Diarrassouba",club:"Agent libre",nat:"Côte d'Ivoire",flag:"🇨🇮",pos:"ATT",posDetail:"AIL",img:"https://img.sofascore.com/api/v1/player/2111998/image",posLabel:"Ailier droit",age:17,ca:75,pa:150,paRand:true,valNum:0,val:"Gratuit",wage:"0 €/mois",foot:"Droit",height:"181 cm",contract:"Libre",attrs:{Vitesse:65,Technique:65,Physique:55,Vision:60,Défense:30,Mental:60,Dribble:62,Frappe:58,Passe:55,Centres:45,Agilité:65,Endurance:55,Flair:55,Détermination:58},fm25:{ca:45,pa:140,attrs:{Vitesse:55,Technique:52,Physique:45,Vision:48,Défense:22,Mental:48,Dribble:52,Frappe:48,Passe:45,Centres:38,Agilité:55,Endurance:48,Flair:45,Détermination:48}},stats:{fm25:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0},fm26:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0}},desc:"Ailier ivoirien de 17 ans, libre de tout contrat. Technique correcte (65), bon potentiel de développement.",tip:"Agent libre à 17 ans. Investissement minimal, potentiel énorme si development réussi.",note:"",interest:"",career:[{club:"Académie",period:"2018 - 2025",type:"youth"},{club:"Agent libre",period:"2025 - ",type:"free"}]},
+{id:8,name:"Jamie Lawrence",club:"Agent libre (ex-WSG Tirol)",nat:"Allemagne",flag:"🇩🇪",pos:"DEF",posDetail:"DC",img:"https://img.sofascore.com/api/v1/player/997206/image",posLabel:"Défenseur central",age:23,ca:128,pa:155,paRand:false,valNum:700000,val:"700 000 €",wage:"Libre",foot:"Droit",height:"201 cm",contract:"Libre",attrs:{Vitesse:60,Technique:45,Physique:80,Vision:60,Défense:70,Mental:72,Dribble:28,Frappe:40,Passe:35,Centres:20,Agilité:35,Endurance:70,Flair:25,Détermination:72},fm25:{ca:118,pa:150,attrs:{Vitesse:55,Technique:40,Physique:72,Vision:52,Défense:62,Mental:65,Dribble:22,Frappe:35,Passe:30,Centres:16,Agilité:30,Endurance:62,Flair:20,Détermination:64}},stats:{fm25:{matches:28,goals:3,assists:1,rating:7.4,minutes:2520,yc:5,rc:0,cs:9},fm26:{matches:32,goals:2,assists:0,rating:7.0,minutes:2852,yc:5,rc:0,cs:7}},desc:"Défenseur central allemand de 23 ans, libre. 201cm, physique exceptionnel (80), duels aériens dominants (JR 90). Tacleur solide (80).",tip:"201cm + physique 80 + tacle 80. Libre = aucun frais de transfert. Excellent profil DC physically dominant.",note:"",interest:"",career:[{club:"Kirchheimer SC",period:"- 2017",type:"youth"},{club:"FC Bayern München",period:"2017 - 2020",type:"formé"},{club:"WSG Tirol",period:"2024 - 2026",type:"transfer",fee:"?"},{club:"Agent libre",period:"2026 - ",type:"free"}]},
+{id:9,name:"Giacomo De Pieri",club:"Ascoli (prêt Inter U23)",nat:"Italie",flag:"🇮🇹",pos:"ATT",posDetail:"AIL",img:"https://img.sofascore.com/api/v1/player/1466113/image",posLabel:"Ailier droit / Inside Winger",age:19,ca:118,pa:165,paRand:true,valNum:1300000,val:"1 300 000 €",wage:"1 103 €/mois",foot:"Gauche",height:"174 cm",contract:"Inter U23 — 2029",attrs:{Vitesse:70,Technique:70,Physique:50,Vision:65,Défense:35,Mental:68,Dribble:72,Frappe:65,Passe:68,Centres:60,Agilité:75,Endurance:58,Flair:75,Détermination:62},fm25:{ca:95,pa:160,attrs:{Vitesse:62,Technique:60,Physique:42,Vision:55,Défense:28,Mental:58,Dribble:62,Frappe:55,Passe:58,Centres:50,Agilité:65,Endurance:50,Flair:65,Détermination:52}},stats:{fm25:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0},fm26:{matches:16,goals:1,assists:1,rating:6.5,minutes:630,yc:5,rc:0,cs:0}},desc:"Ailier élite de l'Inter Milan, prêté à l'Ascoli Calcio. Pied gauche dominant, technique exceptionnelle (70), flair (75).",tip:"PA aléatoire -8.5 (160-180). 1.3M€ pour un ailier de l'Inter. Potentiel élite mondial.",note:"",interest:"",career:[{club:"Inter Milan",period:"2020 - ",type:"formé"},{club:"Juve Stabia",period:"2025",type:"loan"},{club:"SSC Bari",period:"2026",type:"loan"},{club:"Ascoli Calcio",period:"2026 - ",type:"loan",fee:"Prêt + option"}]},
+{id:10,name:"Gabriele Calvani",club:"Genoa CFC",nat:"Italie",flag:"🇮🇹",pos:"DEF",posDetail:"DC",img:"https://img.sofascore.com/api/v1/player/1425050/image",posLabel:"Défenseur central",age:22,ca:132,pa:155,paRand:true,valNum:4000000,val:"4 000 000 €",wage:"3 748 €/mois",foot:"Droit",height:"190 cm",contract:"juin 2026",attrs:{Vitesse:65,Technique:60,Physique:70,Vision:45,Défense:65,Mental:68,Dribble:42,Frappe:40,Passe:45,Centres:30,Agilité:40,Endurance:68,Flair:35,Détermination:65},fm25:{ca:115,pa:150,attrs:{Vitesse:58,Technique:52,Physique:62,Vision:40,Défense:58,Mental:60,Dribble:35,Frappe:34,Passe:38,Centres:25,Agilité:34,Endurance:60,Flair:28,Détermination:56}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.7,minutes:250,yc:0,rc:0,cs:1},fm26:{matches:35,goals:1,assists:1,rating:6.9,minutes:2790,yc:4,rc:1,cs:8}},desc:"Défenseur central italien de 22 ans au Genoa CFC. 190cm, marquage (70), en-tête (70). Contrat court — disponible.",tip:"4M€ mais contrat expire 2026. Négocier un prix réduit ou attendre la fin de contrat.",note:"",interest:"",career:[{club:"Genoa",period:"2020 - ",type:"formé"},{club:"Pontedera",period:"2023 - 2024",type:"loan"},{club:"Brescia",period:"2024 - 2025",type:"loan"},{club:"Genoa CFC",period:"2025 - ",type:"promotion"}]},
+{id:11,name:"Jan Salas",club:"RCD Mallorca",nat:"Espagne",flag:"🇪🇸",pos:"MID",posDetail:"MO",img:"https://img.sofascore.com/api/v1/player/1905699/image",posLabel:"Milieu offensif / N°10",age:20,ca:105,pa:155,paRand:true,valNum:500000,val:"500 000 €",wage:"7 318 €/mois",foot:"Droit",height:"182 cm",contract:"juin 2028",attrs:{Vitesse:65,Technique:65,Physique:60,Vision:65,Défense:42,Mental:65,Dribble:60,Frappe:58,Passe:65,Centres:50,Agilité:58,Endurance:55,Flair:62,Détermination:58},fm25:{ca:95,pa:150,attrs:{Vitesse:58,Technique:55,Physique:52,Vision:55,Défense:35,Mental:55,Dribble:52,Frappe:50,Passe:56,Centres:42,Agilité:50,Endurance:48,Flair:54,Détermination:50}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.3,minutes:43,yc:0,rc:0,cs:0},fm26:{matches:6,goals:0,assists:0,rating:6.2,minutes:134,yc:0,rc:0,cs:0}},desc:"Milieu offensif espagnol de 20 ans au RCD Mallorca en LaLiga2. Technique élégante (65), vision de haut niveau (65).",tip:"500K€ pour un milieu technique espagnol de 20 ans en LaLiga2. Contrat long jusqu'en 2028.",note:"",interest:"",career:[{club:"RCD Mallorca",period:"2013 - ",type:"formé"},{club:"RCD Mallorca B",period:"2023 - 2025",type:"promotion"},{club:"RCD Mallorca",period:"2025 - ",type:"promotion"}]},
+{id:12,name:"Mbekezeli Mbokazi",club:"Chicago Fire (MLS)",nat:"Afrique du Sud",flag:"🇿🇦",pos:"DEF",posDetail:"DC",img:"https://img.sofascore.com/api/v1/player/2058228/image",posLabel:"Défenseur central",age:20,ca:125,pa:155,paRand:false,valNum:3500000,val:"3 500 000 €",wage:"37 105 €/mois",foot:"Gauche",height:"177 cm",contract:"déc. 2029",attrs:{Vitesse:55,Technique:50,Physique:75,Vision:80,Défense:68,Mental:70,Dribble:40,Frappe:35,Passe:65,Centres:25,Agilité:42,Endurance:70,Flair:38,Détermination:70},fm25:{ca:110,pa:150,attrs:{Vitesse:50,Technique:42,Physique:65,Vision:70,Défense:58,Mental:62,Dribble:34,Frappe:30,Passe:55,Centres:20,Agilité:36,Endurance:62,Flair:32,Détermination:62}},stats:{fm25:{matches:17,goals:0,assists:1,rating:7.1,minutes:1350,yc:2,rc:0,cs:5},fm26:{matches:33,goals:1,assists:2,rating:7.0,minutes:2700,yc:4,rc:0,cs:8}},desc:"Défenseur central sud-africain de 20 ans au Chicago Fire (MLS). Vision exceptionnelle (80), leadership (80), passes (80).",tip:"3.5M€ pour un DC avec vision 80 et leadership 80. Contrat long jusqu'en 2029.",note:"",interest:"",career:[{club:"Orlando Pirates II",period:"2024 - 2025",type:"youth"},{club:"Orlando Pirates",period:"2025 - 2026",type:"promotion"},{club:"Chicago Fire",period:"2026 - ",type:"transfer",fee:"?"}]},
+{id:13,name:"Massiré Sylla",club:"Royale Union Saint-Gilloise",nat:"Sénégal",flag:"🇸🇳",pos:"DEF",posDetail:"DC",img:"https://img.sofascore.com/api/v1/player/1897832/image",posLabel:"Défenseur central / DM",age:21,ca:120,pa:145,paRand:true,valNum:800000,val:"800 000 €",wage:"21 667 €/mois",foot:"Droit",height:"196 cm",contract:"juin 2030",attrs:{Vitesse:60,Technique:60,Physique:80,Vision:55,Défense:65,Mental:70,Dribble:42,Frappe:38,Passe:45,Centres:22,Agilité:38,Endurance:75,Flair:30,Détermination:72},fm25:{ca:90,pa:140,attrs:{Vitesse:52,Technique:50,Physique:70,Vision:45,Défense:55,Mental:60,Dribble:35,Frappe:32,Passe:38,Centres:18,Agilité:32,Endurance:66,Flair:24,Détermination:64}},stats:{fm25:{matches:26,goals:0,assists:0,rating:6.8,minutes:2200,yc:4,rc:0,cs:8},fm26:{matches:7,goals:0,assists:0,rating:8.3,minutes:280,yc:1,rc:0,cs:2}},desc:"Défenseur central sénégalais de 21 ans à l'Union SG. 196cm, physique dominant (80), duels aériens (JR 85). Vainqueur Coupe de Belgique.",tip:"196cm + physique 80 + travail 90 pour 800K€. Contrat jusqu'en 2030. Profil DC/DM polyvalent.",note:"",interest:"",career:[{club:"Diambars FC",period:"2022 - 2024",type:"formé"},{club:"Pau FC B",period:"2024",type:"loan"},{club:"Lyn Oslo",period:"2024 - 2026",type:"transfer",fee:"?"},{club:"Union Saint-Gilloise",period:"2026 - ",type:"transfer",fee:"600K€"}]},
+{id:14,name:"Amara Diouf",club:"Fenerbahçe",nat:"Sénégal",flag:"🇸🇳",pos:"ATT",posDetail:"AIL",img:"https://img.sofascore.com/api/v1/player/1536761/image",posLabel:"Ailier gauche / AMC",age:18,ca:88,pa:150,paRand:true,valNum:1500000,val:"1 500 000 €",wage:"720 €/mois",foot:"Droit",height:"174 cm",contract:"juin 2031",attrs:{Vitesse:60,Technique:65,Physique:60,Vision:60,Défense:28,Mental:63,Dribble:68,Frappe:60,Passe:62,Centres:55,Agilité:72,Endurance:58,Flair:80,Détermination:80},fm25:{ca:72,pa:140,attrs:{Vitesse:52,Technique:55,Physique:52,Vision:52,Défense:22,Mental:55,Dribble:58,Frappe:50,Passe:52,Centres:46,Agilité:62,Endurance:50,Flair:70,Détermination:70}},stats:{fm25:{matches:4,goals:0,assists:0,rating:6.5,minutes:180,yc:0,rc:0,cs:0},fm26:{matches:0,goals:0,assists:0,rating:0,minutes:0,yc:0,rc:0,cs:0}},desc:"Ailier sénégalais de 18 ans, transfert au Fenerbahçe en juin 2026 (5 ans, jusqu'en 2031). Véritable pépite africaine — meilleur joueur et meilleur buteur de la CAN U17 2023 (5 buts, record d'Osimhen battu). Technique solide (65), flair (80), détermination (80). International senior sénégalais à 15 ans (plus jeune débiteur de l'histoire). Blessé au ligament croisé en 2024, de retour en 2026. Fils d'Ady Diouf, ancien footballeur professionnel.",tip:"1,5M€ de frais de formation + salaire progressif. PA aléatoire peut atteindre 170. Meilleur joueur de la CAN U17 2023, vainqueur du ballon d'or. Potentiel énorme au Fenerbahçe — à surveiller de près.",note:"",interest:"",career:[{club:"Génération Foot U17",period:"2017 - 2023",type:"youth"},{club:"Génération Foot",period:"2023 - 2026",type:"promotion"},{club:"Fenerbahçe",period:"2026 - ",type:"transfer",fee:"1,5M€"}]}
 ];
 
 var filterPos='all',filterNat='all',filterFoot='all',filterInt='all',filterAge=35,filterPa=0,filterVal=999999999;
 var viewMode='grid',activeTab='active',compareList=[];
-var notes={},interests={},dropReasons={};
-try{var _s=localStorage.getItem('kvscout_notes');if(_s)notes=JSON.parse(_s);}catch(e){}
-try{var _s=localStorage.getItem('kvscout_interests');if(_s)interests=JSON.parse(_s);}catch(e){}
-try{var _s=localStorage.getItem('kvscout_dropReasons');if(_s)dropReasons=JSON.parse(_s);}catch(e){}
+var notes={},interests={},dropReasons={},tags={};
+try{var s=localStorage.getItem('kvscout_notes');if(s)notes=JSON.parse(s);}catch(e){}
+try{var s=localStorage.getItem('kvscout_interests');if(s)interests=JSON.parse(s);}catch(e){}
+try{var s=localStorage.getItem('kvscout_dropReasons');if(s)dropReasons=JSON.parse(s);}catch(e){}
+try{var s=localStorage.getItem('kvscout_tags');if(s)tags=JSON.parse(s);}catch(e){}
 
 function paColor(pa){if(pa>=75)return'#4CAF50';if(pa>=65)return'#5B8DEF';if(pa>=55)return'#D4A843';return'#888';}
 function barColor(v){if(v>=68)return'#4CAF50';if(v>=55)return'#5B8DEF';if(v>=44)return'#D4A843';return'#D94452';}
 function emo(pos){return pos==='GK'?'G':pos==='DEF'?'D':pos==='MID'?'M':'A';}
 function posColor(pos){if(pos==='GK')return'#5B8DEF';if(pos==='DEF')return'#4CAF50';if(pos==='MID')return'#D4A843';return'#D94452';}
+function formatNumber(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+function parseWage(w){if(!w||w==='Libre')return 0;var m=w.replace(/\s/g,'').match(/(\d+)/);return m?parseInt(m[1]):0;}
+
+function contractMonths(contract){
+  if(!contract||contract==='Libre')return-1;
+  var months={janvier:0,février:1,mars:2,avril:3,mai:4,juin:5,juillet:6,août:7,septembre:8,octobre:9,novembre:10,décembre:11};
+  var m=-1,y=-1;
+  for(var key in months){if(contract.toLowerCase().indexOf(key)>=0){m=months[key];break;}}
+  if(m<0){var short={janv:0,'févr':1,avr:3,juil:6,sept:8,oct:9,nov:10,'déc':11};for(var k in short){if(contract.toLowerCase().indexOf(k)>=0){m=short[k];break;}}}
+  var ym=contract.match(/(\d{4})/);if(ym)y=parseInt(ym[1]);
+  if(y<0)return-1;if(m<0)m=5;
+  var now=new Date(),ce=new Date(y,m,1);
+  return(ce.getFullYear()-now.getFullYear())*12+(ce.getMonth()-now.getMonth());
+}
+function contractBadgeHTML(contract){
+  var months=contractMonths(contract);
+  if(months<0)return'<span class="contract-badge cb-libre">Libre</span>';
+  if(months<6)return'<span class="contract-badge cb-red">'+months+' mois</span>';
+  if(months<18)return'<span class="contract-badge cb-yellow">'+months+' mois</span>';
+  return'<span class="contract-badge cb-green">'+months+' mois</span>';
+}
+
+function updateBudget(){
+  var tv=0,tw=0;
+  DATA.forEach(function(p){if(interests[p.id]==='sign'){tv+=p.valNum||0;tw+=parseWage(p.wage);}});
+  document.getElementById('bt-total-val').textContent=tv>0?formatNumber(tv)+' €':'0 €';
+  document.getElementById('bt-total-wage').textContent=tw>0?formatNumber(tw)+' €/mois':'0 €/mois';
+}
+
+var tagDefs=[
+  {id:'summer',label:'Priorité summer',cls:'tag-summer'},
+  {id:'winter',label:'Priorité winter',cls:'tag-winter'},
+  {id:'backup',label:'Backup',cls:'tag-backup'},
+  {id:'prete',label:'Prêt souhaité',cls:'tag-prete'},
+  {id:'watchlt',label:'Watch list long terme',cls:'tag-watchlt'}
+];
 
 function drawRadar(attrs,size,stroke,bg){
   var keys=Object.keys(attrs),vals=keys.map(function(k){return attrs[k]/100;}),n=keys.length;
@@ -613,12 +159,30 @@ function drawRadar(attrs,size,stroke,bg){
   return'<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+glow+rings+axes+area+dots+'</svg>';
 }
 
+function drawCompareRadar(a1,a2,size){
+  var keys=Object.keys(a1),n=keys.length,cx=size/2,cy=size/2,r=(size/2)*.68;
+  function gp(a){return keys.map(function(k,i){var v=a[k]/100,an=(Math.PI*2/n)*i-Math.PI/2;return[cx+Math.cos(an)*r*v,cy+Math.sin(an)*r*v];});}
+  var bgPts=keys.map(function(_,i){var an=(Math.PI*2/n)*i-Math.PI/2;return[cx+Math.cos(an)*r,cy+Math.sin(an)*r];});
+  var pts1=gp(a1),pts2=gp(a2);
+  var rings='';
+  [.25,.5,.75,1].forEach(function(s){var rp=bgPts.map(function(p){return[(p[0]-cx)*s+cx,(p[1]-cy)*s+cy];});rings+='<polygon points="'+rp.map(function(p){return p.join(',');}).join(' ')+'" fill="none" stroke="rgba(255,255,255,.06)" stroke-width=".5"/>';});
+  var axes=bgPts.map(function(p){return'<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="rgba(255,255,255,.06)" stroke-width=".5"/>';}).join('');
+  var labels=keys.map(function(k,i){var an=(Math.PI*2/n)*i-Math.PI/2,lx=cx+Math.cos(an)*(r+16),ly=cy+Math.sin(an)*(r+16);return'<text x="'+lx+'" y="'+ly+'" text-anchor="middle" dominant-baseline="middle" fill="#606070" font-size="7" font-family="Inter">'+escapeHTML(k)+'</text>';}).join('');
+  var a1s='<polygon points="'+pts1.map(function(p){return p.join(',');}).join(' ')+'" fill="rgba(232,98,44,.1)" stroke="#E8622C" stroke-width="1.5"/>';
+  var a2s='<polygon points="'+pts2.map(function(p){return p.join(',');}).join(' ')+'" fill="rgba(91,141,239,.1)" stroke="#5B8DEF" stroke-width="1.5"/>';
+  var d1=pts1.map(function(p){return'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="#E8622C"/>';}).join('');
+  var d2=pts2.map(function(p){return'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="#5B8DEF"/>';}).join('');
+  return'<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+rings+axes+labels+a1s+a2s+d1+d2+'</svg>';
+}
+
+var lastFocusedCard=null;
+
 function render(){
   var q=document.getElementById('srch').value.toLowerCase(),sort=document.getElementById('sort-sel').value;
   var d=DATA.filter(function(p){
     var pi=interests[p.id]||'';
     if(activeTab==='dropped'){if(pi!=='dropped')return false;}else{if(pi==='dropped')return false;}
-    if(filterPos!=='all'&&p.pos!==filterPos)return false;
+    if(filterPos!=='all'){if(filterPos==='GK'){if(p.pos!=='GK')return false;}else{if(p.posDetail!==filterPos)return false;}}
     if(filterNat!=='all'&&p.nat!==filterNat)return false;
     if(filterFoot!=='all'&&p.foot!==filterFoot)return false;
     if(p.age>filterAge)return false;
@@ -640,37 +204,44 @@ function render(){
   document.getElementById('tab-cnt-dropped').textContent=dc;
   var g=document.getElementById('grid');
   g.className='grid'+(viewMode==='list'?' list':'');
-  if(!d.length){g.innerHTML='<div class="empty"><h3>Aucun joueur trouvé</h3><p>'+(activeTab==='dropped'?'Aucun joueur abandonné.':'Modifiez vos filtres.')+'</p></div>';return;}
+  if(!d.length){g.innerHTML='<div class="empty"><h3>Aucun joueur trouvé</h3><p>'+(activeTab==='dropped'?'Aucun joueur abandonné.':'Modifiez vos filtres.')+'</p></div>';updateBudget();return;}
   g.innerHTML=d.map(function(p,i){return cardHTML(p,i);}).join('');
+  updateBudget();
 }
 
 function cardHTML(p,i){
   var pc=paColor(p.pa),caW=Math.round(p.ca/2),paW=Math.round(p.pa/2);
-  var radarSvg=drawRadar(p.attrs,78,pc,'rgba(255,255,255,.06)');
+  var cardAttrs={};var ak=Object.keys(p.attrs).slice(0,6);ak.forEach(function(k){cardAttrs[k]=p.attrs[k];});
+  var radarSvg=drawRadar(cardAttrs,78,pc,'rgba(255,255,255,.06)');
   var pi=interests[p.id]||'',isDropped=pi==='dropped';
   var intBadge='';
   if(pi==='sign')intBadge='<span class="c-int c-int-sign">A signer</span>';
   else if(pi==='target')intBadge='<span class="c-int c-int-target">Cible</span>';
   else if(pi==='watch')intBadge='<span class="c-int c-int-watch">Suivre</span>';
   else if(pi==='pass')intBadge='<span class="c-int c-int-pass">Passer</span>';
-  var vTag=p.valNum===0?'<span class="c-vtag c-free">Gratuit</span>':'<span class="c-vtag">'+p.val+'</span>';
+  var vTag=p.valNum===0?'<span class="c-vtag c-free">Gratuit</span>':'<span class="c-vtag">'+escapeHTML(p.val)+'</span>';
   var randMark=p.paRand?'<span class="rand-dot" title="PA aléatoire"></span>':'';
   var dropBadge=isDropped?'<span class="dropped-badge">Trop cher</span>':'';
-  var dropReason=dropReasons[p.id]?'<div class="drop-reason">'+dropReasons[p.id]+'</div>':'';
+  var dropReason=dropReasons[p.id]?'<div class="drop-reason">'+escapeHTML(dropReasons[p.id])+'</div>':'';
+  var isCmp=compareList.indexOf(p.id)>=0;
+  var ptags=tags[p.id]||[];
+  var tagsHTML='';
+  if(ptags.length){tagsHTML='<div class="card-tags-chips">'+ptags.map(function(t){var td=tagDefs.find(function(d){return d.id===t;});return td?'<span class="tag-chip '+td.cls+'">'+escapeHTML(td.label)+'</span>':'';}).join('')+'</div>';}
   return'<div class="card'+(isDropped?' dropped':'')+'" style="--pos-c:'+posColor(p.pos)+';animation-delay:'+Math.min(i*.04,.3)+'s" onclick="openPanel('+p.id+')">'
+    +'<button class="cmp-toggle'+(isCmp?' active':'')+'" onclick="event.stopPropagation();toggleCompare('+p.id+')" aria-label="Comparer">'+(isCmp?'✓':'⚖')+'</button>'
     +'<div class="card-accent"></div>'
     +'<div class="card-hero">'
       +'<div class="card-hero-bg" style="background:linear-gradient(135deg,'+posColor(p.pos)+',rgba(8,9,12,.9))"></div>'
-      +'<img class="card-hero-img" src="'+p.img+'" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">'
+      +'<img class="card-hero-img" loading="lazy" src="'+escapeHTML(p.img)+'" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">'
       +'<div class="card-hero-overlay"></div>'
       +'<div class="card-hero-top">'
-        +'<span class="pos-tag pos-'+p.pos+'">'+p.posLabel.split('/')[0].trim()+'</span>'
+        +'<span class="pos-tag pos-'+p.pos+'">'+escapeHTML(p.posLabel.split('/')[0].trim())+'</span>'
         +'<div class="card-hero-pa" style="color:'+pc+'">'+p.pa+randMark+'</div>'
       +'</div>'
       +'<div class="card-hero-bottom">'
-        +'<div class="card-hero-name">'+p.name+'</div>'
-        +'<div class="card-hero-meta">'+p.club+' · '+p.flag+'</div>'
-        +'<div class="card-hero-tags">'+vTag+intBadge+'</div>'+dropReason
+        +'<div class="card-hero-name">'+escapeHTML(p.name)+'</div>'
+        +'<div class="card-hero-meta">'+escapeHTML(p.club)+' · '+p.flag+'</div>'
+        +'<div class="card-hero-tags">'+vTag+intBadge+'</div>'+dropReason+tagsHTML
       +'</div>'
       +dropBadge
     +'</div>'
@@ -679,23 +250,24 @@ function cardHTML(p,i){
       +'<div class="card-rating"><span class="card-rating-lbl">PA</span><div class="card-rating-bar"><div class="card-rating-fill" style="width:'+paW+'%;background:linear-gradient(90deg,'+pc+','+pc+'cc);animation-delay:.1s"></div></div><span class="card-rating-val" style="color:'+pc+'">'+p.pa+'</span></div>'
     +'</div>'
     +'<div class="card-stats"><div class="card-radar-mini">'+radarSvg+'</div><div class="card-attrs">'
-      +Object.keys(p.attrs).slice(0,6).map(function(k){var v=p.attrs[k];return'<div class="card-attr"><span class="card-attr-l">'+k+'</span><span class="card-attr-v" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
+      +ak.map(function(k){var v=p.attrs[k];return'<div class="card-attr"><span class="card-attr-l">'+escapeHTML(k)+'</span><span class="card-attr-v" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
     +'</div></div>'
-    +'<div class="card-foot"><span><b>'+p.age+'</b> ans · '+p.foot+'</span><span>Salaire <b>'+p.wage+'</b></span><span>'+p.contract+'</span></div>'
+    +'<div class="card-foot"><span><b>'+p.age+'</b> ans · '+escapeHTML(p.foot)+'</span><span>Salaire <b>'+escapeHTML(p.wage)+'</b></span><span>'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+'</span></div>'
   +'</div>';
 }
 
 function openPanel(id){
   var p=DATA[id];if(!p)return;
+  lastFocusedCard=document.activeElement;
   var pc=paColor(p.pa),pn=notes[id]||'',pi=interests[id]||'';
   var radarSvg=drawRadar(p.attrs,140,pc,'rgba(255,255,255,.07)');
-  var attrCells=Object.keys(p.attrs).map(function(k){var v=p.attrs[k];return'<div class="attr-cell"><div class="attr-lbl">'+k+'</div><div class="attr-bar-bg"><div class="attr-bar-fill" style="width:'+v+'%;background:'+barColor(v)+';animation:barIn .7s ease both"></div></div><div class="attr-val" style="color:'+barColor(v)+'">'+v+'</div></div>';}).join('');
+  var attrCells=Object.keys(p.attrs).map(function(k){var v=p.attrs[k];return'<div class="attr-cell"><div class="attr-lbl">'+escapeHTML(k)+'</div><div class="attr-bar-bg"><div class="attr-bar-fill" style="width:'+v+'%;background:'+barColor(v)+';animation:barIn .7s ease both"></div></div><div class="attr-val" style="color:'+barColor(v)+'">'+v+'</div></div>';}).join('');
   var randNote=p.paRand?'<div style="font-size:.65rem;color:var(--pur);margin-bottom:.85rem;padding:.45rem .7rem;background:rgba(155,127,230,.06);border:1px solid rgba(155,127,230,.12);border-radius:8px">PA aléatoire — peut varier selon votre sauvegarde (±10)</div>':'';
   var intSel=function(v){return pi===v?' sel-'+v:'';};
   var fm25=p.fm25||null,stats=p.stats||null,evoHTML='',statsHTML='';
   if(fm25){
     var caD=p.ca-fm25.ca,paD=p.pa-fm25.pa;
-    var evoRows=Object.keys(p.attrs).map(function(k){var v25=fm25.attrs[k]||0,v26=p.attrs[k]||0,d=v26-v25,dc=d>0?'up':d<0?'down':'zero';return'<div class="evo-row"><span class="evo-row-name">'+k+'</span><span class="evo-row-old">'+v25+'</span><div class="evo-row-bar"><div class="evo-row-bar-track"><div class="evo-row-bar-fill" style="width:'+v26+'%;background:'+barColor(v26)+'"></div></div></div><span class="evo-row-new" style="color:'+barColor(v26)+'">'+v26+'</span><span class="evo-row-delta '+dc+'">'+(d>0?'+':'')+d+'</span></div>';}).join('');
+    var evoRows=Object.keys(p.attrs).map(function(k){var v25=fm25.attrs[k]||0,v26=p.attrs[k]||0,d=v26-v25,dc=d>0?'up':d<0?'down':'zero';return'<div class="evo-row"><span class="evo-row-name">'+escapeHTML(k)+'</span><span class="evo-row-old">'+v25+'</span><div class="evo-row-bar"><div class="evo-row-bar-track"><div class="evo-row-bar-fill" style="width:'+v26+'%;background:'+barColor(v26)+'"></div></div></div><span class="evo-row-new" style="color:'+barColor(v26)+'">'+v26+'</span><span class="evo-row-delta '+dc+'">'+(d>0?'+':'')+d+'</span></div>';}).join('');
     evoHTML='<div class="evo-box"><div class="evo-head"><span class="ev-hdr-label old">FM 2025</span><span class="evo-head-title">Évolution</span><span class="ev-hdr-label new">FM 2026</span></div>'
       +'<div class="evo-summary"><div class="evo-sum-row"><span class="evo-sum-label">CA</span><span class="evo-sum-old">'+fm25.ca+'</span><div class="evo-sum-bar"><div class="evo-sum-bar-fill" style="width:'+Math.min(p.ca/2,100)+'%;background:'+barColor(p.ca)+'"></div></div><span class="evo-sum-new" style="color:'+barColor(p.ca)+'">'+p.ca+'</span><span class="evo-sum-delta '+(caD>0?'up':caD<0?'down':'neutral')+'">'+(caD>=0?'+':'')+caD+'</span></div>'
       +'<div class="evo-sum-row"><span class="evo-sum-label">PA</span><span class="evo-sum-old">'+fm25.pa+'</span><div class="evo-sum-bar"><div class="evo-sum-bar-fill" style="width:'+Math.min(p.pa/2,100)+'%;background:'+barColor(p.pa)+'"></div></div><span class="evo-sum-new" style="color:'+barColor(p.pa)+'">'+p.pa+'</span><span class="evo-sum-delta '+(paD>0?'up':paD<0?'down':'neutral')+'">'+(paD>=0?'+':'')+paD+'</span></div>'
@@ -716,17 +288,19 @@ function openPanel(id){
   if(p.career&&p.career.length){
     var clItems=p.career.slice().reverse().map(function(c){
       var isCurrent=c.period.indexOf('- ')===c.period.length-2,cls=isCurrent?'current':c.type==='loan'?'loan':'';
-      return'<div class="career-item '+cls+'"><div class="career-info"><div class="career-club">'+c.club+'</div><div class="career-meta"><span class="career-type '+c.type+'">'+c.type+'</span><span>'+c.period+'</span>'+(c.fee?'<span class="career-fee">'+c.fee+'</span>':'')+'</div></div></div>';
+      return'<div class="career-item '+cls+'"><div class="career-info"><div class="career-club">'+escapeHTML(c.club)+'</div><div class="career-meta"><span class="career-type '+c.type+'">'+c.type+'</span><span>'+escapeHTML(c.period)+'</span>'+(c.fee?'<span class="career-fee">'+escapeHTML(c.fee)+'</span>':'')+'</div></div></div>';
     }).join('');
     careerHTML='<div class="career-section"><div class="career-hdr">Parcours</div><div class="career-tl">'+clItems+'</div></div>';
   }
+  var ptags=tags[id]||[];
+  var tagOptsHTML=tagDefs.map(function(td){return'<span class="tag-opt'+(ptags.indexOf(td.id)>=0?' sel-'+td.id:'')+'" onclick="toggleTag('+id+',\''+td.id+'\')">'+escapeHTML(td.label)+'</span>';}).join('');
   document.getElementById('panel').innerHTML=
     '<div class="panel-top">'
-      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<img src="'+p.img+'" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
-      +'<div class="panel-hinfo"><div class="panel-name">'+p.name+'</div><div class="panel-sub">'+p.nat+' · '+p.club+'</div>'
-        +'<div class="panel-tags"><span class="pos-tag pos-'+p.pos+'">'+p.posLabel+'</span>'+(p.valNum===0?'<span class="val-tag val-free">Gratuit</span>':'<span class="val-tag">'+p.val+'</span>')+(p.paRand?'<span style="background:rgba(155,127,230,.06);color:#9B7FE6;border:1px solid rgba(155,127,230,.12);border-radius:6px;padding:.14rem .5rem;font-size:.58rem;font-weight:600">PA ±</span>':'')+'</div>'
+      +'<div class="panel-av" style="background:'+pc+'12;border-color:'+pc+'35">'+emo(p.pos)+'<img src="'+escapeHTML(p.img)+'" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"><span class="panel-flag">'+p.flag+'</span></div>'
+      +'<div class="panel-hinfo"><div class="panel-name">'+escapeHTML(p.name)+'</div><div class="panel-sub">'+escapeHTML(p.nat)+' · '+escapeHTML(p.club)+'</div>'
+        +'<div class="panel-tags"><span class="pos-tag pos-'+p.pos+'">'+escapeHTML(p.posLabel)+'</span>'+(p.valNum===0?'<span class="c-vtag c-free">Gratuit</span>':'<span class="c-vtag">'+escapeHTML(p.val)+'</span>')+(p.paRand?'<span style="background:rgba(155,127,230,.06);color:#9B7FE6;border:1px solid rgba(155,127,230,.12);border-radius:6px;padding:.14rem .5rem;font-size:.58rem;font-weight:600">PA ±</span>':'')+'</div>'
       +'</div>'
-      +'<button class="panel-close" onclick="closePanel()">✕</button>'
+      +'<button class="panel-close" onclick="closePanel()" aria-label="Fermer">✕</button>'
     +'</div>'
     +'<div class="panel-body">'
       +randNote
@@ -734,27 +308,28 @@ function openPanel(id){
         +'<div class="score-cell"><div class="score-cell-v" style="color:'+barColor(p.ca)+'">'+p.ca+'</div><div class="score-cell-l">Note CA</div></div>'
         +'<div class="score-cell"><div class="score-cell-v" style="color:'+pc+'">'+p.pa+'</div><div class="score-cell-l">Potentiel</div></div>'
         +'<div class="score-cell"><div class="score-cell-v">'+p.age+'</div><div class="score-cell-l">Âge</div></div>'
-        +'<div class="score-cell"><div class="score-cell-v" style="font-size:1.1rem">'+p.height+'</div><div class="score-cell-l">Taille</div></div>'
+        +'<div class="score-cell"><div class="score-cell-v" style="font-size:1.1rem">'+escapeHTML(p.height)+'</div><div class="score-cell-l">Taille</div></div>'
       +'</div>'
       +'<div class="radar-section"><div class="radar-svg-wrap">'+radarSvg+'</div><div class="radar-legend">'
-        +Object.keys(p.attrs).map(function(k){var v=p.attrs[k];return'<div class="rl-row"><span class="rl-dot" style="background:'+barColor(v)+';color:'+barColor(v)+'"></span><span class="rl-lbl">'+k+'</span><span class="rl-val" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
+        +Object.keys(p.attrs).map(function(k){var v=p.attrs[k];return'<div class="rl-row"><span class="rl-dot" style="background:'+barColor(v)+';color:'+barColor(v)+'"></span><span class="rl-lbl">'+escapeHTML(k)+'</span><span class="rl-val" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
       +'</div></div>'
       +'<div style="font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Attributs détaillés</div>'
       +'<div class="attrs-grid">'+attrCells+'</div>'
       +evoHTML+statsHTML+careerHTML
       +'<div class="info-table">'
-        +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+p.foot+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+p.contract+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Salaire</span><span class="it-val">'+p.wage+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Valeur marchande</span><span class="it-val" style="color:'+pc+'">'+p.val+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Nationalité</span><span class="it-val">'+p.flag+' '+p.nat+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Taille</span><span class="it-val">'+p.height+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+escapeHTML(p.foot)+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+escapeHTML(p.contract)+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Salaire</span><span class="it-val">'+escapeHTML(p.wage)+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Valeur marchande</span><span class="it-val" style="color:'+pc+'">'+escapeHTML(p.val)+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Nationalité</span><span class="it-val">'+p.flag+' '+escapeHTML(p.nat)+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Taille</span><span class="it-val">'+escapeHTML(p.height)+'</span></div>'
       +'</div>'
-      +'<div class="scout-report"><div class="sr-header"><span class="sr-title">Rapport scout</span></div><div class="sr-text">'+p.desc+'</div></div>'
-      +'<div class="tip-box">'+p.tip+'</div>'
+      +'<div class="scout-report"><div class="sr-header"><span class="sr-title">Rapport scout</span></div><div class="sr-text">'+escapeHTML(p.desc)+'</div></div>'
+      +'<div class="tip-box">'+escapeHTML(p.tip)+'</div>'
+      +'<div class="tag-section"><div class="tag-section-header">Étiquettes</div><div class="tag-options">'+tagOptsHTML+'</div></div>'
       +'<div class="note-section">'
         +'<div class="note-header">Notes personnelles</div>'
-        +'<textarea class="note-ta" id="note-ta-'+id+'" placeholder="Ajoutez vos observations…">'+pn+'</textarea>'
+        +'<textarea class="note-ta" id="note-ta-'+id+'" placeholder="Ajoutez vos observations…">'+escapeHTML(pn)+'</textarea>'
         +'<div class="interest-row"><span class="interest-lbl">Statut</span><div class="int-opts">'
           +'<span class="int-opt'+intSel('watch')+'" onclick="setInterest('+id+',\'watch\')">Suivre</span>'
           +'<span class="int-opt'+intSel('target')+'" onclick="setInterest('+id+',\'target\')">Cible</span>'
@@ -764,23 +339,99 @@ function openPanel(id){
         +'</div></div>'
         +'<div class="drop-row" id="drop-row-'+id+'" style="display:'+(pi==='dropped'?'flex':'none')+';align-items:center;gap:.6rem;margin-top:.5rem">'
           +'<span class="interest-lbl">Raison</span>'
-          +'<input class="drop-input" id="drop-'+id+'" type="text" placeholder="Ex: Prix trop élevé…" value="'+(dropReasons[id]||'')+'" style="flex:1;background:var(--s3);border:1px solid rgba(232,145,58,.15);border-radius:8px;padding:.35rem .7rem;color:#E8913A;font-size:.7rem;font-family:Inter,sans-serif;outline:none">'
+          +'<input class="drop-input" id="drop-'+id+'" type="text" placeholder="Ex: Prix trop élevé…" value="'+escapeHTML(dropReasons[id]||'')+'" style="flex:1;background:var(--s3);border:1px solid rgba(232,145,58,.15);border-radius:8px;padding:.35rem .7rem;color:#E8913A;font-size:.7rem;font-family:Inter,sans-serif;outline:none">'
         +'</div>'
-        +'<div class="note-foot"><button class="btn-save" onclick="saveNote('+id+')">Enregistrer</button></div>'
+        +'<div class="note-foot"><button class="btn-save" onclick="saveNote('+id+')" aria-label="Enregistrer">Enregistrer</button></div>'
       +'</div>'
     +'</div>';
   document.getElementById('panel-bg').classList.add('on');
   document.body.style.overflow='hidden';
+  setTimeout(function(){var cl=document.querySelector('.panel-close');if(cl)cl.focus();},100);
 }
 
-function closePanel(){document.getElementById('panel-bg').classList.remove('on');document.body.style.overflow='';}
+function closePanel(){
+  document.getElementById('panel-bg').classList.remove('on');
+  document.body.style.overflow='';
+  if(lastFocusedCard){lastFocusedCard.focus();lastFocusedCard=null;}
+}
 function closePanelBg(e){if(e.target===document.getElementById('panel-bg'))closePanel();}
 function saveNote(id){var ta=document.getElementById('note-ta-'+id);if(ta)notes[id]=ta.value;var dr=document.getElementById('drop-'+id);if(dr)dropReasons[id]=dr.value;try{localStorage.setItem('kvscout_notes',JSON.stringify(notes));localStorage.setItem('kvscout_dropReasons',JSON.stringify(dropReasons));}catch(e){}}
 function setInterest(id,val){if(interests[id]===val){delete interests[id];}else{interests[id]=val;}try{localStorage.setItem('kvscout_interests',JSON.stringify(interests));}catch(e){}openPanel(id);render();}
 
+function toggleTag(id,tagId){
+  if(!tags[id])tags[id]=[];
+  var idx=tags[id].indexOf(tagId);
+  if(idx>=0)tags[id].splice(idx,1);else tags[id].push(tagId);
+  try{localStorage.setItem('kvscout_tags',JSON.stringify(tags));}catch(e){}
+  openPanel(id);render();
+}
+
+function toggleCompare(id){
+  var idx=compareList.indexOf(id);
+  if(idx>=0){compareList.splice(idx,1);}
+  else{if(compareList.length>=2)compareList.shift();compareList.push(id);}
+  updateCompareBar();render();
+}
+function updateCompareBar(){
+  var bar=document.getElementById('cmp-bar');
+  if(compareList.length===0){bar.classList.remove('on');return;}
+  bar.classList.add('on');
+  for(var i=0;i<2;i++){
+    var slot=document.getElementById('cmp-'+i),name=document.getElementById('cmp-n'+i);
+    if(compareList[i]!==undefined){
+      slot.classList.add('filled');name.textContent=DATA[compareList[i]].name;
+    }else{slot.classList.remove('filled');name.textContent='Joueur '+(i+1);}
+  }
+}
+function clearCompare(){compareList=[];document.getElementById('cmp-bar').classList.remove('on');render();}
+
+function openCompare(){
+  if(compareList.length<2)return;
+  var p1=DATA[compareList[0]],p2=DATA[compareList[1]];
+  var radarSvg=drawCompareRadar(p1.attrs,p2.attrs,280);
+  var attrKeys=Object.keys(p1.attrs);
+  var tableRows=attrKeys.map(function(k){
+    var v1=p1.attrs[k],v2=p2.attrs[k];
+    var w=v1>v2?'c1':v2>v1?'c2':'tie';
+    return'<tr><td>'+escapeHTML(k)+'</td><td class="'+(w==='c1'?'cmp-win':'')+'">'+v1+'</td><td class="'+(w==='c2'?'cmp-win':'')+'">'+v2+'</td></tr>';
+  }).join('');
+  var infoRows=[
+    ['CA',p1.ca,p2.ca],['PA',p1.pa,p2.pa],['Âge',p1.age,p2.age],
+    ['Valeur',p1.val,p2.val],['Taille',p1.height,p2.height],['Pied',p1.foot,p2.foot],['Contrat',p1.contract,p2.contract],['Salaire',p1.wage,p2.wage]
+  ];
+  var infoHTML=infoRows.map(function(r){
+    var w=typeof r[1]==='number'&&typeof r[2]==='number'?(r[1]>r[2]?'c1':r[2]>r[1]?'c2':'tie'):'tie';
+    return'<tr><td>'+escapeHTML(r[0])+'</td><td class="'+(w==='c1'?'cmp-win':'')+'">'+escapeHTML(String(r[1]))+'</td><td class="'+(w==='c2'?'cmp-win':'')+'">'+escapeHTML(String(r[2]))+'</td></tr>';
+  }).join('');
+  document.getElementById('compare-panel').innerHTML=
+    '<div class="cmp-header"><div class="cmp-header-title">'+escapeHTML(p1.name)+' vs '+escapeHTML(p2.name)+'</div><button class="panel-close" onclick="closeCompare()" aria-label="Fermer">✕</button></div>'
+    +'<div class="cmp-body">'
+      +'<div class="cmp-radar-row"><div class="cmp-radar-svg">'+radarSvg+'</div><div class="cmp-radar-legend">'
+        +'<div><div class="cmp-legend-hdr" style="color:#E8622C">'+escapeHTML(p1.name)+'</div>'
+        +attrKeys.map(function(k){return'<div class="cmp-legend-row"><span class="cmp-legend-dot" style="background:#E8622C"></span><span class="cmp-legend-lbl">'+escapeHTML(k)+'</span><span class="cmp-legend-v1" style="color:#E8622C">'+p1.attrs[k]+'</span></div>';}).join('')+'</div>'
+        +'<div style="margin-top:.5rem"><div class="cmp-legend-hdr" style="color:#5B8DEF">'+escapeHTML(p2.name)+'</div>'
+        +attrKeys.map(function(k){return'<div class="cmp-legend-row"><span class="cmp-legend-dot" style="background:#5B8DEF"></span><span class="cmp-legend-lbl">'+escapeHTML(k)+'</span><span class="cmp-legend-v2" style="color:#5B8DEF">'+p2.attrs[k]+'</span></div>';}).join('')+'</div>'
+      +'</div></div>'
+      +'<div style="font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Comparaison des attributs</div>'
+      +'<table class="cmp-table"><thead><tr><th>Attribut</th><th style="color:#E8622C">'+escapeHTML(p1.name)+'</th><th style="color:#5B8DEF">'+escapeHTML(p2.name)+'</th></tr></thead><tbody>'+tableRows+'</tbody></table>'
+      +'<div style="font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Informations</div>'
+      +'<table class="cmp-table"><thead><tr><th>Info</th><th style="color:#E8622C">'+escapeHTML(p1.name)+'</th><th style="color:#5B8DEF">'+escapeHTML(p2.name)+'</th></tr></thead><tbody>'+infoHTML+'</tbody></table>'
+    +'</div>';
+  document.getElementById('compare-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeCompare(){document.getElementById('compare-bg').classList.remove('on');document.body.style.overflow='';}
+function closeCompareBg(e){if(e.target===document.getElementById('compare-bg'))closeCompare();}
+
 function populateNations(){var nats=[...new Set(DATA.map(function(p){return p.nat;}))].filter(function(n){return n!=='—';}).sort();var sel=document.getElementById('nat-sel');nats.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});}
-document.querySelectorAll('.ppill').forEach(function(el){el.addEventListener('click',function(){document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});el.classList.add('on');filterPos=el.dataset.pos;render();});});
-document.getElementById('srch').addEventListener('input',render);
+
+document.querySelectorAll('.ppill').forEach(function(el){
+  el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+  el.addEventListener('click',function(){document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});el.classList.add('on');filterPos=el.dataset.pos;render();});
+});
+
+var debounceTimer;
+document.getElementById('srch').addEventListener('input',function(){clearTimeout(debounceTimer);debounceTimer=setTimeout(render,200);});
 document.getElementById('sort-sel').addEventListener('change',render);
 document.getElementById('nat-sel').addEventListener('change',function(){filterNat=this.value;render();});
 document.getElementById('val-sel').addEventListener('change',function(){filterVal=parseInt(this.value);render();});
@@ -788,25 +439,90 @@ document.getElementById('int-sel').addEventListener('change',function(){filterIn
 document.getElementById('foot-sel').addEventListener('change',function(){filterFoot=this.value;render();});
 document.getElementById('age-range').addEventListener('input',function(){filterAge=parseInt(this.value);document.getElementById('age-lbl').textContent=this.value;render();});
 document.getElementById('pa-range').addEventListener('input',function(){filterPa=parseInt(this.value);document.getElementById('pa-lbl').textContent=this.value;render();});
-function resetFilters(){filterPos='all';filterNat='all';filterFoot='all';filterInt='all';filterAge=35;filterPa=0;filterVal=999999999;activeTab='active';document.getElementById('srch').value='';document.getElementById('sort-sel').value='pa';document.getElementById('nat-sel').value='all';document.getElementById('val-sel').value='999999999';document.getElementById('int-sel').value='all';document.getElementById('foot-sel').value='all';document.getElementById('age-range').value=35;document.getElementById('age-lbl').textContent=35;document.getElementById('pa-range').value=0;document.getElementById('pa-lbl').textContent=0;document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});document.querySelector('.ppill[data-pos="all"]').classList.add('on');document.getElementById('tab-active').classList.add('on');document.getElementById('tab-dropped').classList.remove('on');render();}
+
+function resetFilters(){
+  filterPos='all';filterNat='all';filterFoot='all';filterInt='all';filterAge=35;filterPa=0;filterVal=999999999;activeTab='active';
+  document.getElementById('srch').value='';document.getElementById('sort-sel').value='pa';document.getElementById('nat-sel').value='all';
+  document.getElementById('val-sel').value='999999999';document.getElementById('int-sel').value='all';document.getElementById('foot-sel').value='all';
+  document.getElementById('age-range').value=35;document.getElementById('age-lbl').textContent=35;document.getElementById('pa-range').value=0;document.getElementById('pa-lbl').textContent=0;
+  document.querySelectorAll('.ppill').forEach(function(p){p.classList.remove('on');});document.querySelector('.ppill[data-pos="all"]').classList.add('on');
+  document.getElementById('tab-active').classList.add('on');document.getElementById('tab-dropped').classList.remove('on');render();
+}
 function setView(v){viewMode=v;document.getElementById('vg').classList.toggle('on',v==='grid');document.getElementById('vl').classList.toggle('on',v==='list');render();}
 function setTab(t){activeTab=t;document.getElementById('tab-active').classList.toggle('on',t==='active');document.getElementById('tab-dropped').classList.toggle('on',t==='dropped');render();}
-function clearCompare(){compareList=[];document.getElementById('cmp-bar').classList.remove('on');}
-function openCompare(){if(compareList.length<2)return;alert('Comparaison : '+compareList.map(function(id){return DATA[id].name;}).join(' vs '));}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel();});
 
-// 3D Card tilt
+function exportData(){
+  var exp={notes:notes,interests:interests,dropReasons:dropReasons,tags:tags};
+  var blob=new Blob([JSON.stringify(exp,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='kvscout-export-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function importData(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var imp=JSON.parse(ev.target.result);
+      if(imp.notes)for(var k in imp.notes)notes[k]=imp.notes[k];
+      if(imp.interests)for(var k in imp.interests)interests[k]=imp.interests[k];
+      if(imp.dropReasons)for(var k in imp.dropReasons)dropReasons[k]=imp.dropReasons[k];
+      if(imp.tags)for(var k in imp.tags)tags[k]=imp.tags[k];
+      localStorage.setItem('kvscout_notes',JSON.stringify(notes));
+      localStorage.setItem('kvscout_interests',JSON.stringify(interests));
+      localStorage.setItem('kvscout_dropReasons',JSON.stringify(dropReasons));
+      localStorage.setItem('kvscout_tags',JSON.stringify(tags));
+      render();
+    }catch(err){alert('Erreur lors de l\'import : fichier invalide.');}
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('on');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('on');
+}
+
+var tiltRaf=null,tiltX=0,tiltY=0;
 document.addEventListener('mousemove',function(e){
-  var cards=document.querySelectorAll('.card');
-  for(var i=0;i<cards.length;i++){
-    var c=cards[i],r=c.getBoundingClientRect();
-    if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
-      var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      c.style.transform='translateY(-6px) rotateX('+(-y*6)+'deg) rotateY('+(x*6)+'deg)';
-    }
+  tiltX=e.clientX;tiltY=e.clientY;
+  if(!tiltRaf){
+    tiltRaf=requestAnimationFrame(function(){
+      tiltRaf=null;
+      var el=document.elementFromPoint(tiltX,tiltY);
+      var card=el?el.closest('.card'):null;
+      document.querySelectorAll('.card').forEach(function(c){if(c!==card)c.style.transform='';});
+      if(card){
+        var r=card.getBoundingClientRect();
+        var x=(tiltX-r.left)/r.width-.5,y=(tiltY-r.top)/r.height-.5;
+        card.style.transform='translateY(-6px) rotateX('+(-y*6)+'deg) rotateY('+(x*6)+'deg)';
+      }
+    });
   }
 });
 document.addEventListener('mouseleave',function(){document.querySelectorAll('.card').forEach(function(c){c.style.transform='';});});
+
+document.getElementById('panel-bg').addEventListener('keydown',function(e){
+  if(e.key!=='Tab')return;
+  var panel=document.getElementById('panel');
+  var focusable=panel.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if(!focusable.length)return;
+  var first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}
+  else{if(document.activeElement===last){e.preventDefault();first.focus();}}
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(document.getElementById('compare-bg').classList.contains('on'))closeCompare();
+    else if(document.getElementById('panel-bg').classList.contains('on'))closePanel();
+  }
+});
 
 populateNations();
 render();
