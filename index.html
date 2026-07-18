@@ -732,18 +732,100 @@ function fetchSofaStats(){
         lastUpdateTime=now;
       }catch(e){}
       updateLastUpdateBadge();
-      render();
+      try{render();}catch(e){}
     }
   }
 
-  DATA.forEach(function(p){
+  function fetchPlayerCompStats(p,sid,entry,cb){
+    var seasonsUrl='https://api.sofascore.com/api/v1/player/'+sid+'/statistics/seasons';
+    sofaFetch(seasonsUrl)
+      .then(function(sData){
+        if(!sData||!sData.uniqueTournamentSeasons){cb();return;}
+        var tournaments=sData.uniqueTournamentSeasons;
+        var seasonFetches=[];
+        tournaments.forEach(function(t){
+          if(!t.seasons||!t.seasons.length)return;
+          var latest=t.seasons[0];
+          var tUrl='https://api.sofascore.com/api/v1/player/'+sid+'/unique-tournament/'+t.uniqueTournament.id+'/season/'+latest.id+'/statistics/overall';
+          seasonFetches.push(
+            sofaFetch(tUrl).then(function(stData){
+              if(stData&&stData.statistics&&stData.statistics.appearances>0){
+                var s=stData.statistics;
+                entry.liveCompStats.push({
+                  compName:t.uniqueTournament.name||t.uniqueTournament.slug,
+                  compId:t.uniqueTournament.id,
+                  seasonName:latest.name,
+                  appearances:s.appearances||0,
+                  rating:s.rating||0,
+                  goals:s.goals||0,
+                  assists:s.assists||0,
+                  yellowCards:s.yellowCards||0,
+                  redCards:(s.redCards||0)+(s.directRedCards||0),
+                  cleanSheet:s.cleanSheet||0,
+                  minutesPlayed:s.minutesPlayed||0,
+                  matchesStarted:s.matchesStarted||0,
+                  penaltiesScored:s.penaltyGoals||0,
+                  penaltiesTaken:s.penaltiesTaken||0,
+                  shots:s.totalShots||0,
+                  shotsOnTarget:s.shotsOnTarget||0,
+                  keyPasses:s.keyPasses||0,
+                  tackles:s.tackles||0,
+                  interceptions:s.interceptions||0,
+                  duelsWon:s.totalDuelsWon||0,
+                  duelsWonPct:s.totalDuelsWonPercentage||0,
+                  accuratePasses:s.accuratePassesPercentage||0,
+                  dribbles:s.successfulDribbles||0,
+                  crosses:s.accurateCrosses||0,
+                  clearances:s.clearances||0,
+                  fouls:s.fouls||0,
+                  wasFouled:s.wasFouled||0,
+                  kmCovered:s.kilometersCovered||0
+                });
+              }
+            }).catch(function(){})
+          );
+        });
+        Promise.all(seasonFetches).then(function(){
+          if(entry.liveCompStats.length>0){
+            var total={appearances:0,ratingSum:0,ratingCount:0,goals:0,assists:0,yellowCards:0,redCards:0,cleanSheet:0,minutesPlayed:0};
+            entry.liveCompStats.forEach(function(c){
+              total.appearances+=c.appearances;
+              total.ratingSum+=c.rating*c.appearances;
+              total.ratingCount+=c.appearances;
+              total.goals+=c.goals;
+              total.assists+=c.assists;
+              total.yellowCards+=c.yellowCards;
+              total.redCards+=c.redCards;
+              total.cleanSheet+=c.cleanSheet;
+              total.minutesPlayed+=c.minutesPlayed;
+            });
+            entry.liveStats={
+              matches:total.appearances,
+              rating:total.ratingCount>0?total.ratingSum/total.ratingCount:0,
+              goals:total.goals,
+              assists:total.assists,
+              yellowCards:total.yellowCards,
+              redCards:total.redCards,
+              cleanSheet:total.cleanSheet,
+              minutesPlayed:total.minutesPlayed
+            };
+          }
+          cb();
+        }).catch(function(){cb();});
+      })
+      .catch(function(){cb();});
+  }
+
+  function fetchPlayerSequentially(index){
+    if(index>=DATA.length)return;
+    var p=DATA[index];
     var sid=sofascorePlayerId(p);
-    if(!sid){checkDone();return;}
+    if(!sid){fetchPlayerSequentially(index+1);return;}
 
     var playerUrl='https://api.sofascore.com/api/v1/player/'+sid;
     sofaFetch(playerUrl)
       .then(function(data){
-        if(!data||!data.player){checkDone();return;}
+        if(!data||!data.player){checkDone();fetchPlayerSequentially(index+1);return;}
         var pl=data.player;
         var entry={
           liveClub:pl.team?pl.team.name:null,
@@ -755,91 +837,16 @@ function fetchSofaStats(){
           liveStats:null,
           liveCompStats:[]
         };
-
-        var seasonsUrl='https://api.sofascore.com/api/v1/player/'+sid+'/statistics/seasons';
-        sofaFetch(seasonsUrl)
-          .then(function(sData){
-            if(!sData||!sData.uniqueTournamentSeasons){liveDataNew[p.id]=entry;checkDone();return;}
-            var tournaments=sData.uniqueTournamentSeasons;
-            var seasonFetches=[];
-            tournaments.forEach(function(t){
-              if(!t.seasons||!t.seasons.length)return;
-              var latest=t.seasons[0];
-              var tUrl='https://api.sofascore.com/api/v1/player/'+sid+'/unique-tournament/'+t.uniqueTournament.id+'/season/'+latest.id+'/statistics/overall';
-              seasonFetches.push(
-                sofaFetch(tUrl).then(function(stData){
-                  if(stData&&stData.statistics&&stData.statistics.appearances>0){
-                    var s=stData.statistics;
-                    entry.liveCompStats.push({
-                      compName:t.uniqueTournament.name||t.uniqueTournament.slug,
-                      compId:t.uniqueTournament.id,
-                      seasonName:latest.name,
-                      appearances:s.appearances||0,
-                      rating:s.rating||0,
-                      goals:s.goals||0,
-                      assists:s.assists||0,
-                      yellowCards:s.yellowCards||0,
-                      redCards:(s.redCards||0)+(s.directRedCards||0),
-                      cleanSheet:s.cleanSheet||0,
-                      minutesPlayed:s.minutesPlayed||0,
-                      matchesStarted:s.matchesStarted||0,
-                      penaltiesScored:s.penaltyGoals||0,
-                      penaltiesTaken:s.penaltiesTaken||0,
-                      shots:s.totalShots||0,
-                      shotsOnTarget:s.shotsOnTarget||0,
-                      keyPasses:s.keyPasses||0,
-                      tackles:s.tackles||0,
-                      interceptions:s.interceptions||0,
-                      duelsWon:s.totalDuelsWon||0,
-                      duelsWonPct:s.totalDuelsWonPercentage||0,
-                      accuratePasses:s.accuratePassesPercentage||0,
-                      dribbles:s.successfulDribbles||0,
-                      crosses:s.accurateCrosses||0,
-                      clearances:s.clearances||0,
-                      fouls:s.fouls||0,
-                      wasFouled:s.wasFouled||0,
-                      kmCovered:s.kilometersCovered||0
-                    });
-                  }
-                }).catch(function(){})
-              );
-            });
-            Promise.all(seasonFetches).then(function(){
-              if(entry.liveCompStats.length>0){
-                var total={appearances:0,ratingSum:0,ratingCount:0,goals:0,assists:0,yellowCards:0,redCards:0,cleanSheet:0,minutesPlayed:0};
-                entry.liveCompStats.forEach(function(c){
-                  total.appearances+=c.appearances;
-                  total.ratingSum+=c.rating*c.appearances;
-                  total.ratingCount+=c.appearances;
-                  total.goals+=c.goals;
-                  total.assists+=c.assists;
-                  total.yellowCards+=c.yellowCards;
-                  total.redCards+=c.redCards;
-                  total.cleanSheet+=c.cleanSheet;
-                  total.minutesPlayed+=c.minutesPlayed;
-                });
-                entry.liveStats={
-                  matches:total.appearances,
-                  rating:total.ratingCount>0?total.ratingSum/total.ratingCount:0,
-                  goals:total.goals,
-                  assists:total.assists,
-                  yellowCards:total.yellowCards,
-                  redCards:total.redCards,
-                  cleanSheet:total.cleanSheet,
-                  minutesPlayed:total.minutesPlayed
-                };
-              }
-              liveDataNew[p.id]=entry;
-              checkDone();
-            });
-          })
-          .catch(function(){
-            liveDataNew[p.id]=entry;
-            checkDone();
-          });
+        fetchPlayerCompStats(p,sid,entry,function(){
+          liveDataNew[p.id]=entry;
+          checkDone();
+          fetchPlayerSequentially(index+1);
+        });
       })
-      .catch(function(){checkDone();});
-  });
+      .catch(function(){checkDone();fetchPlayerSequentially(index+1);});
+  }
+
+  fetchPlayerSequentially(0);
 }
 
 function updateLastUpdateBadge(){
