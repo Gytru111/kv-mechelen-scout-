@@ -212,7 +212,7 @@ function drawProgressionCurve(fm25,ca,pa,age){
   return'<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'" style="display:block;margin:0 auto">'+gridLines+paLine+paTarget+caLine+caDot1+caDot2+paDot1+paDot2+paDotT+xLabels+caLabel+paLabel+'</svg>';
 }
 
-var lastFocusedCard=null;
+var lastFocusedCard=null;var currentPanelId=null;
 
 function render(){
   var q=document.getElementById('srch').value.toLowerCase(),sort=document.getElementById('sort-sel').value;
@@ -878,6 +878,7 @@ function fetchSofaStats(){
       }catch(e){}
       updateLastUpdateBadge();
       try{render();}catch(e){}
+      if(currentPanelId!==null){try{openPanel(currentPanelId);}catch(e){}}
     }
   }
 
