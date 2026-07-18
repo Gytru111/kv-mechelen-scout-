@@ -869,7 +869,7 @@ function fetchSofaStats(){
   function checkDone(){
     fetchCount++;
     if(fetchCount>=totalFetches){
-      liveData=liveDataNew;
+      if(Object.keys(liveDataNew).length>0){liveData=liveDataNew;}
       try{
         localStorage.setItem('kvscout_liveData',JSON.stringify(liveData));
         var now=new Date().toISOString();
