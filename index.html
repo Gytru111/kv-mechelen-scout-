@@ -102,11 +102,12 @@ var DATA_LOADED=false;
 
 var filterPos='all',filterNat='all',filterFoot='all',filterInt='all',filterAge=35,filterPa=0,filterVal=999999999,filterStars=0;
 var viewMode='grid',activeTab='active',compareList=[];
-var notes={},interests={},dropReasons={},tags={};
+var notes={},interests={},dropReasons={},tags={},contractOverrides={};
 try{var s=localStorage.getItem('kvscout_notes');if(s)notes=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_interests');if(s)interests=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_dropReasons');if(s)dropReasons=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_tags');if(s)tags=JSON.parse(s);}catch(e){}
+try{var s=localStorage.getItem('kvscout_contractOverrides');if(s)contractOverrides=JSON.parse(s);}catch(e){}
 
 function paColor(pa){if(pa>=75)return'#4CAF50';if(pa>=65)return'#5B8DEF';if(pa>=55)return'#D4A843';return'#888';}
 function barColor(v){if(v>=68)return'#4CAF50';if(v>=55)return'#5B8DEF';if(v>=44)return'#D4A843';return'#D94452';}
@@ -114,6 +115,24 @@ function emo(pos){return pos==='GK'?'G':pos==='DEF'?'D':pos==='MID'?'M':'A';}
 function posColor(pos){if(pos==='GK')return'#5B8DEF';if(pos==='DEF')return'#4CAF50';if(pos==='MID')return'#D4A843';return'#D94452';}
 function formatNumber(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
 function parseWage(w){if(!w||w==='Libre')return 0;var m=w.replace(/\s/g,'').match(/(\d+)/);return m?parseInt(m[1]):0;}
+
+function applyContractOverrides(){
+  DATA.forEach(function(p){
+    var o=contractOverrides[p.id];
+    if(o){
+      if(o.contract!==undefined)p.contract=o.contract;
+      if(o.wage!==undefined)p.wage=o.wage;
+    }
+  });
+}
+function saveContractOverride(id,field,val){
+  if(!contractOverrides[id])contractOverrides[id]={};
+  contractOverrides[id][field]=val;
+  try{localStorage.setItem('kvscout_contractOverrides',JSON.stringify(contractOverrides));}catch(e){}
+  applyContractOverrides();
+  render();
+  if(document.getElementById('panel-bg').classList.contains('on'))openPanel(id);
+}
 
 function contractMonths(contract){
   if(!contract||contract==='Libre')return-1;
@@ -391,8 +410,8 @@ if(liveSeasons.length>0){
       +evoHTML+statsHTML+careerHTML
       +'<div class="info-table">'
         +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+escapeHTML(p.foot)+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+escapeHTML(p.contract)+'</span></div>'
-        +'<div class="it-row"><span class="it-lbl">Salaire</span><span class="it-val">'+escapeHTML(p.wage)+'</span></div>'
+        +'<div class="it-row" style="align-items:center"><span class="it-lbl">Contrat</span><span class="it-val" style="display:flex;align-items:center;gap:.4rem;flex:1;justify-content:flex-end"><input id="edit-contract-'+id+'" type="text" value="'+escapeHTML(p.contract)+'" style="max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;color:var(--t1);font-size:.78rem;font-family:JetBrains Mono,monospace;outline:none;text-align:right;transition:.2s" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\'var(--border)\'"><button onclick="saveContractOverride('+id+',\'contract\',document.getElementById(\'edit-contract-'+id+'\').value)" style="background:var(--glass2);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;color:var(--t2);font-size:.65rem;cursor:pointer;font-family:Inter,sans-serif;transition:.2s;white-space:nowrap" onmouseover="this.style.borderColor=\'var(--accent)\';this.style.color=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--t2)\'">✓</button>'+contractBadgeHTML(p.contract)+'</span></div>'
+        +'<div class="it-row" style="align-items:center"><span class="it-lbl">Salaire</span><span class="it-val" style="display:flex;align-items:center;gap:.4rem;flex:1;justify-content:flex-end"><input id="edit-wage-'+id+'" type="text" value="'+escapeHTML(p.wage)+'" style="max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;color:var(--t1);font-size:.78rem;font-family:JetBrains Mono,monospace;outline:none;text-align:right;transition:.2s" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\'var(--border)\'"><button onclick="saveContractOverride('+id+',\'wage\',document.getElementById(\'edit-wage-'+id+'\').value)" style="background:var(--glass2);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;color:var(--t2);font-size:.65rem;cursor:pointer;font-family:Inter,sans-serif;transition:.2s;white-space:nowrap" onmouseover="this.style.borderColor=\'var(--accent)\';this.style.color=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--t2)\'">✓</button></span></div>'
         +'<div class="it-row"><span class="it-lbl">Valeur marchande</span><span class="it-val" style="color:'+pc+'">'+escapeHTML(p.val)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Nationalité</span><span class="it-val">'+p.flag+' '+escapeHTML(p.nat)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Taille</span><span class="it-val">'+escapeHTML(p.height)+'</span></div>'
@@ -527,7 +546,7 @@ function setView(v){viewMode=v;document.getElementById('vg').classList.toggle('o
 function setTab(t){activeTab=t;document.getElementById('tab-active').classList.toggle('on',t==='active');document.getElementById('tab-dropped').classList.toggle('on',t==='dropped');render();}
 
 function exportData(){
-  var exp={notes:notes,interests:interests,dropReasons:dropReasons,tags:tags};
+  var exp={notes:notes,interests:interests,dropReasons:dropReasons,tags:tags,contractOverrides:contractOverrides};
   var blob=new Blob([JSON.stringify(exp,null,2)],{type:'application/json'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');a.href=url;a.download='kvscout-export-'+new Date().toISOString().slice(0,10)+'.json';
@@ -543,10 +562,12 @@ function importData(e){
       if(imp.interests)for(var k in imp.interests)interests[k]=imp.interests[k];
       if(imp.dropReasons)for(var k in imp.dropReasons)dropReasons[k]=imp.dropReasons[k];
       if(imp.tags)for(var k in imp.tags)tags[k]=imp.tags[k];
+      if(imp.contractOverrides)for(var k in imp.contractOverrides)contractOverrides[k]=imp.contractOverrides[k];
       localStorage.setItem('kvscout_notes',JSON.stringify(notes));
       localStorage.setItem('kvscout_interests',JSON.stringify(interests));
       localStorage.setItem('kvscout_dropReasons',JSON.stringify(dropReasons));
       localStorage.setItem('kvscout_tags',JSON.stringify(tags));
+      localStorage.setItem('kvscout_contractOverrides',JSON.stringify(contractOverrides));
       render();
     }catch(err){alert('Erreur lors de l\'import : fichier invalide.');}
   };
@@ -828,6 +849,7 @@ function fetchPlayers(){
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(function(data){
       DATA=data;
+      applyContractOverrides();
       DATA_LOADED=true;
       lastUpdateTime=new Date().toISOString();
       try{localStorage.setItem('kvscout_lastUpdate',lastUpdateTime);localStorage.setItem('kvscout_data_cache',JSON.stringify(DATA));}catch(e){}
@@ -842,6 +864,7 @@ function fetchPlayers(){
         var cached=localStorage.getItem('kvscout_data_cache');
         if(cached){
           DATA=JSON.parse(cached);
+          applyContractOverrides();
           DATA_LOADED=true;
           lastUpdateTime=localStorage.getItem('kvscout_lastUpdate')||null;
           populateNations();
