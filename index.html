@@ -103,11 +103,13 @@ var DATA_LOADED=false;
 var filterPos='all',filterNat='all',filterFoot='all',filterInt='all',filterAge=35,filterPa=0,filterVal=999999999,filterStars=0;
 var viewMode='grid',activeTab='active',compareList=[];
 var notes={},interests={},dropReasons={},tags={},contractOverrides={};
+var tmData={};var tmLastUpdated=null;
 try{var s=localStorage.getItem('kvscout_notes');if(s)notes=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_interests');if(s)interests=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_dropReasons');if(s)dropReasons=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_tags');if(s)tags=JSON.parse(s);}catch(e){}
 try{var s=localStorage.getItem('kvscout_contractOverrides');if(s)contractOverrides=JSON.parse(s);}catch(e){}
+try{var s=localStorage.getItem('kvscout_tmData');if(s){var d=JSON.parse(s);tmData=d.players||{};tmLastUpdated=d.lastUpdated||null;}}catch(e){}
 
 function paColor(pa){if(pa>=75)return'#4CAF50';if(pa>=65)return'#5B8DEF';if(pa>=55)return'#D4A843';return'#888';}
 function barColor(v){if(v>=68)return'#4CAF50';if(v>=55)return'#5B8DEF';if(v>=44)return'#D4A843';return'#D94452';}
@@ -124,6 +126,44 @@ function applyContractOverrides(){
       if(o.wage!==undefined)p.wage=o.wage;
     }
   });
+}
+function applyTransfermarktData(){
+  DATA.forEach(function(p){
+    var tm=tmData[p.id];
+    if(!tm)return;
+    if(tm.contract){
+      var orig=contractOverrides[p.id];
+      if(!orig||orig.contract===undefined){
+        var months=contractMonths(tm.contract);
+        if(months>=0){
+          var d=new Date();d.setMonth(d.getMonth()+months);
+          var monthNames=['jan.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+          p.contract=monthNames[d.getMonth()]+' '+d.getFullYear();
+        }else{
+          p.contract=tm.contract;
+        }
+      }
+    }
+    if(tm.marketValue){
+      var orig2=contractOverrides[p.id];
+      if(!orig2||orig2.wage===undefined){
+        p._tmMarketValue=tm.marketValue;
+      }
+    }
+  });
+}
+function fetchTmData(){
+  var cacheBust='?v='+Date.now();
+  return fetch('tm-data.json'+cacheBust)
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(d){
+      tmData=d.players||{};
+      tmLastUpdated=d.lastUpdated||null;
+      try{localStorage.setItem('kvscout_tmData',JSON.stringify({players:tmData,lastUpdated:tmLastUpdated}));}catch(e){}
+      applyTransfermarktData();
+      applyContractOverrides();
+    })
+    .catch(function(e){console.warn('TM data fetch failed:',e);applyContractOverrides();});
 }
 function saveContractOverride(id,field,val){
   if(!contractOverrides[id])contractOverrides[id]={};
@@ -410,8 +450,8 @@ if(liveSeasons.length>0){
       +evoHTML+statsHTML+careerHTML
       +'<div class="info-table">'
         +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+escapeHTML(p.foot)+'</span></div>'
-        +'<div class="it-row" style="align-items:center"><span class="it-lbl">Contrat</span><span class="it-val" style="display:flex;align-items:center;gap:.4rem;flex:1;justify-content:flex-end"><input id="edit-contract-'+id+'" type="text" value="'+escapeHTML(p.contract)+'" style="max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;color:var(--t1);font-size:.78rem;font-family:JetBrains Mono,monospace;outline:none;text-align:right;transition:.2s" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\'var(--border)\'"><button onclick="saveContractOverride('+id+',\'contract\',document.getElementById(\'edit-contract-'+id+'\').value)" style="background:var(--glass2);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;color:var(--t2);font-size:.65rem;cursor:pointer;font-family:Inter,sans-serif;transition:.2s;white-space:nowrap" onmouseover="this.style.borderColor=\'var(--accent)\';this.style.color=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--t2)\'">✓</button>'+contractBadgeHTML(p.contract)+'</span></div>'
-        +'<div class="it-row" style="align-items:center"><span class="it-lbl">Salaire</span><span class="it-val" style="display:flex;align-items:center;gap:.4rem;flex:1;justify-content:flex-end"><input id="edit-wage-'+id+'" type="text" value="'+escapeHTML(p.wage)+'" style="max-width:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:.22rem .5rem;color:var(--t1);font-size:.78rem;font-family:JetBrains Mono,monospace;outline:none;text-align:right;transition:.2s" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\'var(--border)\'"><button onclick="saveContractOverride('+id+',\'wage\',document.getElementById(\'edit-wage-'+id+'\').value)" style="background:var(--glass2);border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;color:var(--t2);font-size:.65rem;cursor:pointer;font-family:Inter,sans-serif;transition:.2s;white-space:nowrap" onmouseover="this.style.borderColor=\'var(--accent)\';this.style.color=\'var(--accent)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.color=\'var(--t2)\'">✓</button></span></div>'
+        +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+(tmData[id]?'<span style="font-size:.5rem;color:var(--t3);margin-left:.3rem" title="Source: Transfermarkt">🔗TM</span>':'')+'</span></div>'
+        +'<div class="it-row"><span class="it-lbl">Salaire</span><span class="it-val">'+escapeHTML(p.wage)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Valeur marchande</span><span class="it-val" style="color:'+pc+'">'+escapeHTML(p.val)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Nationalité</span><span class="it-val">'+p.flag+' '+escapeHTML(p.nat)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Taille</span><span class="it-val">'+escapeHTML(p.height)+'</span></div>'
@@ -856,6 +896,7 @@ function fetchPlayers(){
       populateNations();
       render();
       updateLastUpdateBadge();
+      fetchTmData().then(function(){render();updateLastUpdateBadge();});
       fetchSofaStats();
     })
     .catch(function(e){
@@ -870,6 +911,7 @@ function fetchPlayers(){
           populateNations();
           render();
           updateLastUpdateBadge();
+          fetchTmData().then(function(){render();updateLastUpdateBadge();});
           fetchSofaStats();
         }
       }catch(e2){}
@@ -1019,18 +1061,33 @@ function fetchPlayerSequentially(index){
 function updateLastUpdateBadge(){
   var el=document.getElementById('last-update-badge');
   if(!el)return;
-  if(!lastUpdateTime){el.textContent='Jamais mis à jour';return;}
-  try{
-    var d=new Date(lastUpdateTime);
-    var now=new Date();
-    var diffMs=now-d;
-    var diffMin=Math.floor(diffMs/60000);
-    var diffH=Math.floor(diffMs/3600000);
-    if(diffMin<5)el.textContent='Mis à jour à l\'instant';
-    else if(diffMin<60)el.textContent='Il y a '+diffMin+'min';
-    else if(diffH<24)el.textContent='Il y a '+diffH+'h';
-    else el.textContent='Il y a '+Math.floor(diffH/24)+'j';
-  }catch(e){el.textContent='';}
+  var parts=[];
+  if(lastUpdateTime){
+    try{
+      var d=new Date(lastUpdateTime);
+      var now=new Date();
+      var diffMs=now-d;
+      var diffMin=Math.floor(diffMs/60000);
+      var diffH=Math.floor(diffMs/3600000);
+      if(diffMin<5)parts.push('Stats: à l\'instant');
+      else if(diffMin<60)parts.push('Stats: il y a '+diffMin+'min');
+      else if(diffH<24)parts.push('Stats: il y a '+diffH+'h');
+      else parts.push('Stats: il y a '+Math.floor(diffH/24)+'j');
+    }catch(e){}
+  }
+  if(tmLastUpdated){
+    try{
+      var t=new Date(tmLastUpdated);
+      var now=new Date();
+      var diffMs=now-t;
+      var diffH=Math.floor(diffMs/3600000);
+      var diffD=Math.floor(diffH/24);
+      if(diffD<1)parts.push('TM: aujourd\'hui');
+      else if(diffD===1)parts.push('TM: hier');
+      else parts.push('TM: il y a '+diffD+'j');
+    }catch(e){}
+  }
+  el.textContent=parts.join(' · ')||'Jamais mis à jour';
 }
 
 // Load cached live data on startup
