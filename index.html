@@ -415,6 +415,36 @@ if(liveSeasons.length>0){
   statsHTML+='<div class="evo-box" style="margin-top:.75rem">'
     +'<div class="evo-head"><span class="evo-head-title">Stats en direct \u2014 SofaScore</span></div>'
     +seasonAccordions+'</div>';
+}else if(stats){
+  var sKeys=Object.keys(stats).sort().reverse();
+  if(sKeys.length){
+    var fbAccordions=sKeys.map(function(sk){
+      var sd=stats[sk];if(!sd)return'';
+      var sid='acc-'+id+'-'+(_accIdx++);
+      return '<div class="ss-season" id="'+sid+'">'
+        +'<div class="ss-season-hdr" onclick="document.getElementById(\''+sid+'\').classList.toggle(\'open\')">'
+          +'<span class="ss-season-name">'+escapeHTML(sk)+'</span>'
+          +'<div class="ss-season-stats">'
+            +'<span class="ss-stat"><span class="ss-stat-v">'+(sd.matches||0)+'</span><span class="ss-stat-l">MJ</span></span>'
+            +'<span class="ss-stat"><span class="ss-stat-v accent">'+(sd.rating||'\u2014')+'</span><span class="ss-stat-l">Note</span></span>'
+            +'<span class="ss-stat"><span class="ss-stat-v gold">'+(sd.goals||0)+'</span><span class="ss-stat-l">Buts</span></span>'
+            +'<span class="ss-stat"><span class="ss-stat-v">'+(sd.assists||0)+'</span><span class="ss-stat-l">P</span></span>'
+          +'</div>'
+          +'<span class="ss-chevron">\u25B6</span>'
+        +'</div>'
+        +'<div class="ss-season-body"><div class="ss-comp-row">'
+          +'<div class="ss-comp-name">Stats globales</div>'
+          +'<div class="ss-comp-stats">'
+            +'<span class="ss-cstat"><span class="ss-cstat-v">'+(sd.minutes||0)+'</span><span class="ss-cstat-l">Min</span></span>'
+            +'<span class="ss-cstat"><span class="ss-cstat-v" style="color:#F5D130">'+(sd.yc||0)+'</span><span class="ss-cstat-l">JR</span></span>'
+            +'<span class="ss-cstat"><span class="ss-cstat-v" style="color:#C8102E">'+(sd.rc||0)+'</span><span class="ss-cstat-l">RR</span></span>'
+          +'</div></div></div>'
+        +'</div>';
+    }).join('');
+    statsHTML+='<div class="evo-box" style="margin-top:.75rem">'
+      +'<div class="evo-head"><span class="evo-head-title">Stats \u2014 donn\u00E9es locales</span></div>'
+      +fbAccordions+'</div>';
+  }
 }
   var careerHTML='';
   if(p.career&&p.career.length){
