@@ -1,0 +1,11 @@
+{
+  "name": "kv-mechelen-scout",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "KV Mechelen — Outil de recrutement FM26",
+  "scripts": {
+    "update": "node update-players.mjs",
+    "update:dry": "node update-players.mjs --dry-run"
+  }
+}
