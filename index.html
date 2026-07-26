@@ -376,10 +376,11 @@ function openPanel(id){
   }
 
   
-// === LIVE STATS BY SEASON + COMPETITION (SofaScore) ===
-var liveSeasons=getLiveSeasons(p);
+// === STATS BY SEASON ===
 var _accIdx=0;
-if(liveSeasons.length>0){
+var liveSeasons=getLiveSeasons(p);
+var hasLiveStats=liveSeasons.length>0&&liveSeasons.some(function(s){return s.totalAppearances>0;});
+if(hasLiveStats){
   var seasonAccordions=liveSeasons.map(function(season){
     var sid='acc-'+id+'-'+(_accIdx++);
     var sAvg=season.totalAppearances>0?(season.totalRatingSum/season.totalAppearances).toFixed(1):'\u2014';
@@ -415,7 +416,8 @@ if(liveSeasons.length>0){
   statsHTML+='<div class="evo-box" style="margin-top:.75rem">'
     +'<div class="evo-head"><span class="evo-head-title">Stats en direct \u2014 SofaScore</span></div>'
     +seasonAccordions+'</div>';
-}else if(stats){
+}
+if(!hasLiveStats&&stats){
   var sKeys=Object.keys(stats).sort().reverse();
   if(sKeys.length){
     var fbAccordions=sKeys.map(function(sk){
@@ -442,7 +444,7 @@ if(liveSeasons.length>0){
         +'</div>';
     }).join('');
     statsHTML+='<div class="evo-box" style="margin-top:.75rem">'
-      +'<div class="evo-head"><span class="evo-head-title">Stats \u2014 donn\u00E9es locales</span></div>'
+      +'<div class="evo-head"><span class="evo-head-title">Stats \u2014 Transfermarkt</span></div>'
       +fbAccordions+'</div>';
   }
 }
