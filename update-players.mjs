@@ -8,15 +8,8 @@ const DRY_RUN = process.argv.includes('--dry-run');
 
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-  'Accept': 'application/json',
-  'Accept-Language': 'en-US,en;q=0.9',
-  'Referer': 'https://www.sofascore.com/',
-  'Origin': 'https://www.sofascore.com'
-};
-
-const PARENT_CLUBS = {
-  'Gabriele Calvani': 'Genoa',
-  'Giacomo De Pieri': 'Inter Milan',
+  'Accept': 'text/html,application/xhtml+xml',
+  'Accept-Language': 'en-US,en;q=0.9'
 };
 
 const MONTHS_FR = [
@@ -24,15 +17,46 @@ const MONTHS_FR = [
   'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
 ];
 
-function extractSofascoreId(imgUrl) {
-  const m = imgUrl.match(/\/player\/(\d+)\//);
-  return m ? parseInt(m[1]) : null;
+const FOOT_MAP = { 'right': 'Droit', 'left': 'Gauche', 'both': 'Les deux' };
+
+function parseTMProfile(html) {
+  const r = {};
+
+  const clubM = html.match(/Current club:[\s\S]*?startseite\/verein\/\d+"[^>]*>[\s\S]*?alt="([^"]+)"/i);
+  if (clubM) r.club = clubM[1];
+
+  const loanM = html.match(/On loan from ([^"]+?) until ([\d\/]+)/i);
+  if (loanM) { r.loanFrom = loanM[1]; r.loanUntil = loanM[2]; }
+
+  const heightM = html.match(/itemprop="height"[^>]*>\s*([\d,]+\s*m)/i);
+  if (heightM) {
+    const meters = parseFloat(heightM[1].replace(',', '.'));
+    r.height = `${Math.round(meters * 100)} cm`;
+  }
+
+  const footM = html.match(/Foot:[\s\S]*?info-table__content--bold[^>]*>([\w]+)/i);
+  if (footM) r.foot = footM[1].trim().toLowerCase();
+
+  const contractM = html.match(/Contract expires:[\s\S]*?data-header__content[^>]*>([\d\/]+)/i);
+  if (contractM) r.contractUntil = contractM[1];
+
+  const mvMeta = html.match(/Market value:\s*(€[\d.,]+)([mk]?)/i);
+  if (mvMeta) {
+    const num = parseFloat(mvMeta[1].replace('€', '').replace(',', ''));
+    const mult = mvMeta[2].toLowerCase() === 'm' ? 1e6 : mvMeta[2].toLowerCase() === 'k' ? 1e3 : 1;
+    r.marketValue = Math.round(num * mult);
+  }
+
+  return r;
 }
 
-function timestampToDateFrench(ts) {
-  if (!ts) return null;
-  const d = new Date(ts * 1000);
-  return `${MONTHS_FR[d.getMonth()]} ${d.getFullYear()}`;
+function tmDateToFrench(dateStr) {
+  if (!dateStr) return null;
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) return null;
+  const month = parseInt(parts[1]) - 1;
+  const year = parts[2];
+  return `${MONTHS_FR[month]} ${year}`;
 }
 
 function formatValue(v) {
@@ -40,9 +64,11 @@ function formatValue(v) {
   return v.toLocaleString('fr-FR') + ' €';
 }
 
-function calcAge(dobStr) {
+function calcAgeFromDob(dobStr) {
   if (!dobStr) return null;
-  const dob = new Date(dobStr);
+  const parts = dobStr.split('/');
+  if (parts.length !== 3) return null;
+  const dob = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
   const now = new Date();
   let age = now.getFullYear() - dob.getFullYear();
   const m = now.getMonth() - dob.getMonth();
@@ -50,171 +76,86 @@ function calcAge(dobStr) {
   return age;
 }
 
-function mapFoot(f) {
-  if (!f) return 'Droit';
-  const map = { 'Right': 'Droit', 'Left': 'Gauche', 'Both': 'Les deux' };
-  return map[f] || f;
-}
-
-function detectSeasonKey(statSeasons) {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  let startYear = year;
-  if (month < 7) startYear = year - 1;
-  return `${startYear % 100}/${(startYear + 1) % 100}`;
-}
-
-async function fetchJSON(url) {
+async function fetchHTML(url) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
+  const timeout = setTimeout(() => controller.abort(), 15000);
   try {
     const res = await fetch(url, { headers: HEADERS, signal: controller.signal });
     clearTimeout(timeout);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
+    return await res.text();
   } catch (e) {
     clearTimeout(timeout);
     throw e;
   }
 }
 
-async function fetchPlayerProfile(id) {
-  const data = await fetchJSON(`https://api.sofascore.com/api/v1/player/${id}`);
-  return data.player || data;
-}
-
-async function fetchPlayerStats(id) {
-  const data = await fetchJSON(`https://api.sofascore.com/api/v1/player/${id}/statistics`);
-  return data.seasons || [];
-}
-
-function mergeStats(existingSeasons, apiSeasons) {
-  const seasonKey = detectSeasonKey(apiSeasons);
-  let totalMatches = 0, totalGoals = 0, totalAssists = 0;
-  let totalMinutes = 0, totalYc = 0, totalRc = 0, totalCs = 0;
-  let ratingSum = 0, ratingCount = 0;
-
-  for (const s of apiSeasons) {
-    if (s.year === seasonKey && s.statistics) {
-      const st = s.statistics;
-      totalMatches += st.appearances || 0;
-      totalGoals += st.goals || 0;
-      totalAssists += st.assists || 0;
-      totalMinutes += st.minutesPlayed || 0;
-      totalYc += st.yellowCards || 0;
-      totalRc += (st.redCards || 0) + (st.yellowRedCards || 0);
-      totalCs += st.cleanSheet || 0;
-      if (st.rating) { ratingSum += st.rating; ratingCount++; }
-    }
-  }
-
-  if (totalMatches === 0) return null;
-
-  return {
-    matches: totalMatches,
-    goals: totalGoals,
-    assists: totalAssists,
-    rating: ratingCount > 0 ? Math.round((ratingSum / ratingCount) * 10) / 10 : 0,
-    minutes: totalMinutes,
-    yc: totalYc,
-    rc: totalRc,
-    cs: totalCs
-  };
-}
-
 async function updatePlayer(player) {
-  const sofaId = extractSofascoreId(player.img);
-  if (!sofaId) {
-    console.log(`  ⚠ No Sofascore ID found in img URL for ${player.name}`);
+  const tmId = player.tmId;
+  if (!tmId) {
+    console.log(`  ⚠ Pas d'ID Transfermarkt — ignoré`);
     return null;
   }
 
-  const profile = await fetchPlayerProfile(sofaId);
-  const apiSeasons = await fetchPlayerStats(sofaId);
+  const html = await fetchHTML(`https://www.transfermarkt.com/x/profil/spieler/${tmId}`);
+  const data = parseTMProfile(html);
 
   const changes = {};
-  const newPlayer = { ...player };
+  const p = { ...player };
 
-  if (profile.team?.name) {
-    const teamName = profile.team.name;
-    const parent = PARENT_CLUBS[player.name];
-    if (parent && teamName !== parent) {
-      newPlayer.club = `${teamName} (prêt ${parent})`;
-    } else {
-      newPlayer.club = teamName;
-    }
-    if (newPlayer.club !== player.club) changes.club = { old: player.club, new: newPlayer.club };
-  }
-
-  if (profile.dateOfBirth) {
-    const newAge = calcAge(profile.dateOfBirth);
-    if (newAge !== null && newAge !== player.age) {
-      newPlayer.age = newAge;
-      changes.age = { old: player.age, new: newAge };
+  if (data.loanFrom) {
+    const loanClub = `${data.club} (prêt ${data.loanFrom})`;
+    if (loanClub !== player.club) {
+      p.club = loanClub;
+      changes.club = { old: player.club, new: loanClub };
     }
   }
 
-  if (profile.height) {
-    const newHeight = `${profile.height} cm`;
-    if (newHeight !== player.height) {
-      newPlayer.height = newHeight;
-      changes.height = { old: player.height, new: newHeight };
-    }
+  if (data.height) {
+    if (data.height !== player.height) { p.height = data.height; changes.height = { old: player.height, new: data.height }; }
   }
 
-  if (profile.preferredFoot) {
-    const newFoot = mapFoot(profile.preferredFoot);
-    if (newFoot !== player.foot) {
-      newPlayer.foot = newFoot;
-      changes.foot = { old: player.foot, new: newFoot };
-    }
+  if (data.foot) {
+    const f = FOOT_MAP[data.foot] || data.foot;
+    if (f !== player.foot) { p.foot = f; changes.foot = { old: player.foot, new: f }; }
   }
 
-  if (profile.proposedMarketValue) {
-    const newValNum = profile.proposedMarketValue;
-    const newVal = formatValue(newValNum);
-    if (newValNum !== player.valNum) {
-      newPlayer.valNum = newValNum;
-      newPlayer.val = newVal;
-      changes.val = { old: player.val, new: newVal };
-    }
+  if (data.marketValue && data.marketValue !== player.valNum) {
+    p.valNum = data.marketValue;
+    p.val = formatValue(data.marketValue);
+    changes.val = { old: player.val, new: p.val };
   }
 
-  if (profile.contractUntilTimestamp) {
-    const newContract = timestampToDateFrench(profile.contractUntilTimestamp);
-    if (newContract && newContract !== player.contract) {
-      newPlayer.contract = newContract;
-      changes.contract = { old: player.contract, new: newContract };
-    }
+  if (data.contractUntil) {
+    const c = tmDateToFrench(data.contractUntil);
+    if (c && c !== player.contract) { p.contract = c; changes.contract = { old: player.contract, new: c }; }
   }
 
-  const newStats = mergeStats(player.stats, apiSeasons);
-  if (newStats) {
-    const seasonKey = detectSeasonKey(apiSeasons);
-    const fmKey = `fm${seasonKey.replace('/', '')}`;
-    if (!newPlayer.stats) newPlayer.stats = {};
-    if (JSON.stringify(newPlayer.stats[fmKey]) !== JSON.stringify(newStats)) {
-      newPlayer.stats[fmKey] = newStats;
-      changes.stats = { old: player.stats?.[fmKey], new: newStats };
+  if (data.loanUntil) {
+    const loanEnd = tmDateToFrench(data.loanUntil);
+    if (loanEnd) {
+      const careerEntry = p.career?.find(e => e.type === 'loan' && e.club === data.loanFrom);
+      if (careerEntry && careerEntry.period && !careerEntry.period.includes('-')) {
+        // already has end date, skip
+      }
     }
   }
 
   if (Object.keys(changes).length === 0) {
-    console.log(`  ✓ ${player.name} — déjà à jour`);
+    console.log(`  ✓ déjà à jour`);
     return null;
   }
 
-  console.log(`  ✏ ${player.name} — changements:`);
+  console.log(`  ✏ changements:`);
   for (const [field, { old: o, new: n }] of Object.entries(changes)) {
     console.log(`    ${field}: ${JSON.stringify(o)} → ${JSON.stringify(n)}`);
   }
 
-  return { player: newPlayer, changes };
+  return { player: p, changes };
 }
 
 async function main() {
-  console.log(DRY_RUN ? '🔍 Mode dry-run — aucun fichier ne sera modifié\n' : '');
+  console.log(DRY_RUN ? '🔍 Mode dry-run\n' : '');
 
   let players;
   try {
@@ -222,56 +163,35 @@ async function main() {
     if (raw.charCodeAt(0) === 0xFEFF) raw = raw.slice(1);
     players = JSON.parse(raw);
   } catch (e) {
-    console.error(`❌ Impossible de lire ${PLAYERS_PATH}: ${e.message}`);
+    console.error(`❌ ${PLAYERS_PATH}: ${e.message}`);
     process.exit(1);
   }
 
-  console.log(`${players.length} joueurs trouvés dans players.json\n`);
-
-  let updatedCount = 0;
-  let errorCount = 0;
+  console.log(`${players.length} joueurs\n`);
+  let updated = 0, errors = 0;
 
   for (let i = 0; i < players.length; i++) {
     const p = players[i];
     console.log(`[${i + 1}/${players.length}] ${p.name}`);
-
     try {
       const result = await updatePlayer(p);
-      if (result) {
-        players[i] = result.player;
-        updatedCount++;
-      }
+      if (result) { players[i] = result.player; updated++; }
     } catch (e) {
-      console.log(`  ✗ Erreur: ${e.message}`);
-      errorCount++;
+      console.log(`  ✗ ${e.message}`);
+      errors++;
     }
-
-    if (i < players.length - 1) {
-      await new Promise(r => setTimeout(r, 1200));
-    }
+    if (i < players.length - 1) await new Promise(r => setTimeout(r, 2000));
   }
 
   console.log(`\n── Résumé ──`);
-  console.log(`Mis à jour: ${updatedCount}`);
-  console.log(`Déjà à jour: ${players.length - updatedCount - errorCount}`);
-  console.log(`Erreurs: ${errorCount}`);
+  console.log(`Mis à jour: ${updated} | À jour: ${players.length - updated - errors} | Erreurs: ${errors}`);
 
-  if (!DRY_RUN && updatedCount > 0) {
-    try {
-      await writeFile(PLAYERS_PATH, JSON.stringify(players, null, 2) + '\n', 'utf-8');
-      console.log(`\n✅ players.json mis à jour`);
-    } catch (e) {
-      console.error(`\n❌ Erreur d'écriture: ${e.message}`);
-      process.exit(1);
-    }
-  } else if (DRY_RUN && updatedCount > 0) {
-    console.log(`\nℹ️  Aucune modification écrite (dry-run)`);
-  } else {
-    console.log(`\nℹ️  Rien à mettre à jour`);
+  if (!DRY_RUN && updated > 0) {
+    await writeFile(PLAYERS_PATH, JSON.stringify(players, null, 2) + '\n', 'utf-8');
+    console.log(`✅ players.json sauvegardé`);
+  } else if (DRY_RUN && updated > 0) {
+    console.log(`ℹ️  Dry-run — rien écrit`);
   }
 }
 
-main().catch(e => {
-  console.error(`❌ Erreur fatale: ${e.message}`);
-  process.exit(1);
-});
+main().catch(e => { console.error(`❌ ${e.message}`); process.exit(1); });
