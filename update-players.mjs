@@ -12,12 +12,21 @@ const HEADERS = {
   'Accept-Language': 'en-US,en;q=0.9'
 };
 
+const CEAPI_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+  'Accept-Language': 'en-US,en;q=0.9'
+};
+
 const MONTHS_FR = [
   'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
   'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
 ];
 
 const FOOT_MAP = { 'right': 'Droit', 'left': 'Gauche', 'both': 'Les deux' };
+
+const FRIENDLY_COMP_IDS = new Set(['FS']);
+const FIRST_TEAM_COMP_TYPES = new Set([1, 2, 4, 8, 9, 10, 14]);
 
 function parseTMProfile(html) {
   const r = {};
@@ -64,16 +73,18 @@ function formatValue(v) {
   return v.toLocaleString('fr-FR') + ' €';
 }
 
-function calcAgeFromDob(dobStr) {
-  if (!dobStr) return null;
-  const parts = dobStr.split('/');
-  if (parts.length !== 3) return null;
-  const dob = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-  const now = new Date();
-  let age = now.getFullYear() - dob.getFullYear();
-  const m = now.getMonth() - dob.getMonth();
-  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
-  return age;
+async function fetchJSON(url) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    const res = await fetch(url, { headers: CEAPI_HEADERS, signal: controller.signal });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (e) {
+    clearTimeout(timeout);
+    throw e;
+  }
 }
 
 async function fetchHTML(url) {
@@ -90,6 +101,62 @@ async function fetchHTML(url) {
   }
 }
 
+function seasonIdToKey(seasonId) {
+  return `${seasonId}-${seasonId + 1}`;
+}
+
+async function fetchPlayerStats(tmId) {
+  const url = `https://www.transfermarkt.com/ceapi/performance-game/${tmId}`;
+  const json = await fetchJSON(url);
+  if (!json?.data?.performance) return null;
+
+  const games = json.data.performance;
+  const seasonMap = {};
+
+  for (const game of games) {
+    const gi = game.gameInformation;
+    const compId = gi.competitionId;
+    if (FRIENDLY_COMP_IDS.has(compId)) continue;
+    if (!FIRST_TEAM_COMP_TYPES.has(gi.competitionTypeId)) continue;
+
+    const seasonId = gi.seasonId;
+    const key = seasonIdToKey(seasonId);
+
+    if (!seasonMap[key]) {
+      seasonMap[key] = { matches: 0, goals: 0, assists: 0, minutes: 0, yc: 0, rc: 0, ratings: [] };
+    }
+    const s = seasonMap[key];
+    const st = game.statistics;
+    if (!st) continue;
+
+    s.matches++;
+    s.goals += st.goalStatistics?.goalsScoredTotalOfficial || 0;
+    s.assists += st.goalStatistics?.assistsOfficial || 0;
+    s.minutes += st.playingTimeStatistics?.playedMinutes || 0;
+    s.yc += st.cardStatistics?.yellowCardGross || 0;
+
+    const grade = st.generalStatistics?.grade;
+    if (grade != null && grade > 0) s.ratings.push(grade);
+  }
+
+  const allKeys = Object.keys(seasonMap).sort().reverse();
+  const recentKeys = allKeys.slice(0, 3);
+  const stats = {};
+  for (const key of recentKeys) {
+    const s = seasonMap[key];
+    stats[key] = {
+      matches: s.matches,
+      goals: s.goals,
+      assists: s.assists,
+      rating: s.ratings.length > 0 ? Math.round(s.ratings.reduce((a, b) => a + b, 0) / s.ratings.length * 10) / 10 : null,
+      minutes: s.minutes,
+      yc: s.yc,
+      rc: s.rc
+    };
+  }
+  return Object.keys(stats).length > 0 ? stats : null;
+}
+
 async function updatePlayer(player) {
   const tmId = player.tmId;
   if (!tmId) {
@@ -97,11 +164,11 @@ async function updatePlayer(player) {
     return null;
   }
 
-  const html = await fetchHTML(`https://www.transfermarkt.com/x/profil/spieler/${tmId}`);
-  const data = parseTMProfile(html);
-
   const changes = {};
   const p = { ...player };
+
+  const html = await fetchHTML(`https://www.transfermarkt.com/x/profil/spieler/${tmId}`);
+  const data = parseTMProfile(html);
 
   if (data.loanFrom) {
     const loanClub = `${data.club} (prêt ${data.loanFrom})`;
@@ -131,14 +198,23 @@ async function updatePlayer(player) {
     if (c && c !== player.contract) { p.contract = c; changes.contract = { old: player.contract, new: c }; }
   }
 
-  if (data.loanUntil) {
-    const loanEnd = tmDateToFrench(data.loanUntil);
-    if (loanEnd) {
-      const careerEntry = p.career?.find(e => e.type === 'loan' && e.club === data.loanFrom);
-      if (careerEntry && careerEntry.period && !careerEntry.period.includes('-')) {
-        // already has end date, skip
+  await new Promise(r => setTimeout(r, 1500));
+
+  try {
+    const newStats = await fetchPlayerStats(tmId);
+    if (newStats) {
+      const oldKeys = Object.keys(player.stats || {}).sort().join(',');
+      const newKeys = Object.keys(newStats).sort().join(',');
+      const oldTotals = Object.values(player.stats || {}).reduce((a, s) => a + s.matches + s.goals + s.assists + s.minutes, 0);
+      const newTotals = Object.values(newStats).reduce((a, s) => a + s.matches + s.goals + s.assists + s.minutes, 0);
+
+      if (oldKeys !== newKeys || oldTotals !== newTotals) {
+        changes.stats = { old: player.stats, new: newStats };
+        p.stats = newStats;
       }
     }
+  } catch (e) {
+    console.log(`  ⚠ Stats: ${e.message}`);
   }
 
   if (Object.keys(changes).length === 0) {
@@ -147,8 +223,26 @@ async function updatePlayer(player) {
   }
 
   console.log(`  ✏ changements:`);
-  for (const [field, { old: o, new: n }] of Object.entries(changes)) {
-    console.log(`    ${field}: ${JSON.stringify(o)} → ${JSON.stringify(n)}`);
+  for (const [field, info] of Object.entries(changes)) {
+    if (field === 'stats') {
+      const seasons = Object.keys(info.new).sort();
+      for (const sk of seasons) {
+        const ns = info.new[sk];
+        const os = info.old?.[sk];
+        if (os) {
+          const diffs = [];
+          if (ns.matches !== os.matches) diffs.push(`matchs: ${os.matches}→${ns.matches}`);
+          if (ns.goals !== os.goals) diffs.push(`buts: ${os.goals}→${ns.goals}`);
+          if (ns.assists !== os.assists) diffs.push(`passes: ${os.assists}→${ns.assists}`);
+          if (ns.minutes !== os.minutes) diffs.push(`min: ${os.minutes}→${ns.minutes}`);
+          if (diffs.length) console.log(`    stats.${sk}: ${diffs.join(', ')}`);
+        } else {
+          console.log(`    stats.${sk}: nouveau (${ns.matches}M, ${ns.goals}B, ${ns.assists}P, ${ns.minutes}min)`);
+        }
+      }
+    } else {
+      console.log(`    ${field}: ${JSON.stringify(info.old)} → ${JSON.stringify(info.new)}`);
+    }
   }
 
   return { player: p, changes };

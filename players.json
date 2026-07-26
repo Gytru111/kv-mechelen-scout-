@@ -17,8 +17,8 @@
     "val": "4 000 000 €",
     "wage": "563 €/mois",
     "foot": "Droit",
-    "height": "182 cm",
-    "contract": "juin 2028",
+    "height": "183 cm",
+    "contract": "juin 2027",
     "attrs": {
       "Vitesse": 50,
       "Technique": 55,
@@ -56,25 +56,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 23,
+      "2026-2027": {
+        "matches": 2,
         "goals": 1,
-        "assists": 2,
-        "rating": 6.8,
-        "minutes": 1720,
-        "yc": 6,
-        "rc": 0,
-        "cs": 5
+        "assists": 1,
+        "rating": null,
+        "minutes": 180,
+        "yc": 1,
+        "rc": 0
       },
       "2025-2026": {
-        "matches": 33,
+        "matches": 32,
         "goals": 8,
         "assists": 4,
-        "rating": 7.1,
-        "minutes": 2860,
-        "yc": 11,
-        "rc": 0,
-        "cs": 9
+        "rating": null,
+        "minutes": 2321,
+        "yc": 10,
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 30,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 1411,
+        "yc": 4,
+        "rc": 0
       }
     },
     "desc": "Milieu défensif serbe de 18 ans à l'IMT Belgrade. Bon pressing, récupération propre. International U17/U18 serbe. Régulier en Superliga serbe malgré son jeune âge. Excellent potentiel de développement.",
@@ -159,25 +166,23 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 20,
-        "goals": 0,
-        "assists": 0,
-        "rating": 6.8,
-        "minutes": 1680,
-        "yc": 6,
-        "rc": 0,
-        "cs": 7
-      },
       "2025-2026": {
-        "matches": 7,
+        "matches": 12,
         "goals": 0,
         "assists": 0,
-        "rating": 6.5,
-        "minutes": 490,
-        "yc": 2,
-        "rc": 1,
-        "cs": 2
+        "rating": null,
+        "minutes": 0,
+        "yc": 0,
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 49,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 0,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Défenseur central argentin formé à l'Atlético Madrid. Grand gabarit (187cm), fort physiquement. Bon tacleur (70), excellent duels aériens (JR 75).",
@@ -266,25 +271,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 22,
-        "goals": 2,
-        "assists": 1,
-        "rating": 6.7,
-        "minutes": 1200,
-        "yc": 0,
-        "rc": 0,
-        "cs": 0
-      },
       "2025-2026": {
-        "matches": 21,
+        "matches": 42,
         "goals": 3,
-        "assists": 2,
-        "rating": 6.9,
-        "minutes": 1250,
-        "yc": 2,
-        "rc": 0,
-        "cs": 0
+        "assists": 3,
+        "rating": null,
+        "minutes": 1097,
+        "yc": 4,
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 35,
+        "goals": 3,
+        "assists": 1,
+        "rating": null,
+        "minutes": 805,
+        "yc": 0,
+        "rc": 0
+      },
+      "2023-2024": {
+        "matches": 15,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 187,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Ailier offensif sud-africain exceptionnel à Kaizer Chiefs. Flair exceptionnel (99), dribbleur né (80), passes (80). Vainqueur U-20 CAN 2025.",
@@ -358,25 +370,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 21,
-        "goals": 2,
-        "assists": 0,
-        "rating": 6.9,
-        "minutes": 1650,
-        "yc": 1,
-        "rc": 0,
-        "cs": 5
-      },
       "2025-2026": {
-        "matches": 14,
-        "goals": 1,
+        "matches": 49,
+        "goals": 0,
         "assists": 0,
-        "rating": 6.8,
-        "minutes": 1050,
+        "rating": null,
+        "minutes": 2332,
+        "yc": 1,
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 49,
+        "goals": 0,
+        "assists": 1,
+        "rating": null,
+        "minutes": 2042,
+        "yc": 1,
+        "rc": 0
+      },
+      "2023-2024": {
+        "matches": 1,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 70,
         "yc": 0,
-        "rc": 0,
-        "cs": 4
+        "rc": 0
       }
     },
     "desc": "Milieu ivoirien de 20 ans à l'Espérance Tunis. Explosif, grande endurance, excellent pressing. PA aléatoire -8 (150-170).",
@@ -417,7 +436,7 @@
     "wage": "1 714 €/mois",
     "foot": "Droit",
     "height": "183 cm",
-    "contract": "déc. 2027",
+    "contract": "décembre 2027",
     "attrs": {
       "Vitesse": 65,
       "Technique": 70,
@@ -455,25 +474,23 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 20,
-        "goals": 1,
-        "assists": 2,
-        "rating": 6.8,
-        "minutes": 780,
-        "yc": 3,
-        "rc": 0,
-        "cs": 0
-      },
       "2025-2026": {
-        "matches": 6,
+        "matches": 23,
         "goals": 0,
         "assists": 0,
-        "rating": 6.5,
-        "minutes": 250,
+        "rating": null,
+        "minutes": 155,
         "yc": 0,
-        "rc": 0,
-        "cs": 0
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 53,
+        "goals": 1,
+        "assists": 2,
+        "rating": null,
+        "minutes": 820,
+        "yc": 3,
+        "rc": 0
       }
     },
     "desc": "Milieu offensif péruvien de 18 ans à Alianza Lima. Technique (70), flair (70), bonne finition. Profil numéro 10 classique.",
@@ -503,12 +520,12 @@
     "ca": 95,
     "pa": 145,
     "paRand": true,
-    "valNum": 635000,
-    "val": "635 000 €",
+    "valNum": 600000,
+    "val": "600 000 €",
     "wage": "Libre",
     "foot": "Gauche",
-    "height": "184 cm",
-    "contract": "2028",
+    "height": "186 cm",
+    "contract": "juin 2029",
     "attrs": {
       "Vitesse": 65,
       "Technique": 60,
@@ -546,25 +563,23 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 4,
+      "2025-2026": {
+        "matches": 81,
         "goals": 0,
         "assists": 0,
-        "rating": 6.4,
-        "minutes": 100,
-        "yc": 0,
-        "rc": 0,
-        "cs": 0
+        "rating": null,
+        "minutes": 1913,
+        "yc": 4,
+        "rc": 0
       },
-      "2025-2026": {
-        "matches": 11,
+      "2024-2025": {
+        "matches": 76,
         "goals": 0,
-        "assists": 2,
-        "rating": 6.2,
-        "minutes": 450,
-        "yc": 2,
-        "rc": 0,
-        "cs": 0
+        "assists": 0,
+        "rating": null,
+        "minutes": 2378,
+        "yc": 4,
+        "rc": 0
       }
     },
     "desc": "Milieu défensif polonais de 18 ans, signé libre à l'Annecy FC (Ligue 2 France). Physique imposant (184cm), détermination (75). Transfert gratuit en juillet 2026.",
@@ -648,25 +663,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 19,
-        "goals": 6,
-        "assists": 7,
-        "rating": 6.8,
-        "minutes": 1600,
-        "yc": 5,
-        "rc": 0,
-        "cs": 0
+      "2026-2027": {
+        "matches": 3,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 212,
+        "yc": 3,
+        "rc": 0
       },
       "2025-2026": {
         "matches": 24,
-        "goals": 6,
-        "assists": 7,
-        "rating": 7.8,
-        "minutes": 1800,
+        "goals": 7,
+        "assists": 8,
+        "rating": null,
+        "minutes": 1405,
         "yc": 2,
-        "rc": 0,
-        "cs": 0
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 56,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 0,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Milieu néerlandais de 22 ans au Riga FC (ex-Arsenal, Feyenoord). Excellent équilibre récupération/création. Polyvalent.",
@@ -721,7 +743,7 @@
     "val": "Gratuit",
     "wage": "0 €/mois",
     "foot": "Droit",
-    "height": "181 cm",
+    "height": "185 cm",
     "contract": "Libre",
     "attrs": {
       "Vitesse": 65,
@@ -818,7 +840,7 @@
     "wage": "—",
     "foot": "Droit",
     "height": "201 cm",
-    "contract": "juin 2028",
+    "contract": "juin 2029",
     "attrs": {
       "Vitesse": 60,
       "Technique": 45,
@@ -856,25 +878,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 28,
-        "goals": 3,
-        "assists": 1,
-        "rating": 7.4,
-        "minutes": 2520,
-        "yc": 5,
-        "rc": 0,
-        "cs": 9
-      },
       "2025-2026": {
-        "matches": 32,
-        "goals": 2,
+        "matches": 35,
+        "goals": 3,
         "assists": 0,
-        "rating": 7,
-        "minutes": 2852,
-        "yc": 5,
-        "rc": 0,
-        "cs": 7
+        "rating": null,
+        "minutes": 3152,
+        "yc": 6,
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 35,
+        "goals": 3,
+        "assists": 0,
+        "rating": null,
+        "minutes": 2785,
+        "yc": 9,
+        "rc": 0
+      },
+      "2023-2024": {
+        "matches": 37,
+        "goals": 0,
+        "assists": 0,
+        "rating": 4.4,
+        "minutes": 487,
+        "yc": 2,
+        "rc": 0
       }
     },
     "desc": "Défenseur central allemand de 23 ans, signé à OH Leuven (Division 1B belge). 201cm, physique exceptionnel (80), duels aériens dominants (JR 90). Tacleur solide (80).",
@@ -910,7 +939,7 @@
   {
     "id": 9,
     "name": "Giacomo De Pieri",
-    "club": "Ascoli (prêt Inter U23)",
+    "club": "Ascoli Calcio (prêt Inter U23)",
     "nat": "Italie",
     "flag": "🇮🇹",
     "pos": "ATT",
@@ -926,7 +955,7 @@
     "wage": "1 103 €/mois",
     "foot": "Gauche",
     "height": "174 cm",
-    "contract": "Inter U23 — 2029",
+    "contract": "juin 2027",
     "attrs": {
       "Vitesse": 70,
       "Technique": 70,
@@ -964,25 +993,23 @@
       }
     },
     "stats": {
+      "2025-2026": {
+        "matches": 39,
+        "goals": 1,
+        "assists": 0,
+        "rating": null,
+        "minutes": 591,
+        "yc": 5,
+        "rc": 0
+      },
       "2024-2025": {
-        "matches": 0,
+        "matches": 35,
         "goals": 0,
         "assists": 0,
-        "rating": 0,
-        "minutes": 0,
+        "rating": null,
+        "minutes": 14,
         "yc": 0,
-        "rc": 0,
-        "cs": 0
-      },
-      "2025-2026": {
-        "matches": 16,
-        "goals": 1,
-        "assists": 1,
-        "rating": 6.5,
-        "minutes": 630,
-        "yc": 5,
-        "rc": 0,
-        "cs": 0
+        "rc": 0
       }
     },
     "desc": "Ailier élite de l'Inter Milan, prêté à l'Ascoli Calcio. Pied gauche dominant, technique exceptionnelle (70), flair (75).",
@@ -1017,7 +1044,7 @@
   {
     "id": 10,
     "name": "Gabriele Calvani",
-    "club": "Frosinone Calcio (prêt Genoa)",
+    "club": "Frosinone Calcio (prêt Genoa CFC)",
     "nat": "Italie",
     "flag": "🇮🇹",
     "pos": "DEF",
@@ -1028,12 +1055,12 @@
     "ca": 132,
     "pa": 155,
     "paRand": true,
-    "valNum": 3700000,
-    "val": "3 700 000 €",
+    "valNum": 4000000,
+    "val": "4 000 000 €",
     "wage": "3 748 €/mois",
     "foot": "Droit",
-    "height": "184 cm",
-    "contract": "juin 2026",
+    "height": "190 cm",
+    "contract": "juin 2027",
     "attrs": {
       "Vitesse": 65,
       "Technique": 60,
@@ -1071,25 +1098,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 4,
-        "goals": 0,
-        "assists": 0,
-        "rating": 6.7,
-        "minutes": 250,
-        "yc": 0,
-        "rc": 0,
-        "cs": 1
-      },
       "2025-2026": {
-        "matches": 37,
+        "matches": 40,
         "goals": 1,
         "assists": 1,
-        "rating": 6.9,
-        "minutes": 2921,
+        "rating": null,
+        "minutes": 2912,
         "yc": 4,
-        "rc": 1,
-        "cs": 8
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 40,
+        "goals": 1,
+        "assists": 0,
+        "rating": null,
+        "minutes": 1380,
+        "yc": 3,
+        "rc": 0
+      },
+      "2022-2023": {
+        "matches": 31,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 0,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Défenseur central italien de 22 ans, prêté au Frosinone Calcio (Serie B) par le Genoa CFC. 184cm, bon tacleur, duel aérien solide. International Italie U21.",
@@ -1145,7 +1179,7 @@
     "wage": "7 318 €/mois",
     "foot": "Droit",
     "height": "182 cm",
-    "contract": "juin 2028",
+    "contract": "juin 2029",
     "attrs": {
       "Vitesse": 65,
       "Technique": 65,
@@ -1183,25 +1217,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 4,
-        "goals": 0,
-        "assists": 0,
-        "rating": 6.3,
-        "minutes": 43,
-        "yc": 0,
-        "rc": 0,
-        "cs": 0
-      },
       "2025-2026": {
-        "matches": 6,
+        "matches": 42,
         "goals": 0,
         "assists": 0,
-        "rating": 6.2,
-        "minutes": 134,
+        "rating": null,
+        "minutes": 212,
         "yc": 0,
-        "rc": 0,
-        "cs": 0
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 73,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 2277,
+        "yc": 12,
+        "rc": 0
+      },
+      "2022-2023": {
+        "matches": 2,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 10,
+        "yc": 1,
+        "rc": 0
       }
     },
     "desc": "Milieu offensif espagnol de 20 ans au RCD Mallorca en LaLiga2. Technique élégante (65), vision de haut niveau (65).",
@@ -1241,12 +1282,12 @@
     "ca": 125,
     "pa": 155,
     "paRand": false,
-    "valNum": 3500000,
-    "val": "3 500 000 €",
+    "valNum": 8000000,
+    "val": "8 000 000 €",
     "wage": "37 105 €/mois",
     "foot": "Gauche",
     "height": "177 cm",
-    "contract": "déc. 2029",
+    "contract": "décembre 2029",
     "attrs": {
       "Vitesse": 55,
       "Technique": 50,
@@ -1284,25 +1325,23 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 17,
-        "goals": 0,
-        "assists": 1,
-        "rating": 7.1,
-        "minutes": 1350,
-        "yc": 2,
-        "rc": 0,
-        "cs": 5
-      },
       "2025-2026": {
-        "matches": 33,
+        "matches": 43,
         "goals": 1,
-        "assists": 2,
-        "rating": 7,
-        "minutes": 2700,
+        "assists": 1,
+        "rating": null,
+        "minutes": 3049,
         "yc": 4,
-        "rc": 0,
-        "cs": 8
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 42,
+        "goals": 1,
+        "assists": 1,
+        "rating": null,
+        "minutes": 1637,
+        "yc": 2,
+        "rc": 0
       }
     },
     "desc": "Défenseur central sud-africain de 20 ans au Chicago Fire (MLS). Vision exceptionnelle (80), leadership (80), passes (80).",
@@ -1386,25 +1425,32 @@
       }
     },
     "stats": {
+      "2025-2026": {
+        "matches": 19,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 165,
+        "yc": 1,
+        "rc": 0
+      },
       "2024-2025": {
+        "matches": 44,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 2204,
+        "yc": 6,
+        "rc": 0
+      },
+      "2023-2024": {
         "matches": 26,
         "goals": 0,
         "assists": 0,
-        "rating": 6.8,
-        "minutes": 2200,
-        "yc": 4,
-        "rc": 0,
-        "cs": 8
-      },
-      "2025-2026": {
-        "matches": 7,
-        "goals": 0,
-        "assists": 0,
-        "rating": 8.3,
-        "minutes": 280,
-        "yc": 1,
-        "rc": 0,
-        "cs": 2
+        "rating": null,
+        "minutes": 100,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Défenseur central sénégalais de 21 ans à l'Union SG. 196cm, physique dominant (80), duels aériens (JR 85). Vainqueur Coupe de Belgique.",
@@ -1451,11 +1497,11 @@
     "ca": 88,
     "pa": 150,
     "paRand": true,
-    "valNum": 1500000,
-    "val": "1 500 000 €",
+    "valNum": 800000,
+    "val": "800 000 €",
     "wage": "720 €/mois",
     "foot": "Droit",
-    "height": "174 cm",
+    "height": "175 cm",
     "contract": "juin 2031",
     "attrs": {
       "Vitesse": 60,
@@ -1494,25 +1540,32 @@
       }
     },
     "stats": {
-      "2024-2025": {
-        "matches": 4,
+      "2026-2027": {
+        "matches": 1,
         "goals": 0,
         "assists": 0,
-        "rating": 6.5,
-        "minutes": 180,
-        "yc": 0,
-        "rc": 0,
-        "cs": 0
-      },
-      "2025-2026": {
-        "matches": 0,
-        "goals": 0,
-        "assists": 0,
-        "rating": 0,
+        "rating": null,
         "minutes": 0,
         "yc": 0,
-        "rc": 0,
-        "cs": 0
+        "rc": 0
+      },
+      "2024-2025": {
+        "matches": 30,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 0,
+        "yc": 0,
+        "rc": 0
+      },
+      "2023-2024": {
+        "matches": 28,
+        "goals": 0,
+        "assists": 0,
+        "rating": null,
+        "minutes": 180,
+        "yc": 0,
+        "rc": 0
       }
     },
     "desc": "Ailier sénégalais de 18 ans, transfert au Fenerbahçe en juin 2026 (5 ans, jusqu'en 2031). Véritable pépite africaine — meilleur joueur et meilleur buteur de la CAN U17 2023 (5 buts, record d'Osimhen battu). Technique solide (65), flair (80), détermination (80). International senior sénégalais à 15 ans (plus jeune débiteur de l'histoire). Blessé au ligament croisé en 2024, de retour en 2026. Fils d'Ady Diouf, ancien footballeur professionnel.",
