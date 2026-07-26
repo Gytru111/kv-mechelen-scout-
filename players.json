@@ -57,28 +57,28 @@
     },
     "stats": {
       "2026-2027": {
+        "club": "IMT Belgrad",
         "matches": 2,
         "goals": 1,
         "assists": 1,
-        "rating": null,
         "minutes": 180,
         "yc": 1,
         "rc": 0
       },
       "2025-2026": {
+        "club": "IMT Belgrad",
         "matches": 32,
         "goals": 8,
         "assists": 4,
-        "rating": null,
         "minutes": 2321,
         "yc": 10,
         "rc": 0
       },
       "2024-2025": {
+        "club": "IMT Belgrad",
         "matches": 30,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 1411,
         "yc": 4,
         "rc": 0
@@ -167,19 +167,19 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Atletico Madrid B",
         "matches": 12,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Atletico Madrid B",
         "matches": 49,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
@@ -272,28 +272,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Kaizer Chiefs",
         "matches": 42,
         "goals": 3,
         "assists": 3,
-        "rating": null,
         "minutes": 1097,
         "yc": 4,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Kaizer Chiefs",
         "matches": 35,
         "goals": 3,
         "assists": 1,
-        "rating": null,
         "minutes": 805,
         "yc": 0,
         "rc": 0
       },
       "2023-2024": {
+        "club": null,
         "matches": 15,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 187,
         "yc": 0,
         "rc": 0
@@ -371,28 +371,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Espérance Tunis",
         "matches": 49,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 2332,
         "yc": 1,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Espérance Tunis",
         "matches": 49,
         "goals": 0,
         "assists": 1,
-        "rating": null,
         "minutes": 2042,
         "yc": 1,
         "rc": 0
       },
       "2023-2024": {
+        "club": null,
         "matches": 1,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 70,
         "yc": 0,
         "rc": 0
@@ -475,19 +475,19 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Alianza Lima",
         "matches": 23,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 155,
         "yc": 0,
         "rc": 0
       },
       "2024-2025": {
+        "club": null,
         "matches": 53,
         "goals": 1,
         "assists": 2,
-        "rating": null,
         "minutes": 820,
         "yc": 3,
         "rc": 0
@@ -564,19 +564,19 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Legia Warszawa",
         "matches": 81,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 1913,
         "yc": 4,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Legia Warszawa",
         "matches": 76,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 2378,
         "yc": 4,
         "rc": 0
@@ -664,28 +664,28 @@
     },
     "stats": {
       "2026-2027": {
+        "club": "Riga FC",
         "matches": 3,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 212,
         "yc": 3,
         "rc": 0
       },
       "2025-2026": {
+        "club": null,
         "matches": 24,
         "goals": 7,
         "assists": 8,
-        "rating": null,
         "minutes": 1405,
         "yc": 2,
         "rc": 0
       },
       "2024-2025": {
+        "club": null,
         "matches": 56,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
@@ -879,28 +879,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "WSG Tirol",
         "matches": 35,
         "goals": 3,
         "assists": 0,
-        "rating": null,
         "minutes": 3152,
         "yc": 6,
         "rc": 0
       },
       "2024-2025": {
+        "club": "WSG Tirol",
         "matches": 35,
         "goals": 3,
         "assists": 0,
-        "rating": null,
         "minutes": 2785,
         "yc": 9,
         "rc": 0
       },
       "2023-2024": {
+        "club": null,
         "matches": 37,
         "goals": 0,
         "assists": 0,
-        "rating": 4.4,
         "minutes": 487,
         "yc": 2,
         "rc": 0
@@ -994,19 +994,19 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Inter Milan",
         "matches": 39,
         "goals": 1,
         "assists": 0,
-        "rating": null,
         "minutes": 591,
         "yc": 5,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Inter Milan",
         "matches": 35,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 14,
         "yc": 0,
         "rc": 0
@@ -1099,28 +1099,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Genoa",
         "matches": 40,
         "goals": 1,
         "assists": 1,
-        "rating": null,
         "minutes": 2912,
         "yc": 4,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Genoa",
         "matches": 40,
         "goals": 1,
         "assists": 0,
-        "rating": null,
         "minutes": 1380,
         "yc": 3,
         "rc": 0
       },
       "2022-2023": {
+        "club": "Genoa",
         "matches": 31,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
@@ -1218,28 +1218,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "RCD Mallorca",
         "matches": 42,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 212,
         "yc": 0,
         "rc": 0
       },
       "2024-2025": {
+        "club": "RCD Mallorca",
         "matches": 73,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 2277,
         "yc": 12,
         "rc": 0
       },
       "2022-2023": {
+        "club": "RCD Mallorca",
         "matches": 2,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 10,
         "yc": 1,
         "rc": 0
@@ -1326,19 +1326,19 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Orlando Pirates",
         "matches": 43,
         "goals": 1,
         "assists": 1,
-        "rating": null,
         "minutes": 3049,
         "yc": 4,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Orlando Pirates II",
         "matches": 42,
         "goals": 1,
         "assists": 1,
-        "rating": null,
         "minutes": 1637,
         "yc": 2,
         "rc": 0
@@ -1426,28 +1426,28 @@
     },
     "stats": {
       "2025-2026": {
+        "club": "Lyn Oslo",
         "matches": 19,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 165,
         "yc": 1,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Lyn Oslo",
         "matches": 44,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 2204,
         "yc": 6,
         "rc": 0
       },
       "2023-2024": {
+        "club": "Diambars FC",
         "matches": 26,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 100,
         "yc": 0,
         "rc": 0
@@ -1541,28 +1541,28 @@
     },
     "stats": {
       "2026-2027": {
+        "club": "Fenerbahçe",
         "matches": 1,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
       },
       "2024-2025": {
+        "club": "Génération Foot",
         "matches": 30,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 0,
         "yc": 0,
         "rc": 0
       },
       "2023-2024": {
+        "club": "Génération Foot",
         "matches": 28,
         "goals": 0,
         "assists": 0,
-        "rating": null,
         "minutes": 180,
         "yc": 0,
         "rc": 0

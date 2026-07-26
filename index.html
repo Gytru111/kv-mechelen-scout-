@@ -423,9 +423,10 @@ if(!hasLiveStats&&stats){
     var fbAccordions=sKeys.map(function(sk){
       var sd=stats[sk];if(!sd)return'';
       var sid='acc-'+id+'-'+(_accIdx++);
+      var seasonLabel=escapeHTML(sk)+(sd.club?' <span style="font-size:.65rem;color:var(--t3);font-weight:400">— '+escapeHTML(sd.club)+'</span>':'');
       return '<div class="ss-season" id="'+sid+'">'
         +'<div class="ss-season-hdr" onclick="document.getElementById(\''+sid+'\').classList.toggle(\'open\')">'
-          +'<span class="ss-season-name">'+escapeHTML(sk)+'</span>'
+          +'<span class="ss-season-name">'+seasonLabel+'</span>'
           +'<div class="ss-season-stats">'
             +'<span class="ss-stat"><span class="ss-stat-v">'+(sd.matches||0)+'</span><span class="ss-stat-l">MJ</span></span>'
             +'<span class="ss-stat"><span class="ss-stat-v gold">'+(sd.goals||0)+'</span><span class="ss-stat-l">Buts</span></span>'

@@ -105,7 +105,22 @@ function seasonIdToKey(seasonId) {
   return `${seasonId}-${seasonId + 1}`;
 }
 
-async function fetchPlayerStats(tmId) {
+function resolveClubForSeason(career, seasonKey) {
+  if (!career || !career.length || !seasonKey) return null;
+  const [startStr] = seasonKey.split('-');
+  const seasonStart = parseInt(startStr);
+  const seasonEnd = seasonStart + 1;
+  for (const c of career) {
+    const m = c.period?.match(/(\d{4})\s*-\s*(?:(\d{4})|$)/);
+    if (!m) continue;
+    const cStart = parseInt(m[1]);
+    const cEnd = m[2] ? parseInt(m[2]) : 9999;
+    if (seasonStart >= cStart && seasonStart < cEnd) return c.club;
+  }
+  return null;
+}
+
+async function fetchPlayerStats(tmId, career) {
   const url = `https://www.transfermarkt.com/ceapi/performance-game/${tmId}`;
   const json = await fetchJSON(url);
   if (!json?.data?.performance) return null;
@@ -145,10 +160,10 @@ async function fetchPlayerStats(tmId) {
   for (const key of recentKeys) {
     const s = seasonMap[key];
     stats[key] = {
+      club: resolveClubForSeason(career, key),
       matches: s.matches,
       goals: s.goals,
       assists: s.assists,
-      rating: s.ratings.length > 0 ? Math.round(s.ratings.reduce((a, b) => a + b, 0) / s.ratings.length * 10) / 10 : null,
       minutes: s.minutes,
       yc: s.yc,
       rc: s.rc
@@ -201,14 +216,14 @@ async function updatePlayer(player) {
   await new Promise(r => setTimeout(r, 1500));
 
   try {
-    const newStats = await fetchPlayerStats(tmId);
+    const newStats = await fetchPlayerStats(tmId, p.career);
     if (newStats) {
       const oldKeys = Object.keys(player.stats || {}).sort().join(',');
       const newKeys = Object.keys(newStats).sort().join(',');
       const oldTotals = Object.values(player.stats || {}).reduce((a, s) => a + s.matches + s.goals + s.assists + s.minutes, 0);
       const newTotals = Object.values(newStats).reduce((a, s) => a + s.matches + s.goals + s.assists + s.minutes, 0);
 
-      if (oldKeys !== newKeys || oldTotals !== newTotals) {
+      if (oldKeys !== newKeys || oldTotals !== newTotals || JSON.stringify(player.stats) !== JSON.stringify(newStats)) {
         changes.stats = { old: player.stats, new: newStats };
         p.stats = newStats;
       }
