@@ -242,13 +242,13 @@ function drawValueChart(history,w,h,color){
   if(!history||history.length<2)return'';
   var vs=history.map(function(x){return x.valNum;});
   var mx=Math.max.apply(null,vs)||1,mn=Math.min.apply(null,vs),rg=mx-mn||1;
-  var L=5,T=12,R=5,B=14,cw=w-L-R,ch=h-T-B;
+  var L=8,T=16,R=8,B=18,cw=w-L-R,ch=h-T-B;
   var pts='',lbs='',dots='';
   for(var i=0;i<vs.length;i++){
     var x=L+(cw/(vs.length-1))*i,y=T+ch-(ch*(vs[i]-mn)/rg);
     pts+=(i>0?' ':'')+x+','+y;
-    lbs+='<text x="'+x+'" y="'+(h-3)+'" text-anchor="middle" font-size="5.5" fill="var(--t3)">'+history[i].season.slice(2,4)+'/'+history[i].season.slice(7,9)+'</text>';
-    lbs+='<text x="'+x+'" y="'+(y-4)+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+color+'">'+compactVal(vs[i])+'</text>';
+    lbs+='<text x="'+x+'" y="'+(h-4)+'" text-anchor="middle" font-size="7" fill="var(--t3)">'+history[i].season.slice(2,4)+'/'+history[i].season.slice(7,9)+'</text>';
+    lbs+='<text x="'+x+'" y="'+(y-7)+'" text-anchor="middle" font-size="8" font-weight="700" fill="'+color+'">'+compactVal(vs[i])+'</text>';
     dots+='<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+color+'"/>';
   }
   var area='<polygon points="'+L+','+(T+ch)+' '+pts+' '+((w-R)+','+(T+ch))+'" fill="'+color+'" opacity=".08"/>';
@@ -385,7 +385,7 @@ function cardHTML(p,i){
     +'<div class="card-stats"><div class="card-radar-mini">'+radarSvg+'</div><div class="card-attrs">'
       +ak.map(function(k){var v=p.attrs[k];return'<div class="card-attr"><span class="card-attr-l">'+escapeHTML(k)+'</span><span class="card-attr-v" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
     +'</div></div>'
-    +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="card-val-chart">'+drawValueChart(vh,220,50,pc)+'</div>':'';})()
+    +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="card-val-chart">'+drawValueChart(vh,220,65,pc)+'</div>':'';})()
     +'<div class="card-foot">'+(function(){var ls=getLiveStats(p);return ls&&ls.matches>0?'<span style="color:var(--accent);font-family:JetBrains Mono;font-weight:600;font-size:.6rem">'+ls.matches+' matchs · '+ls.goals+'B · '+ls.assists+'P · '+ls.rating.toFixed(1)+'</span>':'<span><b>'+p.age+'</b> ans · '+escapeHTML(p.foot)+'</span>'})()+'<span>Salaire <b>'+escapeHTML(p.wage)+'</b></span><span>'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+'</span></div>'
   +'</div>';
 }
@@ -514,7 +514,7 @@ if(!hasLiveStats&&stats){
       +'<div style="font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Attributs détaillés</div>'
       +'<div class="attrs-grid">'+attrCells+'</div>'
       +evoHTML+careerHTML+statsHTML
-      +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="panel-value-chart"><div class="pvc-hdr">Évolution valeur marchande</div>'+drawValueChart(vh,600,110,pc)+'</div>':'';})()
+      +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="panel-value-chart"><div class="pvc-hdr">Évolution valeur marchande</div>'+drawValueChart(vh,600,140,pc)+'</div>':'';})()
       +'<div class="info-table">'
         +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+escapeHTML(p.foot)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+(tmData[id]?'<span style="font-size:.5rem;color:var(--t3);margin-left:.3rem" title="Source: Transfermarkt">🔗TM</span>':'')+'</span></div>'
