@@ -224,6 +224,14 @@ function drawRadar(attrs,size,stroke,bg){
   return'<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+glow+rings+axes+area+dots+'</svg>';
 }
 
+function getValHistory(p){
+  var h=[];
+  if(p.valHistory){for(var i=0;i<p.valHistory.length;i++)h.push(p.valHistory[i]);}
+  if(h.length&&h[h.length-1].valNum===p.valNum)return h;
+  h.push({season:"2026-2027",valNum:p.valNum,val:p.val});
+  return h;
+}
+
 function drawValueChart(history,w,h,color){
   if(!history||history.length<2)return'';
   var vs=history.map(function(x){return x.valNum;});
@@ -370,7 +378,7 @@ function cardHTML(p,i){
     +'<div class="card-stats"><div class="card-radar-mini">'+radarSvg+'</div><div class="card-attrs">'
       +ak.map(function(k){var v=p.attrs[k];return'<div class="card-attr"><span class="card-attr-l">'+escapeHTML(k)+'</span><span class="card-attr-v" style="color:'+barColor(v)+'">'+v+'</span></div>';}).join('')
     +'</div></div>'
-    +(p.valHistory&&p.valHistory.length>1?'<div class="card-val-chart">'+drawValueChart(p.valHistory,220,36,pc)+'</div>':'')
+    +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="card-val-chart">'+drawValueChart(vh,220,36,pc)+'</div>':'';})()
     +'<div class="card-foot">'+(function(){var ls=getLiveStats(p);return ls&&ls.matches>0?'<span style="color:var(--accent);font-family:JetBrains Mono;font-weight:600;font-size:.6rem">'+ls.matches+' matchs · '+ls.goals+'B · '+ls.assists+'P · '+ls.rating.toFixed(1)+'</span>':'<span><b>'+p.age+'</b> ans · '+escapeHTML(p.foot)+'</span>'})()+'<span>Salaire <b>'+escapeHTML(p.wage)+'</b></span><span>'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+'</span></div>'
   +'</div>';
 }
@@ -499,7 +507,7 @@ if(!hasLiveStats&&stats){
       +'<div style="font-size:.58rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Attributs détaillés</div>'
       +'<div class="attrs-grid">'+attrCells+'</div>'
       +evoHTML+careerHTML+statsHTML
-      +(p.valHistory&&p.valHistory.length>1?'<div class="panel-value-chart"><div class="pvc-hdr">Évolution valeur marchande</div>'+drawValueChart(p.valHistory,600,80,pc)+'</div>':'')
+      +(function(){var vh=getValHistory(p);return vh.length>1?'<div class="panel-value-chart"><div class="pvc-hdr">Évolution valeur marchande</div>'+drawValueChart(vh,600,80,pc)+'</div>':'';})()
       +'<div class="info-table">'
         +'<div class="it-row"><span class="it-lbl">Pied fort</span><span class="it-val">'+escapeHTML(p.foot)+'</span></div>'
         +'<div class="it-row"><span class="it-lbl">Contrat</span><span class="it-val">'+escapeHTML(p.contract)+contractBadgeHTML(p.contract)+(tmData[id]?'<span style="font-size:.5rem;color:var(--t3);margin-left:.3rem" title="Source: Transfermarkt">🔗TM</span>':'')+'</span></div>'
