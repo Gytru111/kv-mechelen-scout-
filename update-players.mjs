@@ -144,6 +144,9 @@ async function fetchPlayerStats(tmId, career) {
     const st = game.statistics;
     if (!st) continue;
 
+    const played = st.generalStatistics?.participationState === 'played' || (st.playingTimeStatistics?.playedMinutes || 0) > 0;
+    if (!played) continue;
+
     s.matches++;
     s.goals += st.goalStatistics?.goalsScoredTotalOfficial || 0;
     s.assists += st.goalStatistics?.assistsOfficial || 0;

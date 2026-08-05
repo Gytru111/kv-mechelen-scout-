@@ -84,7 +84,7 @@
       },
       "2025-2026": {
         "club": "IMT Belgrad",
-        "matches": 32,
+        "matches": 27,
         "goals": 8,
         "assists": 4,
         "minutes": 2321,
@@ -93,7 +93,7 @@
       },
       "2024-2025": {
         "club": "IMT Belgrad",
-        "matches": 30,
+        "matches": 18,
         "goals": 0,
         "assists": 0,
         "minutes": 1411,
@@ -202,7 +202,7 @@
     "stats": {
       "2025-2026": {
         "club": "Atletico Madrid B",
-        "matches": 12,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -211,7 +211,7 @@
       },
       "2024-2025": {
         "club": "Atletico Madrid B",
-        "matches": 49,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -333,7 +333,7 @@
       },
       "2025-2026": {
         "club": "Kaizer Chiefs",
-        "matches": 42,
+        "matches": 29,
         "goals": 3,
         "assists": 3,
         "minutes": 1097,
@@ -342,7 +342,7 @@
       },
       "2024-2025": {
         "club": "Kaizer Chiefs",
-        "matches": 35,
+        "matches": 27,
         "goals": 3,
         "assists": 1,
         "minutes": 805,
@@ -440,7 +440,7 @@
     "stats": {
       "2025-2026": {
         "club": "Espérance Tunis",
-        "matches": 49,
+        "matches": 35,
         "goals": 0,
         "assists": 0,
         "minutes": 2332,
@@ -449,7 +449,7 @@
       },
       "2024-2025": {
         "club": "Espérance Tunis",
-        "matches": 49,
+        "matches": 35,
         "goals": 0,
         "assists": 1,
         "minutes": 2042,
@@ -561,7 +561,7 @@
     "stats": {
       "2025-2026": {
         "club": "Alianza Lima",
-        "matches": 25,
+        "matches": 6,
         "goals": 0,
         "assists": 0,
         "minutes": 155,
@@ -570,7 +570,7 @@
       },
       "2024-2025": {
         "club": null,
-        "matches": 53,
+        "matches": 20,
         "goals": 1,
         "assists": 2,
         "minutes": 820,
@@ -667,7 +667,7 @@
     "stats": {
       "2025-2026": {
         "club": "Legia Warszawa",
-        "matches": 81,
+        "matches": 31,
         "goals": 0,
         "assists": 0,
         "minutes": 1913,
@@ -676,7 +676,7 @@
       },
       "2024-2025": {
         "club": "Legia Warszawa",
-        "matches": 76,
+        "matches": 30,
         "goals": 0,
         "assists": 0,
         "minutes": 2378,
@@ -784,7 +784,7 @@
     "stats": {
       "2026-2027": {
         "club": "Riga FC",
-        "matches": 4,
+        "matches": 3,
         "goals": 0,
         "assists": 0,
         "minutes": 212,
@@ -793,7 +793,7 @@
       },
       "2025-2026": {
         "club": null,
-        "matches": 25,
+        "matches": 24,
         "goals": 7,
         "assists": 9,
         "minutes": 1495,
@@ -802,7 +802,7 @@
       },
       "2024-2025": {
         "club": null,
-        "matches": 56,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -1042,7 +1042,7 @@
       },
       "2024-2025": {
         "club": "WSG Tirol",
-        "matches": 35,
+        "matches": 31,
         "goals": 3,
         "assists": 0,
         "minutes": 2785,
@@ -1051,11 +1051,11 @@
       },
       "2023-2024": {
         "club": null,
-        "matches": 37,
+        "matches": 12,
         "goals": 0,
         "assists": 0,
         "minutes": 487,
-        "yc": 2,
+        "yc": 1,
         "rc": 0
       }
     },
@@ -1165,7 +1165,7 @@
     "stats": {
       "2025-2026": {
         "club": "Inter Milan",
-        "matches": 39,
+        "matches": 17,
         "goals": 1,
         "assists": 0,
         "minutes": 591,
@@ -1174,7 +1174,7 @@
       },
       "2024-2025": {
         "club": "Inter Milan",
-        "matches": 35,
+        "matches": 1,
         "goals": 0,
         "assists": 0,
         "minutes": 14,
@@ -1292,7 +1292,7 @@
     "stats": {
       "2025-2026": {
         "club": "Genoa",
-        "matches": 40,
+        "matches": 37,
         "goals": 1,
         "assists": 1,
         "minutes": 2912,
@@ -1301,7 +1301,7 @@
       },
       "2024-2025": {
         "club": "Genoa",
-        "matches": 40,
+        "matches": 21,
         "goals": 1,
         "assists": 0,
         "minutes": 1380,
@@ -1310,7 +1310,7 @@
       },
       "2022-2023": {
         "club": "Genoa",
-        "matches": 31,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -1433,7 +1433,7 @@
     "stats": {
       "2025-2026": {
         "club": "RCD Mallorca",
-        "matches": 42,
+        "matches": 7,
         "goals": 0,
         "assists": 0,
         "minutes": 212,
@@ -1442,7 +1442,7 @@
       },
       "2024-2025": {
         "club": "RCD Mallorca",
-        "matches": 73,
+        "matches": 31,
         "goals": 0,
         "assists": 0,
         "minutes": 2277,
@@ -1451,7 +1451,7 @@
       },
       "2022-2023": {
         "club": "RCD Mallorca",
-        "matches": 2,
+        "matches": 1,
         "goals": 0,
         "assists": 0,
         "minutes": 10,
@@ -1558,7 +1558,7 @@
     "stats": {
       "2025-2026": {
         "club": "Orlando Pirates",
-        "matches": 44,
+        "matches": 35,
         "goals": 1,
         "assists": 1,
         "minutes": 3049,
@@ -1567,7 +1567,7 @@
       },
       "2024-2025": {
         "club": "Orlando Pirates II",
-        "matches": 42,
+        "matches": 19,
         "goals": 1,
         "assists": 1,
         "minutes": 1637,
@@ -1684,7 +1684,7 @@
       },
       "2025-2026": {
         "club": "Lyn Oslo",
-        "matches": 19,
+        "matches": 2,
         "goals": 0,
         "assists": 0,
         "minutes": 165,
@@ -1693,7 +1693,7 @@
       },
       "2024-2025": {
         "club": "Lyn Oslo",
-        "matches": 44,
+        "matches": 30,
         "goals": 0,
         "assists": 0,
         "minutes": 2204,
@@ -1807,7 +1807,7 @@
     "stats": {
       "2026-2027": {
         "club": "Fenerbahçe",
-        "matches": 2,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -1816,7 +1816,7 @@
       },
       "2024-2025": {
         "club": "Génération Foot",
-        "matches": 30,
+        "matches": 0,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
@@ -1825,7 +1825,7 @@
       },
       "2023-2024": {
         "club": "Génération Foot",
-        "matches": 28,
+        "matches": 2,
         "goals": 0,
         "assists": 0,
         "minutes": 180,
