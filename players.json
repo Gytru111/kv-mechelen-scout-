@@ -16,9 +16,21 @@
     "valNum": 4000000,
     "val": "4 000 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 500000, "val": "500 000 €"},
-      {"season": "2024-2025", "valNum": 1800000, "val": "1 800 000 €"},
-      {"season": "2025-2026", "valNum": 4000000, "val": "4 000 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 500000,
+        "val": "500 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 1800000,
+        "val": "1 800 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 4000000,
+        "val": "4 000 000 €"
+      }
     ],
     "wage": "563 €/mois",
     "foot": "Droit",
@@ -63,10 +75,10 @@
     "stats": {
       "2026-2027": {
         "club": "IMT Belgrad",
-        "matches": 2,
+        "matches": 3,
         "goals": 1,
         "assists": 1,
-        "minutes": 180,
+        "minutes": 270,
         "yc": 1,
         "rc": 0
       },
@@ -131,9 +143,21 @@
     "valNum": 200000,
     "val": "200 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 50000, "val": "50 000 €"},
-      {"season": "2024-2025", "valNum": 120000, "val": "120 000 €"},
-      {"season": "2025-2026", "valNum": 200000, "val": "200 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 50000,
+        "val": "50 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 120000,
+        "val": "120 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 200000,
+        "val": "200 000 €"
+      }
     ],
     "wage": "3 796 €/mois",
     "foot": "Droit",
@@ -241,9 +265,21 @@
     "valNum": 750000,
     "val": "750 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 100000, "val": "100 000 €"},
-      {"season": "2024-2025", "valNum": 350000, "val": "350 000 €"},
-      {"season": "2025-2026", "valNum": 750000, "val": "750 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 100000,
+        "val": "100 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 350000,
+        "val": "350 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 750000,
+        "val": "750 000 €"
+      }
     ],
     "wage": "5 417 €/mois",
     "foot": "Gauche",
@@ -286,6 +322,15 @@
       }
     },
     "stats": {
+      "2026-2027": {
+        "club": "Kaizer Chiefs",
+        "matches": 1,
+        "goals": 0,
+        "assists": 1,
+        "minutes": 90,
+        "yc": 0,
+        "rc": 0
+      },
       "2025-2026": {
         "club": "Kaizer Chiefs",
         "matches": 42,
@@ -301,15 +346,6 @@
         "goals": 3,
         "assists": 1,
         "minutes": 805,
-        "yc": 0,
-        "rc": 0
-      },
-      "2023-2024": {
-        "club": null,
-        "matches": 15,
-        "goals": 0,
-        "assists": 0,
-        "minutes": 187,
         "yc": 0,
         "rc": 0
       }
@@ -345,9 +381,21 @@
     "valNum": 850000,
     "val": "850 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 150000, "val": "150 000 €"},
-      {"season": "2024-2025", "valNum": 400000, "val": "400 000 €"},
-      {"season": "2025-2026", "valNum": 850000, "val": "850 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 150000,
+        "val": "150 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 400000,
+        "val": "400 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 850000,
+        "val": "850 000 €"
+      }
     ],
     "wage": "3 215 €/mois",
     "foot": "Droit",
@@ -454,9 +502,21 @@
     "valNum": 500000,
     "val": "500 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 80000, "val": "80 000 €"},
-      {"season": "2024-2025", "valNum": 250000, "val": "250 000 €"},
-      {"season": "2025-2026", "valNum": 500000, "val": "500 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 80000,
+        "val": "80 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 250000,
+        "val": "250 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 500000,
+        "val": "500 000 €"
+      }
     ],
     "wage": "1 714 €/mois",
     "foot": "Droit",
@@ -501,7 +561,7 @@
     "stats": {
       "2025-2026": {
         "club": "Alianza Lima",
-        "matches": 23,
+        "matches": 25,
         "goals": 0,
         "assists": 0,
         "minutes": 155,
@@ -548,9 +608,21 @@
     "valNum": 600000,
     "val": "600 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 100000, "val": "100 000 €"},
-      {"season": "2024-2025", "valNum": 300000, "val": "300 000 €"},
-      {"season": "2025-2026", "valNum": 600000, "val": "600 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 100000,
+        "val": "100 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 300000,
+        "val": "300 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 600000,
+        "val": "600 000 €"
+      }
     ],
     "wage": "Libre",
     "foot": "Gauche",
@@ -653,9 +725,21 @@
     "valNum": 600000,
     "val": "600 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 300000, "val": "300 000 €"},
-      {"season": "2024-2025", "valNum": 450000, "val": "450 000 €"},
-      {"season": "2025-2026", "valNum": 600000, "val": "600 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 300000,
+        "val": "300 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 450000,
+        "val": "450 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 600000,
+        "val": "600 000 €"
+      }
     ],
     "wage": "2 548 €/mois",
     "foot": "Droit",
@@ -700,7 +784,7 @@
     "stats": {
       "2026-2027": {
         "club": "Riga FC",
-        "matches": 3,
+        "matches": 4,
         "goals": 0,
         "assists": 0,
         "minutes": 212,
@@ -709,10 +793,10 @@
       },
       "2025-2026": {
         "club": null,
-        "matches": 24,
+        "matches": 25,
         "goals": 7,
-        "assists": 8,
-        "minutes": 1405,
+        "assists": 9,
+        "minutes": 1495,
         "yc": 2,
         "rc": 0
       },
@@ -777,9 +861,21 @@
     "valNum": 0,
     "val": "Gratuit",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 200000, "val": "200 000 €"},
-      {"season": "2024-2025", "valNum": 100000, "val": "100 000 €"},
-      {"season": "2025-2026", "valNum": 0, "val": "Gratuit"}
+      {
+        "season": "2023-2024",
+        "valNum": 200000,
+        "val": "200 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 100000,
+        "val": "100 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 0,
+        "val": "Gratuit"
+      }
     ],
     "wage": "0 €/mois",
     "foot": "Droit",
@@ -878,9 +974,21 @@
     "valNum": 700000,
     "val": "700 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 150000, "val": "150 000 €"},
-      {"season": "2024-2025", "valNum": 400000, "val": "400 000 €"},
-      {"season": "2025-2026", "valNum": 700000, "val": "700 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 150000,
+        "val": "150 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 400000,
+        "val": "400 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 700000,
+        "val": "700 000 €"
+      }
     ],
     "wage": "—",
     "foot": "Droit",
@@ -998,9 +1106,21 @@
     "valNum": 1300000,
     "val": "1 300 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 200000, "val": "200 000 €"},
-      {"season": "2024-2025", "valNum": 600000, "val": "600 000 €"},
-      {"season": "2025-2026", "valNum": 1300000, "val": "1 300 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 200000,
+        "val": "200 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 600000,
+        "val": "600 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 1300000,
+        "val": "1 300 000 €"
+      }
     ],
     "wage": "1 103 €/mois",
     "foot": "Gauche",
@@ -1108,10 +1228,26 @@
     "valNum": 4000000,
     "val": "4 000 000 €",
     "valHistory": [
-      {"season": "2022-2023", "valNum": 500000, "val": "500 000 €"},
-      {"season": "2023-2024", "valNum": 1500000, "val": "1 500 000 €"},
-      {"season": "2024-2025", "valNum": 2800000, "val": "2 800 000 €"},
-      {"season": "2025-2026", "valNum": 4000000, "val": "4 000 000 €"}
+      {
+        "season": "2022-2023",
+        "valNum": 500000,
+        "val": "500 000 €"
+      },
+      {
+        "season": "2023-2024",
+        "valNum": 1500000,
+        "val": "1 500 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 2800000,
+        "val": "2 800 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 4000000,
+        "val": "4 000 000 €"
+      }
     ],
     "wage": "3 748 €/mois",
     "foot": "Droit",
@@ -1233,10 +1369,26 @@
     "valNum": 500000,
     "val": "500 000 €",
     "valHistory": [
-      {"season": "2022-2023", "valNum": 50000, "val": "50 000 €"},
-      {"season": "2023-2024", "valNum": 150000, "val": "150 000 €"},
-      {"season": "2024-2025", "valNum": 350000, "val": "350 000 €"},
-      {"season": "2025-2026", "valNum": 500000, "val": "500 000 €"}
+      {
+        "season": "2022-2023",
+        "valNum": 50000,
+        "val": "50 000 €"
+      },
+      {
+        "season": "2023-2024",
+        "valNum": 150000,
+        "val": "150 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 350000,
+        "val": "350 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 500000,
+        "val": "500 000 €"
+      }
     ],
     "wage": "7 318 €/mois",
     "foot": "Droit",
@@ -1347,9 +1499,21 @@
     "valNum": 8000000,
     "val": "8 000 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 500000, "val": "500 000 €"},
-      {"season": "2024-2025", "valNum": 2500000, "val": "2 500 000 €"},
-      {"season": "2025-2026", "valNum": 8000000, "val": "8 000 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 500000,
+        "val": "500 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 2500000,
+        "val": "2 500 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 8000000,
+        "val": "8 000 000 €"
+      }
     ],
     "wage": "37 105 €/mois",
     "foot": "Gauche",
@@ -1394,7 +1558,7 @@
     "stats": {
       "2025-2026": {
         "club": "Orlando Pirates",
-        "matches": 43,
+        "matches": 44,
         "goals": 1,
         "assists": 1,
         "minutes": 3049,
@@ -1452,9 +1616,21 @@
     "valNum": 800000,
     "val": "800 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 100000, "val": "100 000 €"},
-      {"season": "2024-2025", "valNum": 350000, "val": "350 000 €"},
-      {"season": "2025-2026", "valNum": 800000, "val": "800 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 100000,
+        "val": "100 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 350000,
+        "val": "350 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 800000,
+        "val": "800 000 €"
+      }
     ],
     "wage": "21 667 €/mois",
     "foot": "Droit",
@@ -1497,6 +1673,15 @@
       }
     },
     "stats": {
+      "2026-2027": {
+        "club": "Union Saint-Gilloise",
+        "matches": 1,
+        "goals": 0,
+        "assists": 0,
+        "minutes": 90,
+        "yc": 0,
+        "rc": 0
+      },
       "2025-2026": {
         "club": "Lyn Oslo",
         "matches": 19,
@@ -1513,15 +1698,6 @@
         "assists": 0,
         "minutes": 2204,
         "yc": 6,
-        "rc": 0
-      },
-      "2023-2024": {
-        "club": "Diambars FC",
-        "matches": 26,
-        "goals": 0,
-        "assists": 0,
-        "minutes": 100,
-        "yc": 0,
         "rc": 0
       }
     },
@@ -1572,9 +1748,21 @@
     "valNum": 800000,
     "val": "800 000 €",
     "valHistory": [
-      {"season": "2023-2024", "valNum": 100000, "val": "100 000 €"},
-      {"season": "2024-2025", "valNum": 300000, "val": "300 000 €"},
-      {"season": "2025-2026", "valNum": 800000, "val": "800 000 €"}
+      {
+        "season": "2023-2024",
+        "valNum": 100000,
+        "val": "100 000 €"
+      },
+      {
+        "season": "2024-2025",
+        "valNum": 300000,
+        "val": "300 000 €"
+      },
+      {
+        "season": "2025-2026",
+        "valNum": 800000,
+        "val": "800 000 €"
+      }
     ],
     "wage": "720 €/mois",
     "foot": "Droit",
@@ -1619,7 +1807,7 @@
     "stats": {
       "2026-2027": {
         "club": "Fenerbahçe",
-        "matches": 1,
+        "matches": 2,
         "goals": 0,
         "assists": 0,
         "minutes": 0,
