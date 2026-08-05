@@ -1162,7 +1162,7 @@ try{
   var cachedLive=localStorage.getItem('kvscout_liveData');
   if(cachedLive)liveData=JSON.parse(cachedLive);
 }catch(e){}
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(reg){reg.update();}).catch(function(){});}
 
 // === INITIAL ALERTS ===
 // Start loading data

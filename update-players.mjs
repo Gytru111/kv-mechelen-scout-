@@ -148,7 +148,9 @@ async function fetchPlayerStats(tmId, career) {
     s.goals += st.goalStatistics?.goalsScoredTotalOfficial || 0;
     s.assists += st.goalStatistics?.assistsOfficial || 0;
     s.minutes += st.playingTimeStatistics?.playedMinutes || 0;
-    s.yc += st.cardStatistics?.yellowCardGross || 0;
+    const cs = st.cardStatistics;
+    s.yc += cs?.yellowCardGross || 0;
+    s.rc += (cs?.redCard ? 1 : 0) + (cs?.yellowRedCard ? 1 : 0) - (cs?.redCardsRescinded || 0);
 
     const grade = st.generalStatistics?.grade;
     if (grade != null && grade > 0) s.ratings.push(grade);
